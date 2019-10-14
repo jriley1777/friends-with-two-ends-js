@@ -1,0 +1,9 @@
+
+export const PAGE_ACTIONS = {
+    CHANGE_CURRENT_PAGE: 'CHANGE_CURRENT_PAGE'
+}
+
+export const LOGIN_ACTIONS = {
+    LOGIN: 'LOGIN',
+    LOGOUT: 'LOGOUT'
+}
