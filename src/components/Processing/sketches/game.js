@@ -3,7 +3,6 @@ import VerletParticle2D from 'toxiclibsjs/physics2d/VerletParticle2D';
 import * as behaviors from 'toxiclibsjs/physics2d/behaviors';
 import * as geom from 'toxiclibsjs/geom';
 import PlayerFactory from './PlayerFactory';
-// import gameMusic from './assets/win.mp3';
 
 export default function(p) {
     p.props = {};
@@ -12,22 +11,19 @@ export default function(p) {
     const canvas = document.getElementById("app-p5_container");
     let physics;
     let teamLeft, teamRight;
-    let p1, p2, p3, p4;
+    let p1, p2;
     let p1AddParticles, p1RemoveParticles, p2AddParticles, p2RemoveParticles;
     let scoreToggle, scoreLeft, scoreRight;
     let maxPlayerSize = 45;
     let minPlayerSize = 35;
-    let gameMusic;
 
     p.preload = function(props) {
         p.soundFormats('mp3');
-        console.log(props, p)
-        // gameMusic = p.loadSound(gameMusic);
     }
 
     p.setup = function() {
-        w = canvas.offsetWidth;
-        h = canvas.offsetHeight;
+        w = p.windowWidth;
+        h = canvas.clientHeight;
         margin = 40;
 
         teamLeft = p.color('rgb(102, 204, 255)');
@@ -47,8 +43,11 @@ export default function(p) {
         p.createBall();
         p.createPlayers();
         p.createCenterGrav();
-        // gameMusic.play();
     };
+
+    p.windowResized = function() {
+        p.resizeCanvas(p.windowWidth, canvas.offsetHeight);
+    }
 
     p.draw = function() {
         p.background(255);

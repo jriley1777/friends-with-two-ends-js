@@ -101,7 +101,7 @@ const StickyFooter = styled.div`
 `;
 
 const StartPage = props => {
-    const { state, dispatch } = useContext(Context);
+    const { dispatch } = useContext(Context);
     const loginWithGoogle = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function (result) {
@@ -117,14 +117,14 @@ const StartPage = props => {
             }))
 
         }).catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // The email of the user's account used.
-            var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-            // ...
+            // // Handle Errors here.
+            // var errorCode = error.code;
+            // var errorMessage = error.message;
+            // // The email of the user's account used.
+            // var email = error.email;
+            // // The firebase.auth.AuthCredential type that was used.
+            // var credential = error.credential;
+            // // ...
         });
     }
     return (
