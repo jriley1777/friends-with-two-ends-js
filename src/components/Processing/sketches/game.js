@@ -98,17 +98,17 @@ export default function(p) {
         // player.moveLeft = false;
         // player.moveUp = false;
         // player.moveDown = false;
-        if (ball.x > player.head.x && ball.x > player.tail.x) {
-            player.moveRight = true;
-            // if(ball.y > player.head.y && ball.y < player.tail.y || 
-            //     ball.y < player.head.y && ball.y > player.tail.y) {
-            //     player.moveRight = true;
-            //     player.moveLeft = false;
-            // } else {
-            //     player.moveRight = false;
-            //     player.moveLeft = true;
-            // }
-        }
+        // if (ball.x > player.head.x && ball.x > player.tail.x) {
+        //     player.moveRight = true;
+        //     // if(ball.y > player.head.y && ball.y < player.tail.y || 
+        //     //     ball.y < player.head.y && ball.y > player.tail.y) {
+        //     //     player.moveRight = true;
+        //     //     player.moveLeft = false;
+        //     // } else {
+        //     //     player.moveRight = false;
+        //     //     player.moveLeft = true;
+        //     // }
+        // }
     }
 
     p.createBall = function() {
@@ -126,12 +126,12 @@ export default function(p) {
             p1.Col = p.color(p.random(255), p.random(255), p.random(255));
             p.textAlign(p.CENTER);
             p.fill(0);
-            p.text("Team Left Wins!", w / 2, h / 2);
+            p.text(`${p1.name} Wins!`, w / 2, h / 2);
         } else if (scoreRight >= (w - 2 * margin)) {
             p2.Col = p.color(p.random(255), p.random(255), p.random(255));
             p.textAlign(p.CENTER);
             p.fill(0);
-            p.text("Team Right Wins!", w / 2, h / 2);
+            p.text(`${p2.name} Wins!`, w / 2, h / 2);
         }
     };
 
@@ -154,8 +154,8 @@ export default function(p) {
     }
 
     p.createPlayers = function() {
-        p1 = PlayerFactory("P1", p.random(125), physics, p).create(200, h / 2, p.color('rgb(41, 52, 255)'));
-        p2 = PlayerFactory("AI", p.random(125), physics, p).create(w - 200, h / 2, p.color('rgb(255, 41, 55)'));
+        p1 = PlayerFactory("Joe", p.random(125), physics, p).create(200, h / 2, p.color('rgb(41, 52, 255)'));
+        p2 = PlayerFactory("Mali", p.random(125), physics, p).create(w - 200, h / 2, p.color('rgb(255, 41, 55)'));
     }
 
     p.drawPlayers = function() {

@@ -11,6 +11,9 @@ import Context from './context';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+
 // Your web app's Firebase configuration
 var firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -34,9 +37,11 @@ const Root = () => {
         <Context.Provider value={{ state, dispatch }}>
             <Provider store={store}>
                 <Router>
+                    <Header />
                     <Switch>
                         <Routes />
                     </Switch>
+                    <Footer />
                 </Router>
             </Provider>
         </Context.Provider>

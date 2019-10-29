@@ -8,7 +8,7 @@ const PlayerFactory = (name, strokeWeight=80, physics, p) => {
     player.name = name;
     player.numParticles = 50; //p.floor(p.random(100));
     player.minParticles = 20;
-    player.maxParticles = 80;
+    player.maxParticles = 1080;
     player.len = 1;
     player.strength = 0.225;
     player.particles = Array.apply(null, Array(player.numParticles));

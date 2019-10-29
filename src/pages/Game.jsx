@@ -8,7 +8,7 @@ import game from '../components/Processing/sketches/game';
 const StyledHeader = styled.div`
     display: flex;
     position: absolute;
-    bottom: 0;
+    bottom: 1.5rem;
     height: 60px;
     width: 100%;
     justify-content: center;
@@ -29,7 +29,9 @@ const Game = props => {
     return (
         <div className='App'>
             <Processing
-                sketch={game} p5Props={{ user, username }}/>
+                sketch={game}
+                p5Props={{ user, username }}
+                />
             <StyledHeader>
                 <div>P1: WASD keys</div>
                 <div>Keep the ball on your side</div>

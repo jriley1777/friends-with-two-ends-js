@@ -5,18 +5,25 @@ import { bindActionCreators } from 'redux';
 import firebase from 'firebase/app';
 
 import * as AppActions from '../actions/application';
+import Title from '../components/Title/Title';
 import Processing from '../components/Processing/Processing';
 import start from '../components/Processing/sketches/start';
 import Context from '../context';
+import { ROUTES } from '../constants';
+import StartButtonLink from '../components/StartButtonLink/StartButtonLink';
 
-
+const PageWrapper = styled.div`
+    width: 100vw;
+    height: 100%;
+    overflow: hidden;
+`;
 
 const StyledPage = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: auto;
     font-size: 6rem;
     font-family: Caveat Brush;
     overflow: hidden;
@@ -28,34 +35,10 @@ const StyledPage = styled.div`
         position: absolute;
         top: 0;
         left: 0;
+        width: 100%;
         height: 100vh;
-        width: 100vw;
         background: rgba(255,255,255,0.8);
     }
-`;
-
-const StyledTitleWrapper = styled.div`
-    width: 100vw;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    position: absolute;
-    top: 20vh;
-`;
-
-const StyledTitle = styled.div`
-    height: 7rem;
-    position: relative;
-`;
-
-const StyledTitleReflection = styled.div`
-    height: 2rem;
-    line-height: 2rem;
-    color: lightgreen;
-    position: relative;
-    width: 100%;
-    left: 100px;
-    transform: rotateX(180deg);
 `;
 
 const StyledSubtitle = styled.div`
@@ -69,35 +52,6 @@ const StyledSubtitle = styled.div`
     align-items: center;
     justify-content: center;
     color: black;
-`;
-
-const StyledStartButton = styled.div`
-    width: 55vw;
-    height: 5rem;
-    font-size: 4rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    bottom: 20vh;
-    border-radius: 10px;
-    border: 1px solid black;
-    
-    &:hover {
-        background: lightgreen;
-    }
-`;
-
-const StickyFooter = styled.div`
-    position: absolute;
-    bottom: 0;
-    height: 10vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    font-size: 1.5rem;
 `;
 
 const StartPage = props => {
@@ -128,24 +82,15 @@ const StartPage = props => {
         });
     }
     return (
-        <div className='App'>
+        <PageWrapper>
             <Processing
                 sketch={start} />
             <StyledPage>
-                <StyledTitleWrapper>
-                    <StyledTitle>Friends
-                        <StyledTitleReflection>ends</StyledTitleReflection>
-                    </StyledTitle>
-                    <StyledTitle>&nbsp;with two ends.</StyledTitle>
-                </StyledTitleWrapper>
+                <Title />
                 <StyledSubtitle>A competitive posession game amongst friends.</StyledSubtitle>
-                <StyledStartButton
-                    onClick={ loginWithGoogle }>Login with Google</StyledStartButton>
+                <StartButtonLink to={ROUTES.CONFIG}>Begin</StartButtonLink>
             </StyledPage>
-            <StickyFooter>
-                made by Joe Riley.
-            </StickyFooter>
-        </div>
+        </PageWrapper>
     )
 };
 

@@ -7,7 +7,7 @@ import Start from '../../pages/Start';
 const Login = props => {
     const { state } = useContext(Context);
     return !state.auth.isLoggedIn ? 
-        <Start /> : <Redirect to={ROUTES.INDEX} />
+        <Start /> : <Redirect to={ROUTES.CONFIG} />
 };
 
 export default Login;

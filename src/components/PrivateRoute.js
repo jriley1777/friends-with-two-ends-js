@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import Context from '../context';
+import { ROUTES } from '../constants/index';
 
 const PrivateRoute = ({ component: Component, path }) => {
     const { state } = useContext(Context);
-    console.log(state);
     const { auth } = state;
     return !auth.isLoggedIn ? (
-            <Redirect to="/login" />
+            <Redirect to={ ROUTES.INDEX } />
         ) : (
             <Route path={path} render={props => (
                 <Component {...props} />
