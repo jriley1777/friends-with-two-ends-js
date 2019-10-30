@@ -13,7 +13,7 @@ const StyledTitleWrapper = styled.div`
 `;
 
 const StyledTitle = styled.div`
-    height: 7rem;
+    height: 5rem;
     position: relative;
 `;
 
@@ -23,7 +23,7 @@ const StyledTitleReflection = styled.div`
     color: lightgreen;
     position: relative;
     width: 100%;
-    left: 100px;
+    left: 85px;
     transform: rotateX(180deg);
 `;
 
@@ -31,7 +31,7 @@ const Title = props => {
     return (
         <StyledTitleWrapper>
             <StyledTitle>Friends
-                        <StyledTitleReflection>ends</StyledTitleReflection>
+                <StyledTitleReflection>ends</StyledTitleReflection>
             </StyledTitle>
             <StyledTitle>&nbsp;with two ends.</StyledTitle>
         </StyledTitleWrapper>

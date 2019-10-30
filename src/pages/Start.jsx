@@ -87,7 +87,7 @@ const StartPage = props => {
                 sketch={start} />
             <StyledPage>
                 <Title />
-                <StyledSubtitle>A competitive posession game amongst friends.</StyledSubtitle>
+                <StyledSubtitle>A competitive possession game amongst friends.</StyledSubtitle>
                 <StartButtonLink to={ROUTES.CONFIG}>Begin</StartButtonLink>
             </StyledPage>
         </PageWrapper>

@@ -6,6 +6,9 @@ const Context = React.createContext({
         username: null,
         user: null,
         token: null
+    },
+    app: {
+        numPlayers: 1
     }
 });
 

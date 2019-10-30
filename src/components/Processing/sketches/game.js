@@ -177,9 +177,9 @@ export default function(p) {
         p.text("Friends with Two Ends", w / 2, margin);
         p.stroke(0);
         p.fill(teamLeft);
-        p.text("Team Left", w / 6, margin);
+        p.text(p1.name, w / 6, margin);
         p.fill(teamRight);
-        p.text("Team Right", (w * (5 / 6)), margin);
+        p.text(p2.name, (w * (5 / 6)), margin);
         //scores
         p.textSize(60);
         p.stroke(0);
