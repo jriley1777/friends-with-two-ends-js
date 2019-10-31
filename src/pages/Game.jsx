@@ -24,13 +24,13 @@ const StyledHeader = styled.div`
 
 const Game = props => {
     const { state } = useContext(Context);
-    const { user, username } = state.auth;
+    const { players } = state.app;
     console.log(state);
     return (
         <div className='App'>
             <Processing
                 sketch={game}
-                p5Props={{ user, username }}
+                p5Props={{ players }}
                 />
             <StyledHeader>
                 <div>P1: WASD keys</div>

@@ -22,8 +22,9 @@ export default function(p) {
     }
 
     p.setup = function() {
-        w = p.windowWidth;
-        h = canvas.clientHeight;
+        p.clear();
+        w = window.innerWidth;
+        h = canvas.offsetHeight;
         margin = 40;
 
         teamLeft = p.color('rgb(102, 204, 255)');
@@ -46,7 +47,7 @@ export default function(p) {
     };
 
     p.windowResized = function() {
-        p.resizeCanvas(p.windowWidth, canvas.offsetHeight);
+
     }
 
     p.draw = function() {
@@ -58,7 +59,6 @@ export default function(p) {
         p.drawBall();
         p.drawScoreBoard();
         physics.update();
-        p1.name = p.props && p.props.username ? p.props.username : p1.name;
         if (scoreLeft >= (w - 2 * margin) || scoreRight >= (w - 2 * margin)) {
             p.gameOver();
             scoreToggle = 3;
@@ -154,12 +154,26 @@ export default function(p) {
     }
 
     p.createPlayers = function() {
-        p1 = PlayerFactory("Joe", p.random(125), physics, p).create(200, h / 2, p.color('rgb(41, 52, 255)'));
-        p2 = PlayerFactory("Mali", p.random(125), physics, p).create(w - 200, h / 2, p.color('rgb(255, 41, 55)'));
+        p1 = PlayerFactory('Player', p.random(125), physics, p).create(200, h / 2, p.color('rgb(41, 52, 255)'));
+        p2 = PlayerFactory('AI', p.random(125), physics, p).create(w - 200, h / 2, p.color('rgb(255, 41, 55)'));
+    }
+
+    p.updatePlayerNames = function() {
+        if (p.props.players) {
+            if (!p1.hasUpdatedName) {
+                p1.name = p.props.players.find(x => x.playerId === 1).name;
+                p1.hasUpdatedName = true;
+            }
+            if (!p2.hasUpdatedName) {
+                p2.name = p.props.players.find(x => x.playerId === 2).name;
+                p2.hasUpdatedName = true;
+            }
+        }
     }
 
     p.drawPlayers = function() {
         p.textSize(36);
+        p.updatePlayerNames();
         p1.display();
         p2.display();
     }

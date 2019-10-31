@@ -8,7 +8,17 @@ const Context = React.createContext({
         token: null
     },
     app: {
-        numPlayers: 1
+        numPlayers: 1,
+        players: [
+            {
+                playerId: 1,
+                name: 'P1'
+            },
+            {
+                playerId: 2,
+                name: 'P2'
+            }
+        ]
     }
 });
 

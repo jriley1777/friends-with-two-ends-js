@@ -6,6 +6,7 @@ import * as geom from 'toxiclibsjs/geom';
 const PlayerFactory = (name, strokeWeight=80, physics, p) => {
     const player = {}
     player.name = name;
+    player.hasUpdatedName = false;
     player.numParticles = 50; //p.floor(p.random(100));
     player.minParticles = 20;
     player.maxParticles = 1080;

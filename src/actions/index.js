@@ -7,3 +7,8 @@ export const LOGIN_ACTIONS = {
     LOGIN: 'LOGIN',
     LOGOUT: 'LOGOUT'
 }
+
+export const PLAYER_SETUP = {
+    NUM_PLAYERS: 'NUM_PLAYERS',
+    SET_PLAYER_NAME: 'SET_PLAYER_NAME'
+}

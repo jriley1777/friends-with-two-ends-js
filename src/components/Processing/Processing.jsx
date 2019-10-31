@@ -16,7 +16,7 @@ class Processing extends React.Component {
     }
 
     shouldComponentUpdate(nextProps) { // just in case :)
-        this.canvas.props = nextProps.p5Props
+        this.canvas.props = nextProps.p5Props;
         return false;
     }
 

@@ -12,6 +12,7 @@ export default function(p) {
     let ball;
 
     p.setup = function() {
+        p.clear();
         w = window.innerWidth;
         h = canvas.offsetHeight;
         margin = 40;
