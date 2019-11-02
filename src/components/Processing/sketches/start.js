@@ -138,6 +138,7 @@ export default function(p) {
             if(Math.random() > 0.99) {
                 talkToggle[i] = !talkToggle[i];
                 talkTimer[i] = p.millis();
+                talkIndex[i] = null;
             }
         }
         if(talkToggle[i]) {
