@@ -7,16 +7,15 @@ const StartButton = styled(Link)`
     height: 5rem;
     font-size: 4rem;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    bottom: 20vh;
+    padding: 5px;
     border-radius: 10px;
     border: 1px solid black;
     text-decoration: none;
     color: black;
     font-family: Caveat Brush;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     
     &:hover {
         background: lightgreen;

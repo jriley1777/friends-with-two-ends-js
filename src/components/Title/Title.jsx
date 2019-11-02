@@ -6,10 +6,11 @@ const StyledTitleWrapper = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
-    position: absolute;
-    top: 20vh;
+    align-items: flex-end;
+    height: 20vh;
     font-size: 5rem;
     font-family: Caveat Brush;
+    margin-bottom: 10vh;
 `;
 
 const StyledTitle = styled.div`

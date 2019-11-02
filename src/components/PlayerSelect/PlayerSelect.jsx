@@ -3,7 +3,7 @@ import Context from '../../context';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import { setNumPlayers, setPlayerName } from '../../actions/application';
+import { setPlayerName } from '../../actions/application';
 
 import { ROUTES } from '../../constants/index';
 
@@ -66,11 +66,6 @@ const RowWrapper = styled.div`
 
 const PlayerSelect = props => {
     const { state, dispatch } = useContext(Context);
-    const handleSelect = e => {
-        e.preventDefault();
-        let numPlayers = Number(e.target.innerHTML);
-        dispatch(setNumPlayers(numPlayers));
-    }
     const handlePlayerNameChange = e => {
         let target = e.target;
         dispatch(setPlayerName({
@@ -79,44 +74,37 @@ const PlayerSelect = props => {
         }))
     }
     const renderSelectControls = () => {
-        // if ( state.app.numPlayers !== 1) {
-            return (
-                <>
-                    <ColumnWrapper>
-                        <RowWrapper>
-                            <div>
-                                <h4>{state.app.players.find(x => x.playerId === 1).name}</h4>
-                                <div>Name:&nbsp;&nbsp;
-                                <input
-                                        onChange={handlePlayerNameChange}
-                                        type="text"
-                                        data-player={1}
-                                        value={state.app.players.find(x => x.playerId === 1).name}
-                                    />
-                                </div>
+        return (
+            <>
+                <ColumnWrapper>
+                    <RowWrapper>
+                        <div>
+                            <h4>{state.app.players.find(x => x.playerId === 1).name}</h4>
+                            <div>Name:&nbsp;&nbsp;
+                            <input
+                                    onChange={handlePlayerNameChange}
+                                    type="text"
+                                    data-player={1}
+                                    value={state.app.players.find(x => x.playerId === 1).name}
+                                />
                             </div>
-                            <div>
-                                <h4>{state.app.players.find(x => x.playerId === 2).name}</h4>
-                                <div>Name:&nbsp;&nbsp;
-                                <input
-                                        onChange={handlePlayerNameChange}
-                                        type="text"
-                                        data-player={2}
-                                        value={state.app.players.find(x => x.playerId === 2).name}
-                                    />
-                                </div>
+                        </div>
+                        <div>
+                            <h4>{state.app.players.find(x => x.playerId === 2).name}</h4>
+                            <div>Name:&nbsp;&nbsp;
+                            <input
+                                    onChange={handlePlayerNameChange}
+                                    type="text"
+                                    data-player={2}
+                                    value={state.app.players.find(x => x.playerId === 2).name}
+                                />
                             </div>
-                        </RowWrapper>
-                        <SelectButton to={ROUTES.PLAY}>Start</SelectButton>
-                    </ColumnWrapper>
-                </>
-            )
-        // }
-        // return (
-        //     <SelectButton
-        //         to={'#'}
-        //         onClick={handleSelect} value={2}>2</SelectButton>
-        // );
+                        </div>
+                    </RowWrapper>
+                    <SelectButton to={ROUTES.PLAY}>Start</SelectButton>
+                </ColumnWrapper>
+            </>
+        )
     }
     return (
         <ContentWrapper>

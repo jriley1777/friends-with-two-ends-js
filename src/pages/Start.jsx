@@ -14,8 +14,23 @@ import StartButtonLink from '../components/StartButtonLink/StartButtonLink';
 
 const PageWrapper = styled.div`
     width: 100vw;
-    height: 100%;
+    height: 100vh;
     overflow: hidden;
+`;
+
+const RowWrapper = styled.div`
+    display: flex;
+    position: relative;
+    width: 100vw;
+    height: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    > * {
+        max-width: 30vw;
+        margin: auto 10px;
+    }
 `;
 
 const StyledPage = styled.div`
@@ -27,7 +42,9 @@ const StyledPage = styled.div`
     font-size: 6rem;
     font-family: Caveat Brush;
     overflow: hidden;
-    z-index: 1;
+    > * {
+        z-index: 3;
+    }
 
     &::before {
         content:"";
@@ -47,11 +64,10 @@ const StyledSubtitle = styled.div`
     font-size: 2rem;
     width: 100%;
     flex-direction: row;
-    position: absolute;
-    bottom: 40vh;
     align-items: center;
     justify-content: center;
     color: black;
+    margin-bottom: 25vh;
 `;
 
 const StartPage = props => {
@@ -88,7 +104,10 @@ const StartPage = props => {
             <StyledPage>
                 <Title />
                 <StyledSubtitle>A competitive possession game amongst friends.</StyledSubtitle>
-                <StartButtonLink to={ROUTES.CONFIG}>Begin</StartButtonLink>
+                <RowWrapper>
+                    <StartButtonLink to={ROUTES.CONFIG}>Login</StartButtonLink>
+                    <StartButtonLink to={ROUTES.CONFIG}>Play as guest</StartButtonLink>
+                </RowWrapper>
             </StyledPage>
         </PageWrapper>
     )

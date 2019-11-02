@@ -9,7 +9,22 @@ export default function(p) {
     const canvas = document.getElementById("app-p5_container");
     let physics = new VerletPhysics2D();
     let players = [];
-    let ball;
+    let ball, ballBehavior;
+    let mouse, mouseBehavior;
+    let didMouseStop;
+    let mouseStopLength = 1000;
+    let lastMouseMove = 0;
+    let talkIndex = new Array(players.length);
+
+    let verbs = [
+        'ooOOoohh',
+        'pretty...',
+        'mine mine mine',
+        'out of my way',
+        'quit pushin',
+        'hey hey',
+        '#fun',
+    ]
 
     p.setup = function() {
         p.clear();
@@ -33,13 +48,21 @@ export default function(p) {
         p.background(255);
         p.textFont('Caveat Brush');
         p.drawPlayers();
-        p.drawBall();
+        p.drawMouse();
+        if(ball){
+            p.drawBall();
+        }
         physics.update();
+        didMouseStop = p.millis() - mouseStopLength > lastMouseMove;
+        if(didMouseStop) {
+            mouse = null;
+        }
     };
 
     p.createBall = function () {
         ball = new VerletParticle2D(new geom.Vec2D(w / 2, h / 2), 1);
-        physics.addBehavior(new behaviors.AttractionBehavior(ball, 20, -0.0001));
+        ballBehavior = new behaviors.AttractionBehavior(ball, 20, -0.0001)
+        physics.addBehavior(ballBehavior);
         physics.addParticle(ball);
     }
 
@@ -66,29 +89,71 @@ export default function(p) {
         p.createBall();
     }
 
+    p.mouseMoved = function() {
+        lastMouseMove = p.millis();
+        if(mouse) {
+            physics.removeParticle(mouse);
+            physics.removeBehavior(mouseBehavior);
+        }
+        mouse = new VerletParticle2D(new geom.Vec2D(p.mouseX, p.mouseY), 1);
+        mouseBehavior = new behaviors.AttractionBehavior(mouse, 20, -0.001);
+        physics.addBehavior(mouseBehavior);
+        physics.addParticle(mouse);
+    }
+
+    p.drawMouse = function() {
+        if(mouse) {
+            let Color = p.color('#ff0000');
+            p.stroke(Color);
+            p.noFill();
+            p.strokeWeight(0.25);
+            p.ellipse(mouse.x, mouse.y, 100, 100);
+            p.strokeWeight(0.5);
+            p.ellipse(mouse.x, mouse.y, 75, 75);
+            p.strokeWeight(0.75);
+            p.ellipse(mouse.x, mouse.y, 50, 50);
+            p.strokeWeight(1);
+            p.ellipse(mouse.x, mouse.y, 25, 25);
+        }
+    }
+
     p.drawPlayers = function() {
         p.textSize(36);
-        if(ball){
-            players.map(friend => {
+        players.map(friend => friend.display());
+        let attractor;
+        if(mouse) {
+            attractor = mouse;
+        } else if(ball) {
+            attractor = ball;
+        }
+        if(attractor){
+            players.map((friend, i) => {
+                p.textSize(20);
+                p.fill('#000');
+                if(!talkIndex[i]){
+                    talkIndex[i] = Math.floor(Math.random() * verbs.length);
+                }
+                let saying = mouse ? 'MOUSE!!!' : verbs[talkIndex[i]];
+                p.text(saying, friend.head.x, friend.head.y);
                 if (friend.head) {
-                    if (ball.x > friend.head.x + 100) {
+                    if (attractor.x > friend.head.x + 100) {
                         friend.moveRight = true;
                         friend.moveLeft = false;
                     }
-                    if (ball.x < friend.head.x - 100) {
+                    if (attractor.x < friend.head.x - 100) {
                         friend.moveRight = false;
                         friend.moveLeft = true;
                     }
-                    if (ball.y < friend.head.y - 100) {
+                    if (attractor.y < friend.head.y - 100) {
                         friend.moveUp = true;
                         friend.moveDown = false;
                     }
-                    if (ball.y > friend.head.y + 100) {
+                    if (attractor.y > friend.head.y + 100) {
                         friend.moveUp = false;
                         friend.moveDown = true;
                     }
                 }
-                return friend.display()
+                return null;
             })
         }
     }
