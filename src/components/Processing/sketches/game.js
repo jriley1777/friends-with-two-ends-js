@@ -16,6 +16,7 @@ export default function(p) {
     let scoreToggle, scoreLeft, scoreRight;
     let maxPlayerSize = 45;
     let minPlayerSize = 35;
+    let moveToggle, toggleTime;
 
     p.preload = function(props) {
         p.soundFormats('mp3');
@@ -32,6 +33,8 @@ export default function(p) {
         scoreToggle = 0;
         scoreLeft = 0;
         scoreRight = 0;
+        moveToggle = true;
+        toggleTime = 0;
 
         p.createCanvas(w, h);
         p.frameRate(120);
@@ -112,7 +115,34 @@ export default function(p) {
             p.fill(0);
             p.text(`${p2.name} Wins!`, w / 2, h / 2);
         }
+        p.dance();
     };
+
+    p.dance = function() {
+        if (p.millis() - 400 > toggleTime) {
+            moveToggle = !moveToggle;
+            toggleTime = p.millis();
+        }
+        if(moveToggle) {
+            p1.moveLeft = true;
+            p1.moveUp = false;
+            p1.moveDown = false;
+            p1.moveRight = false;
+            p2.moveLeft = true;
+            p2.moveUp = false;
+            p2.moveDown = false;
+            p2.moveRight = false;
+        } else {
+            p1.moveLeft = false;
+            p1.moveUp = false;
+            p1.moveDown = false;
+            p1.moveRight = true;
+            p2.moveLeft = false;
+            p2.moveUp = false;
+            p2.moveDown = false;
+            p2.moveRight = true;
+        }
+    }
 
     p.createCenterGrav = function() {
         let weight = 500000;

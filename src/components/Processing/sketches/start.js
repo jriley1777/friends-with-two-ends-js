@@ -15,6 +15,8 @@ export default function(p) {
     let mouseStopLength = 1000;
     let lastMouseMove = 0;
     let talkIndex = new Array(players.length);
+    let talkToggle = new Array(players.length);
+    let talkTimer = new Array(players.length);
 
     let verbs = [
         'ooOOoohh',
@@ -31,7 +33,8 @@ export default function(p) {
         'get me out of here',
         'have we started?',
         'what game is this',
-
+        'hey who touched my butt?',
+        'stranger danger',
     ]
 
     p.setup = function() {
@@ -50,6 +53,10 @@ export default function(p) {
 
         p.createBall();
         p.createPlayers();
+        for(let i=0;i<players.length;i++){
+            talkToggle[i] = false;
+            talkTimer[i] = 0;
+        }
     };
 
     p.draw = function() {
@@ -125,6 +132,35 @@ export default function(p) {
         }
     }
 
+    p.talk = function(friend, i) {
+        let saying = '';
+        if(p.millis() - talkTimer[i] > 1000) {
+            if(Math.random() > 0.5) {
+                talkToggle[i] = !talkToggle[i];
+                talkTimer[i] = p.millis();
+            }
+        }
+        if(talkToggle[i]) {
+            if (!talkIndex[i] && talkIndex[i] !== 0) {
+                talkIndex[i] = Math.floor(Math.random() * (verbs.length));
+            }
+            saying = verbs[talkIndex[i]];
+        }
+        if (mouse) {
+            saying = 'MOUSE!!!!';
+        }
+        if(saying) {
+            p.textSize(20);
+            p.stroke('rgba(0,0,0,0.3)');
+            p.fill('rgba(255,255,255,0.3)');
+            p.ellipse(friend.head.x + 70, friend.head.y - 70, 200, 80);
+            p.ellipse(friend.head.x + 60, friend.head.y - 20, 50, 30);
+            p.ellipse(friend.head.x + 50, friend.head.y, 20, 15);
+            p.fill('#000');
+            p.text(saying, friend.head.x + 70, friend.head.y - 70);
+        }
+    }
+
     p.drawPlayers = function() {
         p.textSize(36);
         players.map(friend => friend.display());
@@ -136,18 +172,7 @@ export default function(p) {
         }
         if(attractor){
             players.map((friend, i) => {
-                p.textSize(20);
-                if(!talkIndex[i]){
-                    talkIndex[i] = Math.floor(Math.random() * verbs.length);
-                }
-                let saying = mouse ? 'MOUSE!!!' : verbs[talkIndex[i]];
-                p.stroke('rgba(0,0,0,0.3)');
-                p.fill('rgba(255,255,255,0.3)')
-                p.ellipse(friend.head.x + 70, friend.head.y-70, 200, 80);
-                p.ellipse(friend.head.x + 60, friend.head.y-20, 50, 30);
-                p.ellipse(friend.head.x + 50, friend.head.y, 20, 15);
-                p.fill('#000');
-                p.text(saying, friend.head.x + 70, friend.head.y-70);
+                p.talk(friend, i);
                 if (friend.head) {
                     if (attractor.x > friend.head.x + 100) {
                         friend.moveRight = true;
