@@ -135,7 +135,7 @@ export default function(p) {
     p.talk = function(friend, i) {
         let saying = '';
         if(p.millis() - talkTimer[i] > 1000) {
-            if(Math.random() > 0.5) {
+            if(Math.random() > 0.99) {
                 talkToggle[i] = !talkToggle[i];
                 talkTimer[i] = p.millis();
             }
