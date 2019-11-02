@@ -24,6 +24,12 @@ export default function(p) {
         'quit pushin',
         'hey hey',
         '#fun',
+        'ball!',
+        'my precious',
+        'food?',
+        'play nicely',
+        'get me out of here',
+        'have we started?',
     ]
 
     p.setup = function() {
@@ -129,12 +135,17 @@ export default function(p) {
         if(attractor){
             players.map((friend, i) => {
                 p.textSize(20);
-                p.fill('#000');
                 if(!talkIndex[i]){
                     talkIndex[i] = Math.floor(Math.random() * verbs.length);
                 }
                 let saying = mouse ? 'MOUSE!!!' : verbs[talkIndex[i]];
-                p.text(saying, friend.head.x, friend.head.y);
+                p.stroke('rgba(0,0,0,0.5)');
+                p.fill('rgba(255,255,255,0.5)')
+                p.ellipse(friend.head.x + 70, friend.head.y-70, 200, 80);
+                p.ellipse(friend.head.x + 60, friend.head.y-20, 50, 30);
+                p.ellipse(friend.head.x + 50, friend.head.y, 20, 15);
+                p.fill('#000');
+                p.text(saying, friend.head.x + 70, friend.head.y-70);
                 if (friend.head) {
                     if (attractor.x > friend.head.x + 100) {
                         friend.moveRight = true;
