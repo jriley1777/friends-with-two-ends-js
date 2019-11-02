@@ -64,27 +64,6 @@ export default function(p) {
             scoreToggle = 3;
         }
         if (scoreToggle < 3) {
-            if (scoreToggle > 0) {
-                if (scoreToggle === 1) {
-                    if (scoreLeft % 10 === 0) {
-                        if (p1.particles.length > minPlayerSize) {
-                            p1.removeParticle();
-                        }
-                        if (p2.particles.length < maxPlayerSize) {
-                            p2.appendParticle();
-                        }
-                    }
-                } else {
-                    if (scoreRight % 10 === 0) {
-                        if (p2.particles.length > minPlayerSize) {
-                            p2.removeParticle();
-                        }
-                        if (p1.particles.length < maxPlayerSize) {
-                            p1.appendParticle();
-                        }
-                    }
-                }
-            }
             if (ball.x < (w / 2) && scoreToggle !== 1) {
                 scoreToggle = 1;
             } else if (ball.x > (w / 2) && scoreToggle !== 2) {

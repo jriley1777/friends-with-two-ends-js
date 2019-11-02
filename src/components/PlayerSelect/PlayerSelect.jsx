@@ -78,7 +78,10 @@ const PlayerSelect = props => {
             <>
                 <ColumnWrapper>
                     <RowWrapper>
-                        <div>
+                        <div
+                            style={{
+                                background: 'rgb(102, 204, 255)'
+                            }}>
                             <h4>{state.app.players.find(x => x.playerId === 1).name}</h4>
                             <div>Name:&nbsp;&nbsp;
                             <input
@@ -89,7 +92,10 @@ const PlayerSelect = props => {
                                 />
                             </div>
                         </div>
-                        <div>
+                        <div
+                            style={{ 
+                                background: 'rgb(255, 153, 153)'
+                            }}>
                             <h4>{state.app.players.find(x => x.playerId === 2).name}</h4>
                             <div>Name:&nbsp;&nbsp;
                             <input

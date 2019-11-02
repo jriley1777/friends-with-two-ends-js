@@ -7,9 +7,9 @@ const PlayerFactory = (name, strokeWeight=80, physics, p) => {
     const player = {}
     player.name = name;
     player.hasUpdatedName = false;
-    player.numParticles = 50; //p.floor(p.random(100));
+    player.numParticles = 60; //p.floor(p.random(100));
     player.minParticles = 20;
-    player.maxParticles = 1080;
+    player.maxParticles = 200;
     player.len = 1;
     player.strength = 0.225;
     player.particles = Array.apply(null, Array(player.numParticles));
@@ -156,7 +156,7 @@ const PlayerFactory = (name, strokeWeight=80, physics, p) => {
             player.drawEyes(player.head, player.tail);
             player.drawMouth(player.head, player.tail);
             player.drawHUD(player.head);
-            player.move(40);
+            player.move(30);
         }
     }
     return player;

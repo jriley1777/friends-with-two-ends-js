@@ -30,6 +30,8 @@ export default function(p) {
         'play nicely',
         'get me out of here',
         'have we started?',
+        'what game is this',
+
     ]
 
     p.setup = function() {
@@ -139,8 +141,8 @@ export default function(p) {
                     talkIndex[i] = Math.floor(Math.random() * verbs.length);
                 }
                 let saying = mouse ? 'MOUSE!!!' : verbs[talkIndex[i]];
-                p.stroke('rgba(0,0,0,0.5)');
-                p.fill('rgba(255,255,255,0.5)')
+                p.stroke('rgba(0,0,0,0.3)');
+                p.fill('rgba(255,255,255,0.3)')
                 p.ellipse(friend.head.x + 70, friend.head.y-70, 200, 80);
                 p.ellipse(friend.head.x + 60, friend.head.y-20, 50, 30);
                 p.ellipse(friend.head.x + 50, friend.head.y, 20, 15);
