@@ -81,7 +81,7 @@ export default function(p) {
     };
 
     p.createBall = function () {
-        ball = new VerletParticle2D(new geom.Vec2D(w / 2, h / 2), 105);
+        ball = new VerletParticle2D(new geom.Vec2D(w / 2, h / 2), 20);
         ballBehavior = new behaviors.AttractionBehavior(ball, 105, -1);
         physics.addBehavior(ballBehavior);
         physics.addParticle(ball);
