@@ -107,6 +107,7 @@ export default function(p) {
 
     p.mouseClicked = function() {
         physics.removeParticle(ball);
+        physics.removeBehavior(ballBehavior);
         p.createBall();
     }
 

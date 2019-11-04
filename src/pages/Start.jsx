@@ -73,7 +73,6 @@ const StyledSubtitle = styled.div`
 const StartPage = props => {
     const { dispatch } = useContext(Context);
     const loginWithGoogle = (e) => {
-        console.log('click')
         e.preventDefault();
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function (result) {
