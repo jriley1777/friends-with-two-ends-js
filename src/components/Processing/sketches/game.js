@@ -109,33 +109,15 @@ export default function(p) {
             p.textAlign(p.CENTER);
             p.fill(0);
             p.text(`${p1.name} Wins!`, w / 2, h / 2);
-            p.dance(p1)
+            p1.dance();
         } else if (scoreRight >= (w - 2 * margin)) {
             p2.Col = p.color(p.random(255), p.random(255), p.random(255));
             p.textAlign(p.CENTER);
             p.fill(0);
             p.text(`${p2.name} Wins!`, w / 2, h / 2);
-            p.dance(p2)
+            p2.dance();
         }
     };
-
-    p.dance = function(player) {
-        if (p.millis() - 400 > toggleTime) {
-            moveToggle = !moveToggle;
-            toggleTime = p.millis();
-        }
-        if(moveToggle) {
-            player.moveLeft = true;
-            player.moveUp = false;
-            player.moveDown = false;
-            player.moveRight = false;
-        } else {
-            player.moveLeft = false;
-            player.moveUp = false;
-            player.moveDown = false;
-            player.moveRight = true;
-        }
-    }
 
     p.createCenterGrav = function() {
         let weight = 500000;
@@ -231,7 +213,7 @@ export default function(p) {
 
     p.drawBall = function() {
         let Color = p.color('rgb(255, 212, 41)');
-        p.stroke(Color);
+        p.stroke('#000');
         p.fill(Color);
         p.strokeWeight(1);
         p.ellipse(ball.x, ball.y, 100, 100);

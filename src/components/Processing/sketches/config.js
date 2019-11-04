@@ -103,7 +103,7 @@ export default function (p) {
 
     p.drawBall = function () {
         let Color = p.color('rgb(255, 212, 41)');
-        p.stroke(Color);
+        p.stroke('#000');
         p.fill(Color);
         p.strokeWeight(1);
         p.ellipse(ball.x, ball.y, 100, 100);
@@ -128,32 +128,6 @@ export default function (p) {
             players[1].name = p2.attr.name;
             players[0].strokeWeight = p1.attr.size;
             players[1].strokeWeight = p2.attr.size;
-        }
-    }
-
-    p.dance = function () {
-        if (p.millis() - 400 > toggleTime) {
-            moveToggle = !moveToggle;
-            toggleTime = p.millis();
-        }
-        if (moveToggle) {
-            players[0].moveLeft = true;
-            players[0].moveUp = false;
-            players[0].moveDown = false;
-            players[0].moveRight = false;
-            players[1].moveLeft = true;
-            players[1].moveUp = false;
-            players[1].moveDown = false;
-            players[1].moveRight = false;
-        } else {
-            players[0].moveLeft = false;
-            players[0].moveUp = false;
-            players[0].moveDown = false;
-            players[0].moveRight = true;
-            players[1].moveLeft = false;
-            players[1].moveUp = false;
-            players[1].moveDown = false;
-            players[1].moveRight = true;
         }
     }
 

@@ -72,6 +72,25 @@ const PlayerFactory = (name, strokeWeight=80, physics, p) => {
     player.endMouth = p.random(p.PI+p.QUARTER_PI);
     player.strokeWeight = strokeWeight;
     player.sz = 40;
+    player.moveToggle = true;
+    player.toggleTime = 0;
+    player.dance = function () {
+        if (p.millis() - 400 > player.toggleTime) {
+            player.moveToggle = !player.moveToggle;
+            player.toggleTime = p.millis();
+        }
+        if (player.moveToggle) {
+            player.moveLeft = true;
+            player.moveUp = false;
+            player.moveDown = false;
+            player.moveRight = false;
+        } else {
+            player.moveLeft = false;
+            player.moveUp = false;
+            player.moveDown = false;
+            player.moveRight = true;
+        }
+    }
     player.drawHUD = function (head) {
         p.textSize(36);
         p.fill(0);

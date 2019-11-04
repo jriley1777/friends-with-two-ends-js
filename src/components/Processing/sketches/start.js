@@ -73,10 +73,15 @@ export default function(p) {
         if(didMouseStop) {
             mouse = null;
         }
+        if(p.millis() > 0 && p.millis() < 5000) {
+            for(let i=0;i<players.length;i++){
+                players[i].dance();
+            }
+        }
     };
 
     p.createBall = function () {
-        ball = new VerletParticle2D(new geom.Vec2D(w / 2, h / 2), 20);
+        ball = new VerletParticle2D(new geom.Vec2D(w / 2, h / 2), 105);
         ballBehavior = new behaviors.AttractionBehavior(ball, 105, -1);
         physics.addBehavior(ballBehavior);
         physics.addParticle(ball);
