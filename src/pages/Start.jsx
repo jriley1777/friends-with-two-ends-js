@@ -107,7 +107,7 @@ const StartPage = props => {
                 <Title />
                 <StyledSubtitle>A competitive possession game amongst friends.</StyledSubtitle>
                 <RowWrapper>
-                    <StartButtonLink to={ROUTES.CONFIG} onClick={loginWithGoogle }>Login</StartButtonLink>
+                    <StartButtonLink to={ROUTES.CONFIG} onClick={loginWithGoogle }>Login with Google</StartButtonLink>
                     <StartButtonLink to={ROUTES.CONFIG}>Play as guest</StartButtonLink>
                 </RowWrapper>
             </StyledPage>
