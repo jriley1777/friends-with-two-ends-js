@@ -12,11 +12,17 @@ const Context = React.createContext({
         players: [
             {
                 playerId: 1,
-                name: 'P1'
+                attr: {
+                    name: 'P1',
+                    size: 50
+                }
             },
             {
                 playerId: 2,
-                name: 'P2'
+                attr: {
+                    name: 'P2',
+                    size: 50
+                }
             }
         ]
     }

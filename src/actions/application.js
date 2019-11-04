@@ -29,12 +29,12 @@ export const setNumPlayers = (numPlayers) => {
     }
 }
 
-export const setPlayerName = ({ playerId, name }) => {
+export const changePlayerAttribute = ({playerId, attr}) => {
     return {
-        type: PLAYER_SETUP.SET_PLAYER_NAME,
+        type: PLAYER_SETUP.CHANGE_PLAYER_ATTRIBUTE,
         payload: {
             playerId,
-            name
+            attr
         }
     }
 }

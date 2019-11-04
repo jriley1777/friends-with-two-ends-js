@@ -21,14 +21,18 @@ const numPlayers = (state=1, action) => {
 
 const players = (state=[], action) => {
     switch(action.type){
-        case Actions.PLAYER_SETUP.SET_PLAYER_NAME:
-            let { playerId, name } = action.payload;
-            let filteredPlayers = state.filter(x => x.playerId !== playerId)
+        case Actions.PLAYER_SETUP.CHANGE_PLAYER_ATTRIBUTE:
+            let { playerId, attr } = action.payload;
+            let playerToChange = state.find(x => x.playerId === playerId);
+            let filteredPlayers = state.filter(x => x.playerId !== playerId);
             return [
                 ...filteredPlayers,
                 {
                     playerId,
-                    name
+                    attr: {
+                        ...playerToChange.attr,
+                        ...attr
+                    }
                 }
             ]
         default:

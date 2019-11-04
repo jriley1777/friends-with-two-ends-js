@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Context from '../../context';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import { setPlayerName } from '../../actions/application';
+import { changePlayerAttribute } from '../../actions/application';
 
 import { ROUTES } from '../../constants/index';
 
@@ -66,13 +66,26 @@ const RowWrapper = styled.div`
 
 const PlayerSelect = props => {
     const { state, dispatch } = useContext(Context);
-    const handlePlayerNameChange = e => {
+    const { isLoggedIn, username } = state.auth;
+    const handleAttrChange = e => {
         let target = e.target;
-        dispatch(setPlayerName({
+        dispatch(changePlayerAttribute({
             playerId: Number(target.dataset.player),
-            name: target.value
+            attr: {
+                [target.name]: target.value
+            }
         }))
     }
+    useEffect(() => {
+        if(username){
+            dispatch(changePlayerAttribute({
+                playerId: 1,
+                attr: {
+                    name: username
+                }
+            }))
+        }
+    }, [])
     const renderSelectControls = () => {
         return (
             <>
@@ -82,27 +95,59 @@ const PlayerSelect = props => {
                             style={{
                                 background: 'rgb(102, 204, 255)'
                             }}>
-                            <h4>{state.app.players.find(x => x.playerId === 1).name}</h4>
+                            <h4>{state.app.players.find(x => x.playerId === 1).attr.name}</h4>
                             <div>Name:&nbsp;&nbsp;
-                            <input
-                                    onChange={handlePlayerNameChange}
+                                <input
+                                    onChange={handleAttrChange}
+                                    name="name"
                                     type="text"
                                     data-player={1}
-                                    value={state.app.players.find(x => x.playerId === 1).name}
+                                    value={state.app.players.find(x => x.playerId === 1).attr.name}
                                 />
                             </div>
+                            <div>Size:&nbsp;&nbsp;
+                                <input
+                                    onChange={handleAttrChange}
+                                    name="size"
+                                    type="range"
+                                    min={20}
+                                    max={100}
+                                    data-player={1}
+                                    value={state.app.players.find(x => x.playerId === 1).attr.size || 50}
+                                />
+                            </div>
+                            {/* <div>Color:&nbsp;&nbsp;
+                                <input
+                                    onChange={handleColorChange}
+                                    type="range"
+                                    data-player={1}
+                                    value={state.app.players.find(x => x.playerId === 1).color}
+                                />
+                            </div> */}
                         </div>
                         <div
                             style={{ 
                                 background: 'rgb(255, 153, 153)'
                             }}>
-                            <h4>{state.app.players.find(x => x.playerId === 2).name}</h4>
+                            <h4>{state.app.players.find(x => x.playerId === 2).attr.name}</h4>
                             <div>Name:&nbsp;&nbsp;
-                            <input
-                                    onChange={handlePlayerNameChange}
+                                <input
+                                    onChange={handleAttrChange}
+                                    name="name"
                                     type="text"
                                     data-player={2}
-                                    value={state.app.players.find(x => x.playerId === 2).name}
+                                    value={state.app.players.find(x => x.playerId === 2).attr.name}
+                                />
+                            </div>
+                            <div>Size:&nbsp;&nbsp;
+                                <input
+                                    onChange={handleAttrChange}
+                                    name="size"
+                                    type="range"
+                                    min={20}
+                                    max={100}
+                                    data-player={2}
+                                    value={state.app.players.find(x => x.playerId === 2).attr.size || 50}
                                 />
                             </div>
                         </div>

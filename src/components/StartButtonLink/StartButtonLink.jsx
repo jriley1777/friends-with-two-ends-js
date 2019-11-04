@@ -22,9 +22,9 @@ const StartButton = styled(Link)`
     }
 `;
 
-const StartButtonLink = ({ to, children }) => {
+const StartButtonLink = ({ to, children, ...rest }) => {
     return (
-        <StartButton to={to}>{ children }</StartButton>
+        <StartButton to={to} {...rest}>{ children }</StartButton>
     )
 };
 

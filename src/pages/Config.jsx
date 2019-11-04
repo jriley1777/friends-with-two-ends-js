@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 
+import Processing from '../components/Processing/Processing';
+import config from '../components/Processing/sketches/config';
 import Title from '../components/Title/Title';
 import PlayerSelect from '../components/PlayerSelect/PlayerSelect';
 import Instructions from '../components/Instructions/Instructions';
+
+import Context from '../context';
 
 const PageWrapper = styled.div`
     width: 100vw;
@@ -11,28 +15,46 @@ const PageWrapper = styled.div`
     overflow: hidden;
 `;
 
-const ContentWrapper = styled.div`
+const StyledPage = styled.div`
     display: flex;
-    padding-left: 5vw;
-    padding-right: 5vw;
-    flex-direction: column;
     align-items: center;
-    position: relative;
-    justify-content: flex-start;
-
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    z-index: 3;
     > * {
-        width: 50%;
+        z-index: 1;
+    }
+
+    &::before {
+        content:"";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(255,255,255,0.8);
     }
 `;
 
 const Config = () => {
+    const { state } = useContext(Context);
+    const { players } = state.app; 
     return (
         <PageWrapper>
-            <Title />
-            <ContentWrapper>
+            <Processing 
+                sketch={ config }
+                p5Props={{
+                    players
+                }}
+                />
+            <StyledPage>
+                <Title />
                 <Instructions />
                 <PlayerSelect />
-            </ContentWrapper>
+            </StyledPage>
         </PageWrapper>
     )
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import User from '../User/User';
 import { ROUTES } from '../../constants/index';
 
 const HeaderWrapper = styled.div`
@@ -33,7 +34,7 @@ const Header = props => {
         <HeaderWrapper>
             <HeaderContainer>
                 <HomeLink to={ ROUTES.INDEX }>Friends.</HomeLink>
-                <p>Not Logged in.</p>
+                <User />
             </HeaderContainer>
         </HeaderWrapper>
     )

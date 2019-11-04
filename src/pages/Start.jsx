@@ -72,7 +72,9 @@ const StyledSubtitle = styled.div`
 
 const StartPage = props => {
     const { dispatch } = useContext(Context);
-    const loginWithGoogle = () => {
+    const loginWithGoogle = (e) => {
+        console.log('click')
+        e.preventDefault();
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function (result) {
             // This gives you a Google Access Token. You can use it to access the Google API.
@@ -85,7 +87,7 @@ const StartPage = props => {
                 user,
                 username: user.displayName
             }))
-
+            props.history.push(ROUTES.CONFIG)
         }).catch(function (error) {
             // // Handle Errors here.
             // var errorCode = error.code;
@@ -105,7 +107,7 @@ const StartPage = props => {
                 <Title />
                 <StyledSubtitle>A competitive possession game amongst friends.</StyledSubtitle>
                 <RowWrapper>
-                    <StartButtonLink to={ROUTES.CONFIG}>Login</StartButtonLink>
+                    <StartButtonLink to={ROUTES.CONFIG} onClick={loginWithGoogle }>Login</StartButtonLink>
                     <StartButtonLink to={ROUTES.CONFIG}>Play as guest</StartButtonLink>
                 </RowWrapper>
             </StyledPage>

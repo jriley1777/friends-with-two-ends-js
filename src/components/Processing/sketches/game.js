@@ -95,7 +95,7 @@ export default function(p) {
 
     p.createBall = function() {
         ball = new VerletParticle2D(new geom.Vec2D(w / 2, h / 2), 20);
-        physics.addBehavior(new behaviors.AttractionBehavior(ball, 20, -0.0001));
+        physics.addBehavior(new behaviors.AttractionBehavior(ball, 105, -0.001));
         physics.addParticle(ball);
     }
 
@@ -109,38 +109,31 @@ export default function(p) {
             p.textAlign(p.CENTER);
             p.fill(0);
             p.text(`${p1.name} Wins!`, w / 2, h / 2);
+            p.dance(p1)
         } else if (scoreRight >= (w - 2 * margin)) {
             p2.Col = p.color(p.random(255), p.random(255), p.random(255));
             p.textAlign(p.CENTER);
             p.fill(0);
             p.text(`${p2.name} Wins!`, w / 2, h / 2);
+            p.dance(p2)
         }
-        p.dance();
     };
 
-    p.dance = function() {
+    p.dance = function(player) {
         if (p.millis() - 400 > toggleTime) {
             moveToggle = !moveToggle;
             toggleTime = p.millis();
         }
         if(moveToggle) {
-            p1.moveLeft = true;
-            p1.moveUp = false;
-            p1.moveDown = false;
-            p1.moveRight = false;
-            p2.moveLeft = true;
-            p2.moveUp = false;
-            p2.moveDown = false;
-            p2.moveRight = false;
+            player.moveLeft = true;
+            player.moveUp = false;
+            player.moveDown = false;
+            player.moveRight = false;
         } else {
-            p1.moveLeft = false;
-            p1.moveUp = false;
-            p1.moveDown = false;
-            p1.moveRight = true;
-            p2.moveLeft = false;
-            p2.moveUp = false;
-            p2.moveDown = false;
-            p2.moveRight = true;
+            player.moveLeft = false;
+            player.moveUp = false;
+            player.moveDown = false;
+            player.moveRight = true;
         }
     }
 
@@ -170,11 +163,15 @@ export default function(p) {
     p.updatePlayerNames = function() {
         if (p.props.players) {
             if (!p1.hasUpdatedName) {
-                p1.name = p.props.players.find(x => x.playerId === 1).name;
+                let p1Props = p.props.players.find(x => x.playerId === 1).attr;
+                p1.name = p1Props.name;
+                p1.strokeWeight = p1Props.size;
                 p1.hasUpdatedName = true;
             }
             if (!p2.hasUpdatedName) {
-                p2.name = p.props.players.find(x => x.playerId === 2).name;
+                let p2Props = p.props.players.find(x => x.playerId === 2).attr;
+                p2.name = p2Props.name;
+                p2.strokeWeight = p2Props.size;
                 p2.hasUpdatedName = true;
             }
         }

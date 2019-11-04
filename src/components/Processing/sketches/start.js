@@ -35,6 +35,7 @@ export default function(p) {
         'what game is this',
         'hey who touched my butt?',
         'stranger danger',
+        'hugs!'
     ]
 
     p.setup = function() {
@@ -75,15 +76,15 @@ export default function(p) {
     };
 
     p.createBall = function () {
-        ball = new VerletParticle2D(new geom.Vec2D(w / 2, h / 2), 1);
-        ballBehavior = new behaviors.AttractionBehavior(ball, 20, -0.0001)
+        ball = new VerletParticle2D(new geom.Vec2D(w / 2, h / 2), 20);
+        ballBehavior = new behaviors.AttractionBehavior(ball, 105, -1);
         physics.addBehavior(ballBehavior);
         physics.addParticle(ball);
     }
 
     p.drawBall = function () {
         let Color = p.color('rgb(255, 212, 41)');
-        p.stroke(Color);
+        p.stroke('#000');
         p.fill(Color);
         p.strokeWeight(1);
         p.ellipse(ball.x, ball.y, 100, 100);

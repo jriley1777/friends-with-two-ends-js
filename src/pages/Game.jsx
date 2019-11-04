@@ -25,7 +25,6 @@ const StyledHeader = styled.div`
 const Game = props => {
     const { state } = useContext(Context);
     const { players } = state.app;
-    console.log(state);
     return (
         <div className='App'>
             <Processing

@@ -123,24 +123,25 @@ const PlayerFactory = (name, strokeWeight=80, physics, p) => {
     player.moveRight = false;
     player.moveUp = false;
     player.moveDown = false;
-    player.move = function(moveSpeed) {
+    player.moveSpeed = 30;
+    player.move = function() {
         let head = player.head;
         let tail = player.tail;
         if(player.moveLeft){
-            head.x = head.x - moveSpeed;
-            tail.x = tail.x - moveSpeed;
+            head.x = head.x - player.moveSpeed;
+            tail.x = tail.x - player.moveSpeed;
         }
         if (player.moveRight) {
-            head.x = head.x + moveSpeed;
-            tail.x = tail.x + moveSpeed;
+            head.x = head.x + player.moveSpeed;
+            tail.x = tail.x + player.moveSpeed;
         }
         if (player.moveUp) {
-            head.y = head.y - moveSpeed;
-            tail.y = tail.y - moveSpeed;
+            head.y = head.y - player.moveSpeed;
+            tail.y = tail.y - player.moveSpeed;
         }
         if (player.moveDown) {
-            head.y = head.y + moveSpeed;
-            tail.y = tail.y + moveSpeed;
+            head.y = head.y + player.moveSpeed;
+            tail.y = tail.y + player.moveSpeed;
         }
     };
 
@@ -156,7 +157,7 @@ const PlayerFactory = (name, strokeWeight=80, physics, p) => {
             player.drawEyes(player.head, player.tail);
             player.drawMouth(player.head, player.tail);
             player.drawHUD(player.head);
-            player.move(30);
+            player.move();
         }
     }
     return player;
