@@ -38,7 +38,7 @@ export default function (p) {
     p.setup = function () {
         p.clear();
         w = window.innerWidth;
-        h = window.innerHeight;
+        h = window.innerHeight/100 * 94;
         margin = 40;
 
         players = [];
@@ -49,8 +49,8 @@ export default function (p) {
         canvas = p.createCanvas(w, h);
         p.frameRate(120);
         p.background(255);
-        teamLeft = p.color('rgb(102, 204, 255)');
-        teamRight = p.color('rgb(255, 153, 153)');
+        teamLeft = p.color('#fff');
+        teamRight = p.color('#000');
         scoreToggle = 0;
         scoreLeft = 0;
         scoreRight = 0;
@@ -68,18 +68,15 @@ export default function (p) {
     };
 
     p.draw = function () {
-        if (p.props && !canvas.parent) {
-            canvas.parent(`${p.props.sketchName}-p5_container`);
-        }
         p.background(255);
         p.textFont('Caveat Brush');
         p.drawCourt();
         p.drawPlayers();
         p.updatePlayerNames();
         p.drawMouse();
-        if (ball) {
-            p.drawBall();
-        }
+        // if (ball) {
+        //     p.drawBall();
+        // }
         physics.update();
         if (scoreLeft >= (w - 2 * margin) || scoreRight >= (w - 2 * margin)) {
             p.setup();
@@ -92,7 +89,25 @@ export default function (p) {
                 scoreToggle = 2;
             }
         }
+        if (Math.floor(p.millis()) % 3 === 0) {
+            p.applyFilmGrain();
+        }
     };
+
+    p.applyFilmGrain = function () {
+        p.loadPixels();
+        let d = p.pixelDensity(0.5);
+        for (let i = 0; i < p.pixels.length; i += Math.floor(p.random(420))) {
+            if (i % 4 === 0) {
+                let color = p.color(255);
+                p.pixels[i] = color;
+                p.pixels[i + 1] = color;
+                p.pixels[i + 2] = color;
+                p.pixels[i + 3] = p.random(100, 200);
+            }
+        }
+        p.updatePixels();
+    }
 
     p.createBall = function () {
         ball = new VerletParticle2D(new geom.Vec2D(w / 2, h / 2), 1);
@@ -102,20 +117,16 @@ export default function (p) {
     }
 
     p.drawBall = function () {
-        let Color = p.color('rgb(255, 212, 41)');
+        let Color = p.color('rgb(255, 0,0)');
         p.stroke('#000');
         p.fill(Color);
         p.strokeWeight(1);
         p.ellipse(ball.x, ball.y, 100, 100);
     }
 
-    p.windowResized = function () {
-        p.resizeCanvas(window.innerWidth, canvas.offsetHeight);
-    }
-
     p.createPlayers = function () {
-        players.push(PlayerFactory("", p.random(125), physics, p).create(200, h / 2, p.color('rgb(41, 52, 255)')));
-        players.push(PlayerFactory("", p.random(125), physics, p).create(w - 200, h / 2, p.color('rgb(255, 41, 55)')));
+        players.push(PlayerFactory("", p.random(125), physics, p).create(200, h / 2, p.color('#fff')));
+        players.push(PlayerFactory("", p.random(125), physics, p).create(w - 200, h / 2, p.color('#000')));
         players[0].moveSpeed = 10;
         players[1].moveSpeed = 10;
     }
@@ -134,7 +145,7 @@ export default function (p) {
     p.drawCourt = function () {
         teamLeft.setAlpha(50);
         teamRight.setAlpha(50);
-        p.fill('#fff8e6');
+        p.fill('#dcd');
         p.noStroke();
         p.rect(0, 0, w, h);
         p.strokeWeight(1);

@@ -5,6 +5,8 @@ import * as geom from 'toxiclibsjs/geom';
 
 const PlayerFactory = (name, strokeWeight=80, physics, p) => {
     const player = {}
+    player.particleArray = [];
+    player.numArrays = 5;
     player.name = name;
     player.hasUpdatedName = false;
     player.numParticles = 60; //p.floor(p.random(100));
@@ -75,7 +77,7 @@ const PlayerFactory = (name, strokeWeight=80, physics, p) => {
     player.moveToggle = true;
     player.toggleTime = 0;
     player.dance = function () {
-        if (p.millis() - 400 > player.toggleTime) {
+        if (p.millis() - 500 > player.toggleTime) {
             player.moveToggle = !player.moveToggle;
             player.toggleTime = p.millis();
         }
@@ -109,6 +111,22 @@ const PlayerFactory = (name, strokeWeight=80, physics, p) => {
         })
         p.endShape();
         p.strokeWeight(50);
+
+    }
+    player.shouldDrawTrail = false;
+    player.drawTrail = function() {
+        player.particleArray.map((x, i) => {
+            p.noFill();
+            p.stroke(p.color(p.random(255), p.random(255), p.random(255), 1/(player.numArrays-(i+1)) * 255));
+            p.strokeWeight(30);
+            p.beginShape();
+            x.map(particle => {
+                p.curveVertex(particle.x, particle.y);
+                return null;
+            })
+            p.endShape();
+            p.strokeWeight(50);
+        })
     }
     player.eyeSize = 15;
     player.drawEyes = function(head, tail) {
@@ -126,6 +144,7 @@ const PlayerFactory = (name, strokeWeight=80, physics, p) => {
         //pupils
         p.strokeWeight(1);
         p.stroke(0);
+        p.fill(0);
         p.ellipse(head.x + 10, head.y, 1, 3);
         p.ellipse(head.x - 10, head.y, 1, 3);
         p.ellipse(tail.x + 10, tail.y, 1, 3);
@@ -170,8 +189,18 @@ const PlayerFactory = (name, strokeWeight=80, physics, p) => {
             player.tail = player.particles[player.numParticles - 1];
             player.mid = player.particles[Math.floor((player.numParticles - 1)/2)];
 
+            if (player.particleArray.length > player.numArrays) {
+                player.particleArray.shift();
+            }
+            player.particleArray.push(player.particles.map(x => {
+                return { x: x.x, y: x.y}
+            }));
+
             //body
             p.stroke('#000');
+            if(player.shouldDrawTrail){
+                player.drawTrail();
+            }
             player.drawBody();
             player.drawEyes(player.head, player.tail);
             player.drawMouth(player.head, player.tail);

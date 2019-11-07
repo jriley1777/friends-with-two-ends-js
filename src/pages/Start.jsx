@@ -17,7 +17,7 @@ const RowWrapper = styled.div`
     display: flex;
     position: relative;
     width: 100vw;
-    height: 100%;
+    height: auto;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -30,13 +30,17 @@ const RowWrapper = styled.div`
 
 const StyledPage = styled.div`
     display: flex;
+    position: absolute;
+    height: 100vh;
+    top: 0;
+    left: 0;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
-    width: 100%;
-    height: auto;
     font-size: 6rem;
     font-family: Caveat Brush;
     overflow: hidden;
+
     > * {
         z-index: 3;
     }
@@ -48,8 +52,8 @@ const StyledPage = styled.div`
         top: 0;
         left: 0;
         width: 100%;
-        height: 100vh;
-        background: rgba(255,255,255,0.8);
+        height: 94vh;
+        background: rgba(255,255,255,0.25);
     }
 `;
 
@@ -62,7 +66,19 @@ const StyledSubtitle = styled.div`
     align-items: center;
     justify-content: center;
     color: black;
-    margin-bottom: 25vh;
+    margin-top: 5vh;
+`;
+
+const TitleCard = styled.div`
+    padding: 30px;
+    background: rgba(255,255,255,0.5);
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 15vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 `;
 
 const StartPage = props => {
@@ -102,8 +118,10 @@ const StartPage = props => {
                     sketchName: 'start'
                 }} />
             <StyledPage>
-                <Title />
-                <StyledSubtitle>A competitive possession game amongst friends.</StyledSubtitle>
+                <TitleCard>
+                    <Title />
+                    <StyledSubtitle>A competitive possession game amongst friends.</StyledSubtitle>
+                </TitleCard>
                 <RowWrapper>
                     <StartButtonLink to={ROUTES.CONFIG} onClick={loginWithGoogle }>Login with Google</StartButtonLink>
                     <StartButtonLink to={ROUTES.CONFIG}>Play as guest</StartButtonLink>

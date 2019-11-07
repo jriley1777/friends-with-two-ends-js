@@ -16,6 +16,7 @@ const StartButton = styled(Link)`
     display: flex;
     align-items: center;
     justify-content: center;
+    background: rgba(255,255,255,0.75);
     
     &:hover {
         background: lightgreen;

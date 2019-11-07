@@ -10,7 +10,8 @@ const HeaderWrapper = styled.div`
     height: 1.5rem;
     position: absolute;
     top: 0;
-    background: transparent;
+    background: black;
+    color: white;
     z-index: 3;
 `;
 

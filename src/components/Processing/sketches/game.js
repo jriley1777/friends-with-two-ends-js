@@ -3,6 +3,8 @@ import VerletParticle2D from 'toxiclibsjs/physics2d/VerletParticle2D';
 import * as behaviors from 'toxiclibsjs/physics2d/behaviors';
 import * as geom from 'toxiclibsjs/geom';
 import PlayerFactory from './PlayerFactory';
+import gMusic from '%PUBLIC_URL%/creo.mp3';
+
 
 export default function(p) {
     p.props = {};
@@ -14,19 +16,15 @@ export default function(p) {
     let p1, p2;
     let p1AddParticles, p1RemoveParticles, p2AddParticles, p2RemoveParticles;
     let scoreToggle, scoreLeft, scoreRight;
-
-    p.preload = function(props) {
-        p.soundFormats('mp3');
-    }
+    let gameMusic;
 
     p.setup = function() {
-        p.clear();
         w = window.innerWidth;
-        h = window.innerHeight;
+        h = window.innerHeight / 100 * 94;
         margin = 40;
 
-        teamLeft = p.color('rgb(102, 204, 255)');
-        teamRight = p.color('rgb(255, 153, 153)');
+        teamLeft = p.color('rgb(255,255,255)');
+        teamRight = p.color('rgb(0,0,0)');
         scoreToggle = 0;
         scoreLeft = 0;
         scoreRight = 0;
@@ -42,16 +40,16 @@ export default function(p) {
         p.createBall();
         p.createPlayers();
         p.createCenterGrav();
+        gameMusic = p.loadSound(gMusic, gMusicOnLoad);
     };
 
-    p.windowResized = function() {
-
+    function gMusicOnLoad() {
+        if(gameMusic.isLoaded() && !gameMusic.isPlaying()) {
+            gameMusic.play()
+        }
     }
 
     p.draw = function() {
-        if (p.props && !canvas.parent) {
-            canvas.parent(`${p.props.sketchName}-p5_container`);
-        }
         p.background(255);
         p.textFont('Caveat Brush');
         p.drawCourt();
@@ -61,8 +59,8 @@ export default function(p) {
         p.drawScoreBoard();
         physics.update();
         if (scoreLeft >= (w - 2 * margin) || scoreRight >= (w - 2 * margin)) {
-            p.gameOver();
             scoreToggle = 3;
+            p.gameOver();
         }
         if (scoreToggle < 3) {
             if (ball.x < (w / 2) && scoreToggle !== 1) {
@@ -71,7 +69,26 @@ export default function(p) {
                 scoreToggle = 2;
             }
         }
+
+        if(Math.floor(p.millis()) % 3 === 0) {
+            p.applyFilmGrain();
+        }
     };
+
+    p.applyFilmGrain = function() {
+        p.loadPixels();
+        let d = p.pixelDensity(0.4);
+        for (let i = 0; i < p.pixels.length; i+=Math.floor(p.random(420))) {
+            if(i%4===0) {
+                let color = p.color(255);
+                p.pixels[i] = color;
+                p.pixels[i + 1] = color;
+                p.pixels[i + 2] = color;
+                p.pixels[i + 3] = p.random(100,200);
+            }
+        }
+        p.updatePixels();
+    }
 
     p.moveAI = function(player) {
         // player.moveRight = false;
@@ -103,18 +120,18 @@ export default function(p) {
         p.strokeWeight(2);
         p.fill(0);
         if (scoreLeft >= (w - 2 * margin)) {
-            p1.Col = p.color(p.random(255), p.random(255), p.random(255));
+            // p1.Col = p.color(p.random(255), p.random(255), p.random(255));
             p.textAlign(p.CENTER);
             p.fill(0);
             p.text(`${p1.name} Wins!`, w / 2, h / 2);
-            p1.dance();
         } else if (scoreRight >= (w - 2 * margin)) {
-            p2.Col = p.color(p.random(255), p.random(255), p.random(255));
+            // p2.Col = p.color(p.random(255), p.random(255), p.random(255));
             p.textAlign(p.CENTER);
             p.fill(0);
             p.text(`${p2.name} Wins!`, w / 2, h / 2);
-            p2.dance();
         }
+        p1.dance();
+        p2.dance();
     };
 
     p.createCenterGrav = function() {
@@ -136,8 +153,10 @@ export default function(p) {
     }
 
     p.createPlayers = function() {
-        p1 = PlayerFactory('Player', p.random(125), physics, p).create(200, h / 2, p.color('rgb(41, 52, 255)'));
-        p2 = PlayerFactory('AI', p.random(125), physics, p).create(w - 200, h / 2, p.color('rgb(255, 41, 55)'));
+        p1 = PlayerFactory('Player', p.random(125), physics, p).create(200, h / 2, teamLeft);
+        p2 = PlayerFactory('AI', p.random(125), physics, p).create(w - 200, h / 2, teamRight);
+        p1.shouldDrawTrail = true;
+        p2.shouldDrawTrail = true;
     }
 
     p.updatePlayerNames = function() {
@@ -184,15 +203,15 @@ export default function(p) {
         p.textSize(60);
         p.stroke(0);
         p.fill(teamLeft);
-        p.text(p.round(scoreLeft / (w - 2 * margin) * 100), 2 * margin, margin);
+        p.text(p.round(scoreLeft / (w - 2 * margin) * 100), w/2 - 2 * margin, 3 * margin);
         p.fill(teamRight);
-        p.text(p.round(scoreRight / (w - 2 * margin) * 100), (w - 2 * margin), margin);
+        p.text(p.round(scoreRight / (w - 2 * margin) * 100), w/2 + 2 * margin, 3 * margin);
     }
 
     p.drawCourt = function() {
         teamLeft.setAlpha(50);
         teamRight.setAlpha(50);
-        p.fill('#fff8e6');
+        p.fill('#dcd');
         p.noStroke();
         p.rect(0, 0, w, h);
         p.strokeWeight(1);
@@ -210,7 +229,7 @@ export default function(p) {
     }
 
     p.drawBall = function() {
-        let Color = p.color('rgb(255, 212, 41)');
+        let Color = p.color('rgb(255, 0,0)');
         p.stroke('#000');
         p.fill(Color);
         p.strokeWeight(1);

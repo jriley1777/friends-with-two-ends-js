@@ -20,6 +20,7 @@ const SelectButton = styled(Link)`
     text-decoration: none;
     color: black;
     font-family: Caveat Brush;
+    background: rgba(255,255,255,0.5);
     
     &:hover {
         background: lightgreen;
@@ -56,7 +57,7 @@ const RowWrapper = styled.div`
     margin-bottom: 40px;
 
     > * {
-        margin: auto 10px;
+        margin: auto 40px;
         border: 1px solid grey;
         padding: 10px;
         border-radius: 5px;
@@ -93,7 +94,7 @@ const PlayerSelect = props => {
                     <RowWrapper>
                         <div
                             style={{
-                                background: 'rgb(102, 204, 255)'
+                                background: 'rgba(255, 255,255, 0.5)'
                             }}>
                             <h4>{state.app.players.find(x => x.playerId === 1).attr.name}</h4>
                             <div>Name:&nbsp;&nbsp;
@@ -127,7 +128,7 @@ const PlayerSelect = props => {
                         </div>
                         <div
                             style={{ 
-                                background: 'rgb(255, 153, 153)'
+                                background: 'rgba(0,0,0, 0.5)'
                             }}>
                             <h4>{state.app.players.find(x => x.playerId === 2).attr.name}</h4>
                             <div>Name:&nbsp;&nbsp;

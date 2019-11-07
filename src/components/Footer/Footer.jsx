@@ -10,6 +10,8 @@ const FooterWrapper = styled.div`
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    background: black;
+    color: white;
 `;
 
 const SyledHeart = styled.span`

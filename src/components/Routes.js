@@ -12,27 +12,36 @@ import { CSSTransition } from 'react-transition-group';
 
 const PageWrapper = styled.div`
     width: 100vw;
-    height: 100vh;
+    height: auto;
     overflow: hidden;
+    background: black;
+`;
+
+const ComponentWrapper = styled.div.attrs({
+    className: 'page'
+})`
+    position: absolute;
+    height: 94vh;
+    top: 3vh;
+    overflow: hidden;
+    border-radius: 15%;
+    z-index: -1;
 
     &.page-enter {
         opacity: 0;
-        transform: scale(1.1);
     }
     &.page-enter-active {
         opacity: 1;
-        transform: scale(1);
     }
     &.page-exit {
         opacity: 1;
-        transform: scale(1);
     }
     &.page-exit-active {
         opacity: 0;
-        transform: scale(0.9);
-        transition: opacity 300ms, transform 300ms;
+        transition: opacity 500ms;
     }
 `;
+
 
 const Routes = () => {
     const routes = [
@@ -44,16 +53,18 @@ const Routes = () => {
         return (
             <Route key={path} path={path} exact>
                 {({ match }) => (
-                    <CSSTransition
+                    <PageWrapper>
+                        <CSSTransition
                         in={match != null}
-                        timeout={300}
+                        timeout={500}
                         classNames='page'
                         unmountOnExit
-                    >
-                        <PageWrapper className='page'>
-                            <Component />
-                        </PageWrapper>
-                    </CSSTransition>
+                        >
+                            <ComponentWrapper>
+                                <Component />
+                            </ComponentWrapper>
+                        </CSSTransition>
+                    </PageWrapper>
                 )}
             </Route>
         )

@@ -8,8 +8,7 @@ const Overlay = styled.div`
     width: 100vw;
     height: auto;
     overflow: hidden;
-    position: absolute;
-    top: 1.5rem;
+    position: relative;
     height: 94vh;
 `
 

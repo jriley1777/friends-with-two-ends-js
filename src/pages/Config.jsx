@@ -12,13 +12,16 @@ import Context from '../context';
 const StyledPage = styled.div`
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
+    position: absolute;
+    top: 0;
     width: 100%;
-    height: auto;
+    height: 100vh;
     overflow: hidden;
-    z-index: 3;
+    z-index: 2;
     > * {
-        z-index: 1;
+        z-index: 2;
     }
 
     &::before {
@@ -29,7 +32,7 @@ const StyledPage = styled.div`
         left: 0;
         width: 100%;
         height: 100vh;
-        background: rgba(255,255,255,0.8);
+        background: rgba(255,255,255,0.2);
     }
 `;
 
