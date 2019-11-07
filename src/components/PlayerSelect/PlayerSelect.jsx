@@ -66,7 +66,7 @@ const RowWrapper = styled.div`
 
 const PlayerSelect = props => {
     const { state, dispatch } = useContext(Context);
-    const { isLoggedIn, username } = state.auth;
+    const { username } = state.auth;
     const handleAttrChange = e => {
         let target = e.target;
         dispatch(changePlayerAttribute({
@@ -85,7 +85,7 @@ const PlayerSelect = props => {
                 }
             }))
         }
-    }, [])
+    }, [username, dispatch])
     const renderSelectControls = () => {
         return (
             <>

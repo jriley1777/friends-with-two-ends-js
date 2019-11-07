@@ -8,15 +8,12 @@ export default function(p) {
     p.props = {};
     let w, h, margin;
     let ball;
-    const canvas = document.getElementById("app-p5_container");
+    let canvas;
     let physics;
     let teamLeft, teamRight;
     let p1, p2;
     let p1AddParticles, p1RemoveParticles, p2AddParticles, p2RemoveParticles;
     let scoreToggle, scoreLeft, scoreRight;
-    let maxPlayerSize = 45;
-    let minPlayerSize = 35;
-    let moveToggle, toggleTime;
 
     p.preload = function(props) {
         p.soundFormats('mp3');
@@ -25,7 +22,7 @@ export default function(p) {
     p.setup = function() {
         p.clear();
         w = window.innerWidth;
-        h = canvas.offsetHeight;
+        h = window.innerHeight;
         margin = 40;
 
         teamLeft = p.color('rgb(102, 204, 255)');
@@ -33,10 +30,8 @@ export default function(p) {
         scoreToggle = 0;
         scoreLeft = 0;
         scoreRight = 0;
-        moveToggle = true;
-        toggleTime = 0;
 
-        p.createCanvas(w, h);
+        canvas = p.createCanvas(w, h);
         p.frameRate(120);
 
         physics = new VerletPhysics2D();
@@ -54,6 +49,9 @@ export default function(p) {
     }
 
     p.draw = function() {
+        if (p.props && !canvas.parent) {
+            canvas.parent(`${p.props.sketchName}-p5_container`);
+        }
         p.background(255);
         p.textFont('Caveat Brush');
         p.drawCourt();

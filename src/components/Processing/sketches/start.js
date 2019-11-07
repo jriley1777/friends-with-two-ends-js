@@ -6,7 +6,7 @@ import PlayerFactory from './PlayerFactory';
 
 export default function(p) {
     let w, h, margin;
-    const canvas = document.getElementById("app-p5_container");
+    let canvas;
     let physics = new VerletPhysics2D();
     let players = [];
     let ball, ballBehavior;
@@ -41,10 +41,10 @@ export default function(p) {
     p.setup = function() {
         p.clear();
         w = window.innerWidth;
-        h = canvas.offsetHeight;
+        h = window.innerHeight;
         margin = 40;
 
-        p.createCanvas(w, h);
+        canvas = p.createCanvas(w, h);
         p.frameRate(120);
         p.background(255);
 
@@ -61,6 +61,9 @@ export default function(p) {
     };
 
     p.draw = function() {
+        if (p.props && !canvas.parent){
+            canvas.parent(`${p.props.sketchName}-p5_container`);
+        }
         p.background(255);
         p.textFont('Caveat Brush');
         p.drawPlayers();

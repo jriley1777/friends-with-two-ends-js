@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import firebase from 'firebase/app';
+import { withRouter } from 'react-router-dom';
 
 import * as AppActions from '../actions/application';
 import Title from '../components/Title/Title';
@@ -11,12 +12,6 @@ import start from '../components/Processing/sketches/start';
 import Context from '../context';
 import { ROUTES } from '../constants';
 import StartButtonLink from '../components/StartButtonLink/StartButtonLink';
-
-const PageWrapper = styled.div`
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-`;
 
 const RowWrapper = styled.div`
     display: flex;
@@ -86,6 +81,7 @@ const StartPage = props => {
                 user,
                 username: user.displayName
             }))
+            console.log(props.history);
             props.history.push(ROUTES.CONFIG)
         }).catch(function (error) {
             // // Handle Errors here.
@@ -99,9 +95,12 @@ const StartPage = props => {
         });
     }
     return (
-        <PageWrapper>
+        <>
             <Processing
-                sketch={start} />
+                sketch={start}
+                p5Props={{
+                    sketchName: 'start'
+                }} />
             <StyledPage>
                 <Title />
                 <StyledSubtitle>A competitive possession game amongst friends.</StyledSubtitle>
@@ -110,7 +109,7 @@ const StartPage = props => {
                     <StartButtonLink to={ROUTES.CONFIG}>Play as guest</StartButtonLink>
                 </RowWrapper>
             </StyledPage>
-        </PageWrapper>
+        </>
     )
 };
 
@@ -120,4 +119,4 @@ const mapDispatchToProps = (dispatch) => {
     }, dispatch)
 }
 
-export default connect(null, mapDispatchToProps)(StartPage);
+export default connect(null, mapDispatchToProps)(withRouter(StartPage));

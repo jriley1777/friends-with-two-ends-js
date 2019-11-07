@@ -9,12 +9,6 @@ import Instructions from '../components/Instructions/Instructions';
 
 import Context from '../context';
 
-const PageWrapper = styled.div`
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-`;
-
 const StyledPage = styled.div`
     display: flex;
     align-items: center;
@@ -43,11 +37,12 @@ const Config = () => {
     const { state } = useContext(Context);
     const { players } = state.app; 
     return (
-        <PageWrapper>
+        <>
             <Processing 
                 sketch={ config }
                 p5Props={{
-                    players
+                    players,
+                    sketchName: 'config'
                 }}
                 />
             <StyledPage>
@@ -55,7 +50,7 @@ const Config = () => {
                 <Instructions />
                 <PlayerSelect />
             </StyledPage>
-        </PageWrapper>
+        </>
     )
 }
 

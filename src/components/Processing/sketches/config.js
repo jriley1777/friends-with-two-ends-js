@@ -6,7 +6,7 @@ import PlayerFactory from './PlayerFactory';
 
 export default function (p) {
     let w, h, margin;
-    const canvas = document.getElementById("app-p5_container");
+    let canvas;
     let physics = new VerletPhysics2D();
     let players;
     let ball, ballBehavior;
@@ -14,7 +14,6 @@ export default function (p) {
     let talkIndex, talkToggle, talkTimer;
     let teamLeft, teamRight;
     let scoreToggle, scoreLeft, scoreRight;
-    let moveToggle, toggleTime;
 
     let friends = ['Joey','Chandler','Ross','Phoebe','Rachel','Monica'];
     const getFriend = friends => {
@@ -39,7 +38,7 @@ export default function (p) {
     p.setup = function () {
         p.clear();
         w = window.innerWidth;
-        h = canvas.offsetHeight;
+        h = window.innerHeight;
         margin = 40;
 
         players = [];
@@ -47,7 +46,7 @@ export default function (p) {
         talkToggle = new Array(players.length);
         talkTimer = new Array(players.length);
 
-        p.createCanvas(w, h);
+        canvas = p.createCanvas(w, h);
         p.frameRate(120);
         p.background(255);
         teamLeft = p.color('rgb(102, 204, 255)');
@@ -55,8 +54,6 @@ export default function (p) {
         scoreToggle = 0;
         scoreLeft = 0;
         scoreRight = 0;
-        moveToggle = true;
-        toggleTime = 0;
 
         physics.setWorldBounds(new geom.Rect(margin, margin, w - margin * 2, h - margin * 2));
         physics.addBehavior(new behaviors.GravityBehavior(new geom.Vec2D(0, 0)));
@@ -71,6 +68,9 @@ export default function (p) {
     };
 
     p.draw = function () {
+        if (p.props && !canvas.parent) {
+            canvas.parent(`${p.props.sketchName}-p5_container`);
+        }
         p.background(255);
         p.textFont('Caveat Brush');
         p.drawCourt();

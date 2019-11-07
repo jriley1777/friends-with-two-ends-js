@@ -2,7 +2,7 @@ import React, {useContext, useReducer} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Routes from './components/Routes';
-import { BrowserRouter as Router, Switch} from 'react-router-dom';
+import { BrowserRouter as Router} from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -38,9 +38,7 @@ const Root = () => {
             <Provider store={store}>
                 <Router>
                     <Header />
-                    <Switch>
-                        <Routes />
-                    </Switch>
+                    <Routes />
                     <Footer />
                 </Router>
             </Provider>

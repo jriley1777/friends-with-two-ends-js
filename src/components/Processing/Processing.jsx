@@ -2,12 +2,29 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import p5 from 'p5';
 import 'p5/lib/addons/p5.sound';
-import './Processing.css';
+import styled from 'styled-components';
+
+const Overlay = styled.div`
+    width: 100vw;
+    height: auto;
+    overflow: hidden;
+    position: absolute;
+    top: 1.5rem;
+    height: 94vh;
+`
+
+const Container = styled.div`
+    z-index: -10000;
+    background-attachment: fixed !important;
+    overflow: hidden;
+    width: 100%;
+    height: 94vh;
+`;
 
 class Processing extends React.Component {
 
     componentDidMount() {
-        this.canvas = new p5(this.props.sketch, "app-p5_container");
+        this.canvas = new p5(this.props.sketch, `${this.props.p5Props.sketchName}-p5_container`);
         this.canvas.props = this.props.p5Props;
     }
 
@@ -22,9 +39,9 @@ class Processing extends React.Component {
 
     render(){
         return (
-            <div id="app-p5_overlay">
-                <div id="app-p5_container" />
-            </div>
+            <Overlay id={`${this.props.p5Props.sketchName}-p5_overlay`}>
+                <Container id={`${this.props.p5Props.sketchName}-p5_container`} />
+            </Overlay>
         )
     }
 }
