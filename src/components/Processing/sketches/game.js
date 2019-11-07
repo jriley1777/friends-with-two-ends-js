@@ -3,7 +3,7 @@ import VerletParticle2D from 'toxiclibsjs/physics2d/VerletParticle2D';
 import * as behaviors from 'toxiclibsjs/physics2d/behaviors';
 import * as geom from 'toxiclibsjs/geom';
 import PlayerFactory from './PlayerFactory';
-import gMusic from '%PUBLIC_URL%/creo.mp3';
+import gMusic from `${process.env.PUBLIC_URL}/creo.mp3`;
 
 
 export default function(p) {
