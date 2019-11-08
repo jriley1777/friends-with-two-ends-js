@@ -96,7 +96,8 @@ const PlayerFactory = (name, strokeWeight=80, physics, p) => {
     player.drawHUD = function (head) {
         p.textSize(36);
         p.fill(0);
-        p.textAlign(p.CENTER, p.CENTER)
+        p.textAlign(p.CENTER, p.CENTER);
+        p.stroke(255);
         p.text(player.name, head.x, head.y - player.sz);
     }
     player.drawBody = function() {

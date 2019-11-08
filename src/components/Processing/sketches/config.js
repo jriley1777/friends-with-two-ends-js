@@ -9,11 +9,12 @@ export default function (p) {
     let canvas;
     let physics = new VerletPhysics2D();
     let players;
-    let ball, ballBehavior;
     let mouse;
     let talkIndex, talkToggle, talkTimer;
     let teamLeft, teamRight;
     let scoreToggle, scoreLeft, scoreRight;
+    let ball, ballBehavior;
+    let sketchStart;
 
     let friends = ['Joey','Chandler','Ross','Phoebe','Rachel','Monica'];
     const getFriend = friends => {
@@ -37,6 +38,7 @@ export default function (p) {
 
     p.setup = function () {
         p.clear();
+        sketchStart = p.millis();
         w = window.innerWidth;
         h = window.innerHeight/100 * 94;
         margin = 40;
@@ -58,9 +60,8 @@ export default function (p) {
         physics.setWorldBounds(new geom.Rect(margin, margin, w - margin * 2, h - margin * 2));
         physics.addBehavior(new behaviors.GravityBehavior(new geom.Vec2D(0, 0)));
         physics.setDrag(0.15);
-
-        p.createBall();
         p.createPlayers();
+        p.createBall();
         for (let i = 0; i < players.length; i++) {
             talkToggle[i] = false;
             talkTimer[i] = 0;
@@ -71,22 +72,15 @@ export default function (p) {
         p.background(255);
         p.textFont('Caveat Brush');
         p.drawCourt();
-        p.drawPlayers();
-        p.updatePlayerNames();
-        p.drawMouse();
-        // if (ball) {
-        //     p.drawBall();
-        // }
-        physics.update();
-        if (scoreLeft >= (w - 2 * margin) || scoreRight >= (w - 2 * margin)) {
-            p.setup();
-            scoreToggle = 3;
-        }
-        if (scoreToggle < 3) {
-            if (ball.x < (w / 2) && scoreToggle !== 1) {
-                scoreToggle = 1;
-            } else if (ball.x > (w / 2) && scoreToggle !== 2) {
-                scoreToggle = 2;
+        if (p.millis() - sketchStart > 1000) {
+            p.drawPlayers();
+            p.drawBall();
+            p.updatePlayerNames();
+            p.drawMouse();
+            physics.update();
+            if (scoreLeft >= (w - 2 * margin) || scoreRight >= (w - 2 * margin)) {
+                p.setup();
+                scoreToggle = 3;
             }
         }
         if (Math.floor(p.millis()) % 3 === 0) {
@@ -96,9 +90,9 @@ export default function (p) {
 
     p.applyFilmGrain = function () {
         p.loadPixels();
-        let d = p.pixelDensity(0.5);
-        for (let i = 0; i < p.pixels.length; i += Math.floor(p.random(420))) {
-            if (i % 4 === 0) {
+        p.pixelDensity(0.5);
+        for (let i = 0; i < p.pixels.length; i += Math.floor(p.random(800))) {
+            if (i % 10 === 0) {
                 let color = p.color(255);
                 p.pixels[i] = color;
                 p.pixels[i + 1] = color;
@@ -110,8 +104,8 @@ export default function (p) {
     }
 
     p.createBall = function () {
-        ball = new VerletParticle2D(new geom.Vec2D(w / 2, h / 2), 1);
-        ballBehavior = new behaviors.AttractionBehavior(ball, 20, -0.001)
+        ball = new VerletParticle2D(new geom.Vec2D(w / 2, h /2 ), 20);
+        ballBehavior = new behaviors.AttractionBehavior(ball, 105, -0.001);
         physics.addBehavior(ballBehavior);
         physics.addParticle(ball);
     }
@@ -127,8 +121,10 @@ export default function (p) {
     p.createPlayers = function () {
         players.push(PlayerFactory("", p.random(125), physics, p).create(200, h / 2, p.color('#fff')));
         players.push(PlayerFactory("", p.random(125), physics, p).create(w - 200, h / 2, p.color('#000')));
-        players[0].moveSpeed = 10;
-        players[1].moveSpeed = 10;
+        players[0].moveSpeed = 30;
+        players[1].moveSpeed = 30;
+        players[0].shouldDrawTrail = true;
+        players[1].shouldDrawTrail = true;
     }
 
     p.updatePlayerNames = function () {
@@ -156,34 +152,9 @@ export default function (p) {
         p.arc(w / 2, h / 2, w - (2 * margin), h, -p.HALF_PI, p.HALF_PI);
         teamLeft.setAlpha(255);
         teamRight.setAlpha(255);
-        p.scoreCalculator();
         p.fill(255);
         p.stroke(0);
         p.line(w / 2, 0, w / 2, h);
-    }
-
-    p.scoreCalculator = function () {
-        if (scoreToggle === 1 && scoreLeft <= (w - 2 * margin)) {
-            scoreLeft += 2;
-            if (scoreRight > 0) {
-                scoreRight -= 1;
-            }
-        } else if (scoreToggle === 2 && scoreRight <= (w - 2 * margin)) {
-            scoreRight += 2;
-            if (scoreLeft > 0) {
-                scoreLeft -= 1;
-            }
-        }
-        p.noStroke();
-        p.textAlign(p.CENTER, p.CENTER);
-        teamLeft.setAlpha(150);
-        p.fill(teamLeft);
-        p.arc(w / 2, h / 2, scoreLeft, h, p.HALF_PI, p.PI + p.HALF_PI);
-        teamRight.setAlpha(150);
-        p.fill(teamRight);
-        p.arc(w / 2, h / 2, scoreRight, h, -p.HALF_PI, p.HALF_PI);
-        teamLeft.setAlpha(255);
-        teamRight.setAlpha(255);
     }
 
     p.drawMouse = function () {
@@ -238,33 +209,79 @@ export default function (p) {
         let attractor;
         if (mouse) {
             attractor = mouse;
-        } else if (ball) {
-            attractor = ball;
         }
         if (attractor) {
             players.map((friend, i) => {
-                
                 p.talk(friend, i);
-                // if (friend.head) {
-                //     if (attractor.x > friend.head.x + 100) {
-                //         friend.moveRight = true;
-                //         friend.moveLeft = false;
-                //     }
-                //     if (attractor.x < friend.head.x - 100) {
-                //         friend.moveRight = false;
-                //         friend.moveLeft = true;
-                //     }
-                //     if (attractor.y < friend.head.y - 100) {
-                //         friend.moveUp = true;
-                //         friend.moveDown = false;
-                //     }
-                //     if (attractor.y > friend.head.y + 100) {
-                //         friend.moveUp = false;
-                //         friend.moveDown = true;
-                //     }
-                // }
                 return null;
             })
+        }
+    }
+
+    p.keyPressed = function () {
+        let p1 = players[0];
+        let p2 = players[1];
+        if (p.key === 'R') {
+            p.reset();
+        }
+
+        //p1
+        if (p.key === 'a') {
+            p1.moveLeft = true;
+        }
+        if (p.key === 'd') {
+            p1.moveRight = true;
+        }
+        if (p.key === 'w') {
+            p1.moveUp = true;
+        }
+        if (p.key === 's') {
+            p1.moveDown = true;
+        }
+        //p2
+        if (p.keyCode === p.LEFT_ARROW) {
+            p2.moveLeft = true;
+        }
+        if (p.keyCode === p.RIGHT_ARROW) {
+            p2.moveRight = true;
+        }
+        if (p.keyCode === p.UP_ARROW) {
+            p2.moveUp = true;
+        }
+        if (p.keyCode === p.DOWN_ARROW) {
+            p2.moveDown = true;
+        }
+    }
+
+    p.keyReleased = function () {
+        let p1 = players[0];
+        let p2 = players[1];
+        //p1
+        if (p.key === 'a') {
+            p1.moveLeft = false;
+        }
+        if (p.key === 'd') {
+            p1.moveRight = false;
+        }
+        if (p.key === 'w') {
+            p1.moveUp = false;
+        }
+        if (p.key === 's') {
+            p1.moveDown = false;
+        }
+
+        //p2
+        if (p.keyCode === p.LEFT_ARROW) {
+            p2.moveLeft = false;
+        }
+        if (p.keyCode === p.RIGHT_ARROW) {
+            p2.moveRight = false;
+        }
+        if (p.keyCode === p.UP_ARROW) {
+            p2.moveUp = false;
+        }
+        if (p.keyCode === p.DOWN_ARROW) {
+            p2.moveDown = false;
         }
     }
 }

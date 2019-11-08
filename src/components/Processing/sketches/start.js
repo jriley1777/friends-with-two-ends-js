@@ -17,6 +17,7 @@ export default function(p) {
     let talkIndex = new Array(players.length);
     let talkToggle = new Array(players.length);
     let talkTimer = new Array(players.length);
+    let sketchStart;
 
     let verbs = [
         'ooOOoohh',
@@ -40,6 +41,7 @@ export default function(p) {
 
     p.setup = function() {
         p.clear();
+        sketchStart = p.millis();
         w = window.innerWidth;
         h = window.innerHeight / 100 * 94;
         margin = 40;
@@ -61,26 +63,25 @@ export default function(p) {
     };
 
     p.draw = function() {
-        if (p.props && !canvas.parent){
-            canvas.parent(`${p.props.sketchName}-p5_container`);
-        }
         p.background('#dcd');
         // p.background(255);
         p.textFont('Caveat Brush');
-        p.drawPlayers();
-        p.drawMouse();
+        if (p.millis() - sketchStart > 1000) {
+            p.drawPlayers();
+            p.drawMouse();
+            didMouseStop = p.millis() - mouseStopLength > lastMouseMove;
+            if (didMouseStop) {
+                mouse = null;
+            }
+            if (p.millis() > 0 && p.millis() < 5000) {
+                for (let i = 0; i < players.length; i++) {
+                    players[i].dance();
+                }
+            }
+            physics.update();
+        }
         if(ball){
             p.drawBall();
-        }
-        physics.update();
-        didMouseStop = p.millis() - mouseStopLength > lastMouseMove;
-        if(didMouseStop) {
-            mouse = null;
-        }
-        if(p.millis() > 0 && p.millis() < 5000) {
-            for(let i=0;i<players.length;i++){
-                players[i].dance();
-            }
         }
         if (Math.floor(p.millis()) % 3 === 0) {
             p.applyFilmGrain();
@@ -90,8 +91,8 @@ export default function(p) {
     p.applyFilmGrain = function () {
         p.loadPixels();
         p.pixelDensity(0.5);
-        for (let i = 0; i < p.pixels.length; i += Math.floor(p.random(420))) {
-            if (i % 4 === 0) {
+        for (let i = 0; i < p.pixels.length; i += Math.floor(p.random(800))) {
+            if (i % 10 === 0) {
                 let color = p.color(255);
                 p.pixels[i] = color;
                 p.pixels[i + 1] = color;
@@ -104,7 +105,7 @@ export default function(p) {
 
     p.createBall = function () {
         ball = new VerletParticle2D(new geom.Vec2D(w / 2, h-h / 10), 20);
-        ballBehavior = new behaviors.AttractionBehavior(ball, 105, -1);
+        ballBehavior = new behaviors.AttractionBehavior(ball, 105, -0.001);
         physics.addBehavior(ballBehavior);
         physics.addParticle(ball);
     }
@@ -123,7 +124,7 @@ export default function(p) {
 
     p.createPlayers = function() {
         for(let i=0; i<10; i++){
-            players.push(PlayerFactory("", p.random(10,125), physics, p).create(i, h, p.color(p.random(30,200))));
+            players.push(PlayerFactory("", p.random(10,125), physics, p).create(i* w/10, h-h/8, p.color(p.random(30,200))));
         }
     }
 

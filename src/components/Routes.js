@@ -14,7 +14,6 @@ const PageWrapper = styled.div`
     width: 100vw;
     height: auto;
     overflow: hidden;
-    background: black;
 `;
 
 const ComponentWrapper = styled.div.attrs({
@@ -24,21 +23,34 @@ const ComponentWrapper = styled.div.attrs({
     height: 94vh;
     top: 3vh;
     overflow: hidden;
-    border-radius: 15%;
+    border-radius: 12%;
     z-index: -1;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+        background: radial-gradient(rgba(255,255,255,0.2) 70%, black 180%);
+        // box-shadow: inset 0 0 30px 20px black;
+    }
 
     &.page-enter {
         opacity: 0;
+        transform: translate(0, 100%);
     }
     &.page-enter-active {
         opacity: 1;
+        transform: translate(0, 0);
+        transition: opacity 1000ms;
     }
     &.page-exit {
         opacity: 1;
+        transform: translate(0, 0);
     }
     &.page-exit-active {
         opacity: 0;
-        transition: opacity 500ms;
+        transform: translate(0, -100%);
+        transition: opacity 1000ms;
     }
 `;
 
@@ -56,7 +68,7 @@ const Routes = () => {
                     <PageWrapper>
                         <CSSTransition
                         in={match != null}
-                        timeout={500}
+                        timeout={1000}
                         classNames='page'
                         unmountOnExit
                         >

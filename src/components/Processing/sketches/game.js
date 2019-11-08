@@ -3,7 +3,6 @@ import VerletParticle2D from 'toxiclibsjs/physics2d/VerletParticle2D';
 import * as behaviors from 'toxiclibsjs/physics2d/behaviors';
 import * as geom from 'toxiclibsjs/geom';
 import PlayerFactory from './PlayerFactory';
-import gMusic from `${process.env.PUBLIC_URL}/creo.mp3`;
 
 
 export default function(p) {
@@ -17,8 +16,10 @@ export default function(p) {
     let p1AddParticles, p1RemoveParticles, p2AddParticles, p2RemoveParticles;
     let scoreToggle, scoreLeft, scoreRight;
     let gameMusic;
+    let sketchStart;
 
     p.setup = function() {
+        sketchStart = p.millis();
         w = window.innerWidth;
         h = window.innerHeight / 100 * 94;
         margin = 40;
@@ -39,8 +40,8 @@ export default function(p) {
 
         p.createBall();
         p.createPlayers();
-        p.createCenterGrav();
-        gameMusic = p.loadSound(gMusic, gMusicOnLoad);
+        p.createCenterGrav(); 
+        gameMusic = p.loadSound('https://firebasestorage.googleapis.com/v0/b/friends-with-two-ends.appspot.com/o/creo.mp3?alt=media&token=c574eba1-82fc-425e-abeb-011570593916', gMusicOnLoad);
     };
 
     function gMusicOnLoad() {
@@ -53,22 +54,25 @@ export default function(p) {
         p.background(255);
         p.textFont('Caveat Brush');
         p.drawCourt();
-        p.drawPlayers();
-        p.growPlayers();
-        p.drawBall();
-        p.drawScoreBoard();
-        physics.update();
-        if (scoreLeft >= (w - 2 * margin) || scoreRight >= (w - 2 * margin)) {
-            scoreToggle = 3;
-            p.gameOver();
-        }
-        if (scoreToggle < 3) {
-            if (ball.x < (w / 2) && scoreToggle !== 1) {
-                scoreToggle = 1;
-            } else if (ball.x > (w / 2) && scoreToggle !== 2) {
-                scoreToggle = 2;
+        if (p.millis() - sketchStart > 1000) {
+            p.drawPlayers();
+            p.growPlayers();
+            physics.update();
+            if (scoreLeft >= (w - 2 * margin) || scoreRight >= (w - 2 * margin)) {
+                scoreToggle = 3;
+                p.gameOver();
+            }
+            if (scoreToggle < 3) {
+                if (ball.x < (w / 2) && scoreToggle !== 1) {
+                    scoreToggle = 1;
+                } else if (ball.x > (w / 2) && scoreToggle !== 2) {
+                    scoreToggle = 2;
+                }
             }
         }
+        p.updatePlayerNames();
+        p.drawBall();
+        p.drawScoreBoard();
 
         if(Math.floor(p.millis()) % 3 === 0) {
             p.applyFilmGrain();
@@ -77,14 +81,14 @@ export default function(p) {
 
     p.applyFilmGrain = function() {
         p.loadPixels();
-        let d = p.pixelDensity(0.4);
-        for (let i = 0; i < p.pixels.length; i+=Math.floor(p.random(420))) {
-            if(i%4===0) {
-                let color = p.color(255);
+        p.pixelDensity(0.5);
+        for (let i = 0; i < p.pixels.length; i+=Math.floor(p.random(800))) {
+            if(i%10===0) {
+                let color = p.color(Math.floor(p.random(0, 255)));
                 p.pixels[i] = color;
                 p.pixels[i + 1] = color;
                 p.pixels[i + 2] = color;
-                p.pixels[i + 3] = p.random(100,200);
+                p.pixels[i + 3] = Math.floor(p.random(0,255));
             }
         }
         p.updatePixels();
@@ -120,12 +124,12 @@ export default function(p) {
         p.strokeWeight(2);
         p.fill(0);
         if (scoreLeft >= (w - 2 * margin)) {
-            // p1.Col = p.color(p.random(255), p.random(255), p.random(255));
+            p1.Col = p.color(p.random(255), p.random(255), p.random(255));
             p.textAlign(p.CENTER);
             p.fill(0);
             p.text(`${p1.name} Wins!`, w / 2, h / 2);
         } else if (scoreRight >= (w - 2 * margin)) {
-            // p2.Col = p.color(p.random(255), p.random(255), p.random(255));
+            p2.Col = p.color(p.random(255), p.random(255), p.random(255));
             p.textAlign(p.CENTER);
             p.fill(0);
             p.text(`${p2.name} Wins!`, w / 2, h / 2);
@@ -178,7 +182,6 @@ export default function(p) {
 
     p.drawPlayers = function() {
         p.textSize(36);
-        p.updatePlayerNames();
         p1.display();
         p2.display();
     }
@@ -211,7 +214,7 @@ export default function(p) {
     p.drawCourt = function() {
         teamLeft.setAlpha(50);
         teamRight.setAlpha(50);
-        p.fill('#dcd');
+        p.fill('rgba(221, 204, 221, 0.75)');
         p.noStroke();
         p.rect(0, 0, w, h);
         p.strokeWeight(1);
