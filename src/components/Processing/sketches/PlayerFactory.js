@@ -3,13 +3,18 @@ import AttractionBehavior2D from 'toxiclibsjs/physics2d/behaviors/AttractionBeha
 import VerletSpring2D from 'toxiclibsjs/physics2d/VerletSpring2D';
 import * as geom from 'toxiclibsjs/geom';
 
-const PlayerFactory = (name, strokeWeight=80, physics, p) => {
+const defaultAtributes = {
+    numParticles: 60,
+    strokeWeight: 50
+}
+
+const PlayerFactory = (name, attr=defaultAtributes, physics, p) => {
     const player = {}
     player.particleArray = [];
     player.numArrays = 5;
     player.name = name;
     player.hasUpdatedName = false;
-    player.numParticles = 60; //p.floor(p.random(100));
+    player.numParticles = attr.numParticles || 60; //p.floor(p.random(100));
     player.minParticles = 20;
     player.maxParticles = 200;
     player.len = 1;
@@ -39,40 +44,57 @@ const PlayerFactory = (name, strokeWeight=80, physics, p) => {
         player.hasCreated = true;
         return player;
     }
-    player.appendParticle = () => {
-        if ( player.numParticles < player.maxParticles ) {
-            player.numParticles += 1;
-            let lastParticle = player.particles[player.particles.length - 1];
-            let particle = new VerletParticle2D(new geom.Vec2D(lastParticle.x, lastParticle.y), 20);
-            player.particles.push(particle);
-            physics.addParticle(particle);
-            let particleBehavior = new AttractionBehavior2D(particle, 60, -0.2);
-            player.particleBehaviors.push(particleBehavior)
-            physics.addBehavior(particleBehavior);
-            let spring = new VerletSpring2D(particle, lastParticle, player.len, player.strength);
-            physics.addSpring(spring);
-            player.springs.push(spring);
+    player.setNumParticles = (num=player.numParticles) => {
+        let numPart = num - player.numParticles;
+        if(numPart > 0) {
+            player.appendParticle(numPart);
+        } else {
+            player.removeParticle(Math.abs(numPart));
         }
     }
-    player.removeParticle = () => {
-        if ( player.numParticles > player.minParticles ) {
-            player.numParticles -= 1;
-            let lastParticle = player.particles[player.particles.length - 1];
-            let lastParticleBehavior = player.particleBehaviors[player.particleBehaviors.length - 1];
-            let lastSpring = player.springs[player.springs.length - 1];
-            physics.removeParticle(lastParticle);
-            physics.removeSpring(lastSpring);
-            physics.removeBehavior(lastParticleBehavior)
-            player.particles.pop();
-            player.particleBehaviors.pop();
-            player.springs.pop();
+    player.appendParticle = (num=1) => {
+        for (let i = 0; i < num; i++) {
+            if ( player.numParticles < player.maxParticles ) {
+                player.numParticles += 1;
+                let lastParticle = player.particles[player.particles.length - 1];
+                let particle = new VerletParticle2D(new geom.Vec2D(lastParticle.x, lastParticle.y), 20);
+                player.particles.push(particle);
+                physics.addParticle(particle);
+                let particleBehavior = new AttractionBehavior2D(particle, 60, -0.2);
+                player.particleBehaviors.push(particleBehavior)
+                physics.addBehavior(particleBehavior);
+                let spring = new VerletSpring2D(particle, lastParticle, player.len, player.strength);
+                physics.addSpring(spring);
+                player.springs.push(spring);
+            }
+        }
+    }
+    player.removeParticle = (num=1) => {
+        for(let i=0;i<num;i++){
+            if (player.numParticles > player.minParticles) {
+                player.numParticles -= 1;
+                let lastParticle = player.particles[player.particles.length - 1];
+                let lastParticleBehavior = player.particleBehaviors[player.particleBehaviors.length - 1];
+                let lastSpring = player.springs[player.springs.length - 1];
+                physics.removeParticle(lastParticle);
+                physics.removeSpring(lastSpring);
+                physics.removeBehavior(lastParticleBehavior)
+                player.particles.pop();
+                player.particleBehaviors.pop();
+                player.springs.pop();
+            }
         }
     }
     player.head = player.particles[0];
     player.tail = player.particles[player.numParticles-1];
     player.mid = player.particles[24];
+    player.updateBody = function() {
+        player.head = player.particles[0];
+        player.tail = player.particles[player.numParticles-1];
+        player.mid = player.particles[Math.floor(player.numParticles)];
+    }
     player.endMouth = p.random(p.PI+p.QUARTER_PI);
-    player.strokeWeight = strokeWeight;
+    player.strokeWeight = attr.strokeWeight || 50;
     player.sz = 40;
     player.moveToggle = true;
     player.toggleTime = 0;
@@ -116,17 +138,18 @@ const PlayerFactory = (name, strokeWeight=80, physics, p) => {
     }
     player.shouldDrawTrail = false;
     player.drawTrail = function() {
+        let trailStrokeWeight = player.strokeWeight/2;
         player.particleArray.map((x, i) => {
             p.noFill();
             p.stroke(p.color(p.random(255), p.random(255), p.random(255), 1/(player.numArrays-(i+1)) * 255));
-            p.strokeWeight(30);
+            p.strokeWeight(trailStrokeWeight);
             p.beginShape();
             x.map(particle => {
                 p.curveVertex(particle.x, particle.y);
                 return null;
             })
             p.endShape();
-            p.strokeWeight(50);
+            // p.strokeWeight(50);
         })
     }
     player.eyeSize = 15;

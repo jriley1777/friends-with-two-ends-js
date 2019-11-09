@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const StartButton = styled(Link)`
     width: 55vw;
     height: 5rem;
-    font-size: 4rem;
+    font-size: 3rem;
     cursor: pointer;
     padding: 5px;
     border-radius: 10px;

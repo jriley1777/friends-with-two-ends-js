@@ -127,10 +127,10 @@ export default function (p) {
     p.createPlayers = function () {
         players.push(PlayerFactory("", p.random(125), physics, p).create(200, h / 2, p.color('#fff')));
         players.push(PlayerFactory("", p.random(125), physics, p).create(w - 200, h / 2, p.color('#000')));
-        players[0].moveSpeed = 30;
-        players[1].moveSpeed = 30;
-        players[0].shouldDrawTrail = true;
-        players[1].shouldDrawTrail = true;
+        players.map(x => {
+            x.moveSpeed = 30;
+            x.shouldDrawTTrail = true;
+        })
     }
 
     p.updatePlayerNames = function () {
@@ -139,8 +139,10 @@ export default function (p) {
             let p2 = p.props.players.find(x => x.playerId === 2);
             players[0].name = p1.attr.name;
             players[1].name = p2.attr.name;
-            players[0].strokeWeight = p1.attr.size;
-            players[1].strokeWeight = p2.attr.size;
+            players[0].strokeWeight = p1.attr.big;
+            players[1].strokeWeight = p2.attr.big;
+            players[0].setNumParticles(p1.attr.tall);
+            players[1].setNumParticles(p2.attr.tall);
         }
     }
 

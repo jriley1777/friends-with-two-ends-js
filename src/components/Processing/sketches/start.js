@@ -142,7 +142,11 @@ export default function(p) {
 
     p.createPlayers = function() {
         for(let i=0; i<10; i++){
-            players.push(PlayerFactory("", p.random(10,125), physics, p).create(i* w/10, h-h/8, p.color(p.random(30,200))));
+            let attr = {
+                strokeWeight: p.random(10, 125),
+                numParticles: Math.floor(p.random(40, 60))
+            }
+            players.push(PlayerFactory("", attr, physics, p).create(i* w/10, h-h/8, p.color(p.random(30,200))));
         }
     }
 

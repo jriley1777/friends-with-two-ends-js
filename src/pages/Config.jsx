@@ -17,7 +17,7 @@ const StyledPage = styled.div`
     position: absolute;
     top: 0;
     width: 100%;
-    height: 100vh;
+    height: 94vh;
     overflow: hidden;
     z-index: 2;
     > * {
@@ -33,6 +33,25 @@ const StyledPage = styled.div`
         width: 100%;
         height: 100vh;
         background: rgba(255,255,255,0.2);
+    }
+`;
+
+const StyledHeader = styled.div`
+    display: flex;
+    position: absolute;
+    bottom: 1.5rem;
+    height: 60px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-family: Caveat Brush;
+    -webkit-text-stroke: 0.5px white;
+    > * {
+        width: 33%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 `;
 
@@ -52,6 +71,11 @@ const Config = () => {
                 <Title />
                 <Instructions />
                 <PlayerSelect />
+                <StyledHeader>
+                    <div>P1: WASD keys</div>
+                    <div>Keep the ball on your side</div>
+                    <div>P2: Arrow Keys</div>
+                </StyledHeader>
             </StyledPage>
         </>
     )

@@ -192,13 +192,15 @@ export default function(p) {
             if (!p1.hasUpdatedName) {
                 let p1Props = p.props.players.find(x => x.playerId === 1).attr;
                 p1.name = p1Props.name;
-                p1.strokeWeight = p1Props.size;
+                p1.strokeWeight = p1Props.big;
+                p1.setNumParticles(p1Props.tall);
                 p1.hasUpdatedName = true;
             }
             if (!p2.hasUpdatedName) {
                 let p2Props = p.props.players.find(x => x.playerId === 2).attr;
                 p2.name = p2Props.name;
-                p2.strokeWeight = p2Props.size;
+                p2.strokeWeight = p2Props.big;
+                p2.setNumParticles(p2Props.tall);
                 p2.hasUpdatedName = true;
             }
         }

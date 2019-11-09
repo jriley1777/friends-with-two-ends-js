@@ -14,14 +14,16 @@ const Context = React.createContext({
                 playerId: 1,
                 attr: {
                     name: 'P1',
-                    size: 50
+                    big: 50,
+                    tall: 60
                 }
             },
             {
                 playerId: 2,
                 attr: {
                     name: 'P2',
-                    size: 50
+                    big: 50,
+                    tall: 60
                 }
             }
         ]

@@ -10,7 +10,7 @@ import { ROUTES } from '../../constants/index';
 const SelectButton = styled(Link)`
     flex-grow: 1;
     min-width: 20vw;
-    font-size: 4rem;
+    font-size: 3rem;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -59,9 +59,19 @@ const RowWrapper = styled.div`
     > * {
         margin: auto 40px;
         border: 1px solid grey;
-        padding: 10px;
+        padding: 0 10px 10px 10px;
         border-radius: 5px;
-        width: 45%;
+        width: 15vw;
+    }
+`;
+
+const StyledInput = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 5px auto;
+    > * {
+        border: 1px solid #2c2c2c;
     }
 `;
 
@@ -97,7 +107,7 @@ const PlayerSelect = props => {
                                 background: 'rgba(255, 255,255, 0.5)'
                             }}>
                             <h4>{state.app.players.find(x => x.playerId === 1).attr.name}</h4>
-                            <div>Name:&nbsp;&nbsp;
+                            <StyledInput>Name:&nbsp;&nbsp;
                                 <input
                                     onChange={handleAttrChange}
                                     name="name"
@@ -105,33 +115,36 @@ const PlayerSelect = props => {
                                     data-player={1}
                                     value={state.app.players.find(x => x.playerId === 1).attr.name}
                                 />
-                            </div>
-                            <div>Size:&nbsp;&nbsp;
+                            </StyledInput>
+                            <StyledInput>Big:&nbsp;&nbsp;
                                 <input
                                     onChange={handleAttrChange}
-                                    name="size"
+                                    name="big"
                                     type="range"
                                     min={20}
-                                    max={100}
+                                    max={160}
                                     data-player={1}
-                                    value={state.app.players.find(x => x.playerId === 1).attr.size || 50}
+                                    value={state.app.players.find(x => x.playerId === 1).attr.big || 50}
                                 />
-                            </div>
-                            {/* <div>Color:&nbsp;&nbsp;
+                            </StyledInput>
+                            <StyledInput>Tall:&nbsp;&nbsp;
                                 <input
-                                    onChange={handleColorChange}
+                                    onChange={handleAttrChange}
+                                    name="tall"
                                     type="range"
+                                    min={40}
+                                    max={80}
                                     data-player={1}
-                                    value={state.app.players.find(x => x.playerId === 1).color}
+                                    value={state.app.players.find(x => x.playerId === 1).attr.tall || 60}
                                 />
-                            </div> */}
+                            </StyledInput>
                         </div>
                         <div
                             style={{ 
                                 background: 'rgba(0,0,0, 0.5)'
                             }}>
                             <h4>{state.app.players.find(x => x.playerId === 2).attr.name}</h4>
-                            <div>Name:&nbsp;&nbsp;
+                            <StyledInput>Name:&nbsp;&nbsp;
                                 <input
                                     onChange={handleAttrChange}
                                     name="name"
@@ -139,18 +152,29 @@ const PlayerSelect = props => {
                                     data-player={2}
                                     value={state.app.players.find(x => x.playerId === 2).attr.name}
                                 />
-                            </div>
-                            <div>Size:&nbsp;&nbsp;
+                            </StyledInput>
+                            <StyledInput>Big:&nbsp;&nbsp;
                                 <input
                                     onChange={handleAttrChange}
-                                    name="size"
+                                    name="big"
                                     type="range"
                                     min={20}
-                                    max={100}
+                                    max={160}
                                     data-player={2}
-                                    value={state.app.players.find(x => x.playerId === 2).attr.size || 50}
+                                    value={state.app.players.find(x => x.playerId === 2).attr.big || 50}
                                 />
-                            </div>
+                            </StyledInput>
+                            <StyledInput>Tall:&nbsp;&nbsp;
+                                <input
+                                    onChange={handleAttrChange}
+                                    name="tall"
+                                    type="range"
+                                    min={40}
+                                    max={80}
+                                    data-player={2}
+                                    value={state.app.players.find(x => x.playerId === 2).attr.tall || 50}
+                                />
+                            </StyledInput>
                         </div>
                     </RowWrapper>
                     <SelectButton to={ROUTES.PLAY}>Start</SelectButton>
