@@ -6,10 +6,9 @@ import PlayerFactory from './PlayerFactory';
 
 export default function(p) {
     let w, h, margin;
-    let canvas;
     let physics = new VerletPhysics2D();
     let players = [];
-    let ball, ballBehavior;
+    let ball, ballBehavior, ballResetTime;
     let mouse, mouseBehavior;
     let didMouseStop;
     let mouseStopLength = 1000;
@@ -18,6 +17,7 @@ export default function(p) {
     let talkToggle = new Array(players.length);
     let talkTimer = new Array(players.length);
     let sketchStart;
+    let music;
 
     let verbs = [
         'ooOOoohh',
@@ -37,16 +37,21 @@ export default function(p) {
         'hey who touched my butt?',
         'stranger danger',
         'hugs!'
-    ]
+    ];
+
+    p.preload = function() {
+        music = p.loadSound('https://firebasestorage.googleapis.com/v0/b/friends-with-two-ends.appspot.com/o/red-rose-rag.mp3?alt=media&token=42c6af8f-bcf9-490a-bb02-9be5b31e00ea')
+    }
 
     p.setup = function() {
         p.clear();
         sketchStart = p.millis();
+        ballResetTime = p.millis();
         w = window.innerWidth;
         h = window.innerHeight / 100 * 94;
         margin = 40;
 
-        canvas = p.createCanvas(w, h);
+        p.createCanvas(w, h);
         p.frameRate(120);
         p.background(255);
 
@@ -60,20 +65,21 @@ export default function(p) {
             talkToggle[i] = false;
             talkTimer[i] = 0;
         }
+        music.play();
     };
 
     p.draw = function() {
         p.background('#dcd');
         // p.background(255);
         p.textFont('Caveat Brush');
-        if (p.millis() - sketchStart > 1000) {
+        if (p.millis() - sketchStart > 4000) {
             p.drawPlayers();
             p.drawMouse();
             didMouseStop = p.millis() - mouseStopLength > lastMouseMove;
             if (didMouseStop) {
                 mouse = null;
             }
-            if (p.millis() > 0 && p.millis() < 5000) {
+            if (p.millis() > 0 && p.millis() < 12000) {
                 for (let i = 0; i < players.length; i++) {
                     players[i].dance();
                 }
@@ -86,6 +92,7 @@ export default function(p) {
         if (Math.floor(p.millis()) % 3 === 0) {
             p.applyFilmGrain();
         }
+        p.resetBall();
     };
 
     p.applyFilmGrain = function () {
@@ -103,8 +110,22 @@ export default function(p) {
         p.updatePixels();
     }
 
-    p.createBall = function () {
-        ball = new VerletParticle2D(new geom.Vec2D(w / 2, h-h / 10), 20);
+    p.resetBall = function() {
+        if(p.millis() - ballResetTime > 10000) {
+            console.log('resetting')
+            ballResetTime = p.millis();
+            p.removeBall();
+            p.createBall(p.random(w), p.random(h))
+        }
+    }
+
+    p.removeBall = function() {
+        physics.removeParticle(ball);
+        physics.removeBehavior(ballBehavior);
+    }
+
+    p.createBall = function (x = w/2, y = (h-h/10)) {
+        ball = new VerletParticle2D(new geom.Vec2D(x, y), 20);
         ballBehavior = new behaviors.AttractionBehavior(ball, 105, -0.001);
         physics.addBehavior(ballBehavior);
         physics.addParticle(ball);
@@ -118,10 +139,6 @@ export default function(p) {
         p.ellipse(ball.x, ball.y, 100, 100);
     }
 
-    p.windowResized = function () {
-        p.resizeCanvas(window.innerWidth, canvas.offsetHeight);
-    }
-
     p.createPlayers = function() {
         for(let i=0; i<10; i++){
             players.push(PlayerFactory("", p.random(10,125), physics, p).create(i* w/10, h-h/8, p.color(p.random(30,200))));
@@ -129,8 +146,7 @@ export default function(p) {
     }
 
     p.mouseClicked = function() {
-        physics.removeParticle(ball);
-        physics.removeBehavior(ballBehavior);
+        p.removeBall();
         p.createBall();
     }
 

@@ -6,7 +6,6 @@ import PlayerFactory from './PlayerFactory';
 
 export default function (p) {
     let w, h, margin;
-    let canvas;
     let physics = new VerletPhysics2D();
     let players;
     let mouse;
@@ -15,11 +14,17 @@ export default function (p) {
     let scoreToggle, scoreLeft, scoreRight;
     let ball, ballBehavior;
     let sketchStart;
+    let music;
+    let musicFile = 'https://firebasestorage.googleapis.com/v0/b/friends-with-two-ends.appspot.com/o/matrimony.mp3?alt=media&token=6c50f70b-51bc-4bc8-8f08-955ba1896e2e';
 
     let friends = ['Joey','Chandler','Ross','Phoebe','Rachel','Monica'];
     const getFriend = friends => {
         let i = Math.floor(Math.random() * friends.length);
         return friends[i];
+    }
+
+    p.preload = function() {
+        music = p.loadSound(musicFile);
     }
 
     let verbs = [
@@ -48,7 +53,7 @@ export default function (p) {
         talkToggle = new Array(players.length);
         talkTimer = new Array(players.length);
 
-        canvas = p.createCanvas(w, h);
+        p.createCanvas(w, h);
         p.frameRate(120);
         p.background(255);
         teamLeft = p.color('#fff');
@@ -66,6 +71,7 @@ export default function (p) {
             talkToggle[i] = false;
             talkTimer[i] = 0;
         }
+        music.play();
     };
 
     p.draw = function () {

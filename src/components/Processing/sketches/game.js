@@ -18,6 +18,10 @@ export default function(p) {
     let gameMusic;
     let sketchStart;
 
+    p.preload = function() {
+        gameMusic = p.loadSound('https://firebasestorage.googleapis.com/v0/b/friends-with-two-ends.appspot.com/o/dill-pickles.mp3?alt=media&token=877cba84-5394-46ab-95a7-6b50273201a3');
+    }
+
     p.setup = function() {
         sketchStart = p.millis();
         w = window.innerWidth;
@@ -41,14 +45,8 @@ export default function(p) {
         p.createBall();
         p.createPlayers();
         p.createCenterGrav(); 
-        gameMusic = p.loadSound('https://firebasestorage.googleapis.com/v0/b/friends-with-two-ends.appspot.com/o/creo.mp3?alt=media&token=c574eba1-82fc-425e-abeb-011570593916', gMusicOnLoad);
+        gameMusic.play()
     };
-
-    function gMusicOnLoad() {
-        if(gameMusic.isLoaded() && !gameMusic.isPlaying()) {
-            gameMusic.play()
-        }
-    }
 
     p.draw = function() {
         p.background(255);
