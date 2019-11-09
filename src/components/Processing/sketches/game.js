@@ -55,7 +55,10 @@ export default function(p) {
         p.textFont('Caveat Brush');
         p.drawCourt();
         let timer = p.millis() - sketchStart;
-        p.textSize(160);
+        p.textSize(100);
+        p.stroke(255);
+        p.strokeWeight(2);
+        p.fill(10)
         if (timer< 2000) {
             p.text('Ready?', w/2, h/2)
         }
