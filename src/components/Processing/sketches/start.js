@@ -84,11 +84,12 @@ export default function(p) {
                 for (let i = 0; i < players.length; i++) {
                     players[i].dance();
                 }
+            } else {
+                if (ball) {
+                    p.drawBall();
+                }
             }
             physics.update();
-        }
-        if(ball){
-            p.drawBall();
         }
         if (Math.floor(p.millis()) % 3 === 0) {
             p.applyFilmGrain();
@@ -113,7 +114,6 @@ export default function(p) {
 
     p.resetBall = function() {
         if(p.millis() - ballResetTime > 10000) {
-            console.log('resetting')
             ballResetTime = p.millis();
             p.removeBall();
             p.createBall(p.random(w), p.random(h))
@@ -133,7 +133,7 @@ export default function(p) {
     }
 
     p.drawBall = function () {
-        let Color = p.color('rgb(255, 0,0)');
+        let Color = p.color('rgb(255, 0, 0)');
         p.stroke('#000');
         p.fill(Color);
         p.strokeWeight(1);
