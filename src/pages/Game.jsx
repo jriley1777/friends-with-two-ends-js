@@ -34,7 +34,9 @@ const Game = props => {
                 sketch={game}
                 p5Props={{ 
                     players,
-                    sketchName: 'game'
+                    sketchName: 'game',
+                    gameOver: false,
+                    shouldReset: false
                 }}
                 />
             <StyledHeader>

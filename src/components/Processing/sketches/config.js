@@ -3,6 +3,7 @@ import VerletParticle2D from 'toxiclibsjs/physics2d/VerletParticle2D';
 import * as behaviors from 'toxiclibsjs/physics2d/behaviors';
 import * as geom from 'toxiclibsjs/geom';
 import PlayerFactory from './PlayerFactory';
+import { music } from '../../../utils/music';
 
 export default function (p) {
     let w, h, margin;
@@ -14,8 +15,8 @@ export default function (p) {
     let scoreToggle, scoreLeft, scoreRight;
     let ball, ballBehavior;
     let sketchStart;
-    let music;
-    let musicFile = 'https://firebasestorage.googleapis.com/v0/b/friends-with-two-ends.appspot.com/o/matrimony.mp3?alt=media&token=6c50f70b-51bc-4bc8-8f08-955ba1896e2e';
+    let pMusic;
+    let musicFile = music.config;
 
     let friends = ['Joey','Chandler','Ross','Phoebe','Rachel','Monica'];
     const getFriend = friends => {
@@ -23,8 +24,8 @@ export default function (p) {
         return friends[i];
     }
 
-    p.preload = function() {
-        music = p.loadSound(musicFile);
+    p.playMusic = function() {
+        pMusic.play();
     }
 
     let verbs = [
@@ -42,7 +43,7 @@ export default function (p) {
     ]
 
     p.setup = function () {
-        p.clear();
+        pMusic = p.loadSound(musicFile, p.playMusic);
         sketchStart = p.millis();
         w = window.innerWidth;
         h = window.innerHeight/100 * 94;
@@ -71,7 +72,6 @@ export default function (p) {
             talkToggle[i] = false;
             talkTimer[i] = 0;
         }
-        music.play();
     };
 
     p.draw = function () {

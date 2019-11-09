@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import p5 from 'p5';
 import 'p5/lib/addons/p5.sound';
+import 'p5/lib/addons/p5.dom';
 import styled from 'styled-components';
 
 const Overlay = styled.div`

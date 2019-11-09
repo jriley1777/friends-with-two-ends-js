@@ -3,6 +3,7 @@ import VerletParticle2D from 'toxiclibsjs/physics2d/VerletParticle2D';
 import * as behaviors from 'toxiclibsjs/physics2d/behaviors';
 import * as geom from 'toxiclibsjs/geom';
 import PlayerFactory from './PlayerFactory';
+import { music } from '../../../utils/music';
 
 
 export default function(p) {
@@ -15,14 +16,16 @@ export default function(p) {
     let p1, p2;
     let p1AddParticles, p1RemoveParticles, p2AddParticles, p2RemoveParticles;
     let scoreToggle, scoreLeft, scoreRight;
-    let gameMusic;
+    let pMusic;
     let sketchStart;
+    let resetButton;
 
-    p.preload = function() {
-        gameMusic = p.loadSound('https://firebasestorage.googleapis.com/v0/b/friends-with-two-ends.appspot.com/o/dill-pickles.mp3?alt=media&token=877cba84-5394-46ab-95a7-6b50273201a3');
+    p.playMusic = function () {
+        pMusic.play();
     }
 
     p.setup = function() {
+        pMusic = p.loadSound(music.game, p.playMusic);
         sketchStart = p.millis();
         w = window.innerWidth;
         h = window.innerHeight / 100 * 94;
@@ -35,7 +38,7 @@ export default function(p) {
         scoreRight = 0;
 
         canvas = p.createCanvas(w, h);
-        p.frameRate(120);
+        p.frameRate(60);
 
         physics = new VerletPhysics2D();
         physics.setWorldBounds(new geom.Rect(margin, margin, w-margin*2, h-margin*2));
@@ -45,16 +48,27 @@ export default function(p) {
         p.createBall();
         p.createPlayers();
         p.createCenterGrav(); 
-        gameMusic.play()
     };
 
     p.draw = function() {
         p.background(255);
         p.textFont('Caveat Brush');
         p.drawCourt();
-        if (p.millis() - sketchStart > 1000) {
+        let timer = p.millis() - sketchStart;
+        p.textSize(160);
+        if (timer< 2000) {
+            p.text('Ready?', w/2, h/2)
+        }
+        if (timer > 2000 && timer < 3000) {
+            p.text('Set', w/2, h/2)
+        }
+        if (timer > 3000 && timer < 4000) {
+            p.text('Go', w / 2, h / 2)
+        }
+        if (p.millis() - sketchStart > 4000) {
             p.drawPlayers();
             p.growPlayers();
+            p.drawBall();
             physics.update();
             if (scoreLeft >= (w - 2 * margin) || scoreRight >= (w - 2 * margin)) {
                 scoreToggle = 3;
@@ -69,7 +83,6 @@ export default function(p) {
             }
         }
         p.updatePlayerNames();
-        p.drawBall();
         p.drawScoreBoard();
 
         if(Math.floor(p.millis()) % 3 === 0) {
@@ -134,7 +147,17 @@ export default function(p) {
         }
         p1.dance();
         p2.dance();
+        if(!p.props.gameOver) {
+            p.props.gameOver = true;
+        }
     };
+
+    p.handleGameReset = function() {
+        if(p.props.shouldReset = true) {
+            p.removeElements();
+            p.reset();
+        }
+    }
 
     p.createCenterGrav = function() {
         let weight = 500000;
@@ -186,6 +209,8 @@ export default function(p) {
 
     p.reset = function() {
         p.setup();
+        p.props.shouldReset = false;
+        p.props.gameOver = false;
     }
 
     p.drawScoreBoard = function(){

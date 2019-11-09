@@ -3,6 +3,7 @@ import VerletParticle2D from 'toxiclibsjs/physics2d/VerletParticle2D';
 import * as behaviors from 'toxiclibsjs/physics2d/behaviors';
 import * as geom from 'toxiclibsjs/geom';
 import PlayerFactory from './PlayerFactory';
+import { music } from '../../../utils/music';
 
 export default function(p) {
     let w, h, margin;
@@ -17,7 +18,7 @@ export default function(p) {
     let talkToggle = new Array(players.length);
     let talkTimer = new Array(players.length);
     let sketchStart;
-    let music;
+    let pMusic;
 
     let verbs = [
         'ooOOoohh',
@@ -40,7 +41,7 @@ export default function(p) {
     ];
 
     p.preload = function() {
-        music = p.loadSound('https://firebasestorage.googleapis.com/v0/b/friends-with-two-ends.appspot.com/o/red-rose-rag.mp3?alt=media&token=42c6af8f-bcf9-490a-bb02-9be5b31e00ea')
+        pMusic = p.loadSound(music.start)
     }
 
     p.setup = function() {
@@ -65,7 +66,7 @@ export default function(p) {
             talkToggle[i] = false;
             talkTimer[i] = 0;
         }
-        music.play();
+        pMusic.play();
     };
 
     p.draw = function() {
