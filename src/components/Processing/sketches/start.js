@@ -45,21 +45,15 @@ export default function(p) {
         talkInterface = new TalkInterface(p);
         talkInterface.setVocabulary(VOCABULARY_TYPES.GENERAL);
         talkInterface.setGroupSize(players.length);
+        showPlayersTime = 2000;
     };
 
     p.playMusic = function() {
-        if (!pMusic.isPlaying()) {
-            pMusic.play();
-        }
+        pMusic.play();
     }
 
     p.draw = function() {
         p.background('#dcd');
-        if (p.props && p.props.fetchMusic) {
-            showPlayersTime = 2000
-        } else {
-            showPlayersTime = 1000
-        }
         
         // p.background(255);
         p.textFont('Caveat Brush');
