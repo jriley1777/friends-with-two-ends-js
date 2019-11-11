@@ -78,6 +78,16 @@ const StyledInput = styled.div`
 const PlayerSelect = props => {
     const { state, dispatch } = useContext(Context);
     const { username } = state.auth;
+    const filters = {
+        big: {
+            min: 20,
+            max: 100,
+        },
+        tall: {
+            min: 20,
+            max: 100
+        }
+    }
     const handleAttrChange = e => {
         let target = e.target;
         dispatch(changePlayerAttribute({
@@ -121,10 +131,10 @@ const PlayerSelect = props => {
                                     onChange={handleAttrChange}
                                     name="big"
                                     type="range"
-                                    min={20}
-                                    max={160}
+                                    min={filters.big.min}
+                                    max={filters.big.max}
                                     data-player={1}
-                                    value={state.app.players.find(x => x.playerId === 1).attr.big || 50}
+                                    value={state.app.players.find(x => x.playerId === 1).attr.big}
                                 />
                             </StyledInput>
                             <StyledInput>Tall:&nbsp;&nbsp;
@@ -132,10 +142,10 @@ const PlayerSelect = props => {
                                     onChange={handleAttrChange}
                                     name="tall"
                                     type="range"
-                                    min={40}
-                                    max={80}
+                                    min={filters.tall.min}
+                                    max={filters.tall.max}
                                     data-player={1}
-                                    value={state.app.players.find(x => x.playerId === 1).attr.tall || 60}
+                                    value={state.app.players.find(x => x.playerId === 1).attr.tall}
                                 />
                             </StyledInput>
                         </div>
@@ -158,10 +168,10 @@ const PlayerSelect = props => {
                                     onChange={handleAttrChange}
                                     name="big"
                                     type="range"
-                                    min={20}
-                                    max={160}
+                                    min={filters.big.min}
+                                    max={filters.big.max}
                                     data-player={2}
-                                    value={state.app.players.find(x => x.playerId === 2).attr.big || 50}
+                                    value={state.app.players.find(x => x.playerId === 2).attr.big}
                                 />
                             </StyledInput>
                             <StyledInput>Tall:&nbsp;&nbsp;
@@ -169,10 +179,10 @@ const PlayerSelect = props => {
                                     onChange={handleAttrChange}
                                     name="tall"
                                     type="range"
-                                    min={40}
-                                    max={80}
+                                    min={filters.tall.min}
+                                    max={filters.tall.max}
                                     data-player={2}
-                                    value={state.app.players.find(x => x.playerId === 2).attr.tall || 50}
+                                    value={state.app.players.find(x => x.playerId === 2).attr.tall}
                                 />
                             </StyledInput>
                         </div>

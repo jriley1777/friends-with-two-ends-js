@@ -82,7 +82,7 @@ const TitleCard = styled.div`
 `;
 
 const StartPage = props => {
-    const { dispatch } = useContext(Context);
+    const { state, dispatch } = useContext(Context);
     const loginWithGoogle = (e) => {
         e.preventDefault();
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -115,7 +115,8 @@ const StartPage = props => {
             <Processing
                 sketch={start}
                 p5Props={{
-                    sketchName: 'start'
+                    sketchName: 'start',
+                    fetchMusic: state.app.fetchMusic
                 }} />
             <StyledPage>
                 <TitleCard>

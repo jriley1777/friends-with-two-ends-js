@@ -4,6 +4,8 @@ import * as behaviors from 'toxiclibsjs/physics2d/behaviors';
 import * as geom from 'toxiclibsjs/geom';
 import PlayerFactory from './PlayerFactory';
 import { music } from '../../../utils/music';
+import Effect from './Effect';
+import Ball from './Ball';
 
 
 export default function(p) {
@@ -17,19 +19,20 @@ export default function(p) {
     let p1AddParticles, p1RemoveParticles, p2AddParticles, p2RemoveParticles;
     let scoreToggle, scoreLeft, scoreRight;
     let pMusic;
+    let musicFile = music.game;
     let sketchStart;
     let resetButton;
+    let filmGrain;
 
     p.playMusic = function () {
         pMusic.play();
     }
 
     p.setup = function() {
-        pMusic = p.loadSound(music.game, p.playMusic);
         sketchStart = p.millis();
         w = window.innerWidth;
         h = window.innerHeight / 100 * 94;
-        margin = 40;
+        margin = 60;
 
         teamLeft = p.color('rgb(255,255,255)');
         teamRight = p.color('rgb(0,0,0)');
@@ -45,9 +48,14 @@ export default function(p) {
         physics.addBehavior(new behaviors.GravityBehavior(new geom.Vec2D(0, 0)));
         physics.setDrag(0.15);
 
-        p.createBall();
+        ball = new Ball(w/2, h/2, physics, p)
         p.createPlayers();
-        p.createCenterGrav(); 
+        if (!pMusic) {
+            pMusic = p.loadSound(musicFile, p.playMusic)
+        } else {
+            pMusic.play();
+        }
+        filmGrain = new Effect(p);
     };
 
     p.draw = function() {
@@ -71,7 +79,7 @@ export default function(p) {
         if (p.millis() - sketchStart > 4000) {
             p.drawPlayers();
             p.growPlayers();
-            p.drawBall();
+            ball.display();
             physics.update();
             if (scoreLeft >= (w - 2 * margin) || scoreRight >= (w - 2 * margin)) {
                 scoreToggle = 3;
@@ -89,48 +97,9 @@ export default function(p) {
         p.drawScoreBoard();
 
         if(Math.floor(p.millis()) % 3 === 0) {
-            p.applyFilmGrain();
+            filmGrain.displayFilmGrain();
         }
     };
-
-    p.applyFilmGrain = function() {
-        p.loadPixels();
-        p.pixelDensity(0.5);
-        for (let i = 0; i < p.pixels.length; i+=Math.floor(p.random(800))) {
-            if(i%10===0) {
-                let color = p.color(Math.floor(p.random(0, 255)));
-                p.pixels[i] = color;
-                p.pixels[i + 1] = color;
-                p.pixels[i + 2] = color;
-                p.pixels[i + 3] = Math.floor(p.random(0,255));
-            }
-        }
-        p.updatePixels();
-    }
-
-    p.moveAI = function(player) {
-        // player.moveRight = false;
-        // player.moveLeft = false;
-        // player.moveUp = false;
-        // player.moveDown = false;
-        // if (ball.x > player.head.x && ball.x > player.tail.x) {
-        //     player.moveRight = true;
-        //     // if(ball.y > player.head.y && ball.y < player.tail.y || 
-        //     //     ball.y < player.head.y && ball.y > player.tail.y) {
-        //     //     player.moveRight = true;
-        //     //     player.moveLeft = false;
-        //     // } else {
-        //     //     player.moveRight = false;
-        //     //     player.moveLeft = true;
-        //     // }
-        // }
-    }
-
-    p.createBall = function() {
-        ball = new VerletParticle2D(new geom.Vec2D(w / 2, h / 2), 20);
-        physics.addBehavior(new behaviors.AttractionBehavior(ball, 105, -0.001));
-        physics.addParticle(ball);
-    }
 
     p.gameOver = function() {
         p.textSize(60);
@@ -160,24 +129,6 @@ export default function(p) {
             p.removeElements();
             p.reset();
         }
-    }
-
-    p.createCenterGrav = function() {
-        let weight = 500000;
-        let topLeft = new VerletParticle2D(new geom.Vec2D(-10, -10), weight);
-        let topRight = new VerletParticle2D(new geom.Vec2D(w, 0), weight);
-        let bottomLeft = new VerletParticle2D(new geom.Vec2D(0, h), weight);
-        let bottomRight = new VerletParticle2D(new geom.Vec2D(w, h), weight);
-        let radius = 100;
-        let repulsion = -1;
-        physics.addBehavior(new behaviors.AttractionBehavior(topLeft, radius, repulsion));
-        physics.addParticle(topLeft);
-        physics.addBehavior(new behaviors.AttractionBehavior(topRight, radius, repulsion));
-        physics.addParticle(topRight);
-        physics.addBehavior(new behaviors.AttractionBehavior(bottomLeft, radius, repulsion));
-        physics.addParticle(bottomLeft);
-        physics.addBehavior(new behaviors.AttractionBehavior(bottomRight, radius, repulsion));
-        physics.addParticle(bottomRight);
     }
 
     p.createPlayers = function() {
@@ -227,9 +178,9 @@ export default function(p) {
         p.text("Friends with Two Ends", w / 2, margin);
         p.stroke(0);
         p.fill(teamLeft);
-        p.text(p1.name, w / 6, margin);
+        p.text(p1.name, w / 8, margin);
         p.fill(teamRight);
-        p.text(p2.name, (w * (5 / 6)), margin);
+        p.text(p2.name, w /1.15, margin);
         //scores
         p.textSize(60);
         p.stroke(0);
@@ -237,6 +188,11 @@ export default function(p) {
         p.text(p.round(scoreLeft / (w - 2 * margin) * 100), w/2 - 2 * margin, 3 * margin);
         p.fill(teamRight);
         p.text(p.round(scoreRight / (w - 2 * margin) * 100), w/2 + 2 * margin, 3 * margin);
+        p.textSize(36);
+        p.stroke(255);
+        p.text("Keep the ball on your side", w / 2, h - margin);
+        p.text("WASD Keys", w / 8, h - margin);
+        p.text("Arrow Keys", w / 1.15, h - margin);
     }
 
     p.drawCourt = function() {
@@ -257,14 +213,6 @@ export default function(p) {
         p.fill(255);
         p.stroke(0);
         p.line(w / 2, 0, w / 2, h);
-    }
-
-    p.drawBall = function() {
-        let Color = p.color('rgb(255, 0,0)');
-        p.stroke('#000');
-        p.fill(Color);
-        p.strokeWeight(1);
-        p.ellipse(ball.x, ball.y, 100, 100);
     }
 
     p.scoreCalculator = function() {

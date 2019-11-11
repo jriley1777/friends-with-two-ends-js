@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import Processing from '../components/Processing/Processing';
 import config from '../components/Processing/sketches/config';
-import Title from '../components/Title/Title';
 import PlayerSelect from '../components/PlayerSelect/PlayerSelect';
 import Instructions from '../components/Instructions/Instructions';
 
@@ -36,25 +35,6 @@ const StyledPage = styled.div`
     }
 `;
 
-const StyledHeader = styled.div`
-    display: flex;
-    position: absolute;
-    bottom: 1.5rem;
-    height: 60px;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    font-family: Caveat Brush;
-    -webkit-text-stroke: 0.5px white;
-    > * {
-        width: 33%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-`;
-
 const Config = () => {
     const { state } = useContext(Context);
     const { players } = state.app; 
@@ -64,18 +44,13 @@ const Config = () => {
                 sketch={ config }
                 p5Props={{
                     players,
-                    sketchName: 'config'
+                    sketchName: 'config',
+                    // fetchMusic: state.app.fetchMusic
                 }}
                 />
             <StyledPage>
-                <Title />
                 <Instructions />
                 <PlayerSelect />
-                <StyledHeader>
-                    <div>P1: WASD keys</div>
-                    <div>Keep the ball on your side</div>
-                    <div>P2: Arrow Keys</div>
-                </StyledHeader>
             </StyledPage>
         </>
     )

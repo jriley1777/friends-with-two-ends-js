@@ -14,7 +14,7 @@ const Context = React.createContext({
                 playerId: 1,
                 attr: {
                     name: 'P1',
-                    big: 50,
+                    big: 60,
                     tall: 60
                 }
             },
@@ -22,7 +22,7 @@ const Context = React.createContext({
                 playerId: 2,
                 attr: {
                     name: 'P2',
-                    big: 50,
+                    big: 60,
                     tall: 60
                 }
             }

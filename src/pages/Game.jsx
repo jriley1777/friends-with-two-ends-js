@@ -5,25 +5,22 @@ import Context from '../context';
 import Processing from '../components/Processing/Processing';
 import game from '../components/Processing/sketches/game';
 
-
-const StyledHeader = styled.div`
-    display: flex;
+const StyledPage = styled.div`
     position: absolute;
-    bottom: 1.5rem;
-    height: 60px;
+    top: 0;
     width: 100%;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    font-family: Caveat Brush;
-    -webkit-text-stroke: 0.5px white;
-    > * {
-        width: 33%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    height: 94vh;
+    &::before {
+        content:"";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(255,255,255,0.2);
     }
-`;
+`
 
 const Game = props => {
     const { state } = useContext(Context);
@@ -36,14 +33,11 @@ const Game = props => {
                     players,
                     sketchName: 'game',
                     gameOver: false,
-                    shouldReset: false
+                    shouldReset: false,
+                    fetchMusic: state.app.fetchMusic
                 }}
                 />
-            <StyledHeader>
-                <div>P1: WASD keys</div>
-                <div>Keep the ball on your side</div>
-                <div>P2: Arrow Keys</div>
-            </StyledHeader>
+            <StyledPage />    
         </>
     )
 };

@@ -1,6 +1,6 @@
 const base_storage = 'https://firebasestorage.googleapis.com/v0/b/friends-with-two-ends.appspot.com/o/'
 export const music = {
-    start: `${base_storage}red-rose-rag-64.mp3?alt=media&token=9b1ecaf5-3750-4546-8c79-542748071827`,
-    config: `${base_storage}moonbeams-64.mp3?alt=media&token=01ef8800-cfb7-48ec-b61b-4536a72062da`,
-    game: `${base_storage}dill-pickles-64.mp3?alt=media&token=51f023f2-103a-4342-a593-8862fd3c4d6b`,
+    start: `${base_storage}red-rose-rag-44.mp3?alt=media&token=0d679f0e-6fb6-4c9a-be29-098dee8b2b7c`,
+    config: `${base_storage}moonbeams-44.mp3?alt=media&token=cb922c08-4c0c-43c0-a9a4-a8645bdf0a32`,
+    game: `${base_storage}dill-pickles-44.mp3?alt=media&token=7c098771-146c-4542-aad0-dfd67bc6b506`,
 }
