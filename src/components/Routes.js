@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Start from '../pages/Start';
 import Game from '../pages/Game';
 import Config from '../pages/Config';
+import Introduction from '../pages/Introduction';
 
 import { ROUTES } from '../constants/index';
 import { CSSTransition } from 'react-transition-group';
@@ -60,6 +61,7 @@ const Routes = () => {
         { path: ROUTES.INDEX, name: 'start', Component: Start, exact: true },
         { path: ROUTES.CONFIG, name: 'config', Component: Config, exact: true },
         { path: ROUTES.PLAY, name: 'play', Component: Game, exact: true },
+        { path: ROUTES.INTRODUCTION, name: 'introduction', Component: Introduction, exact: true },
     ];
     return routes.map(({ path, Component }) => {
         return (

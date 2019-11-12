@@ -9,6 +9,7 @@ export const ROUTES = {
     LOGOUT: '/logout',
     PLAY: '/play',
     CONFIG: '/welcome',
+    INTRODUCTION: '/introduction',
     INDEX: '/',
 }
 

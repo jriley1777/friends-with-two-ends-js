@@ -141,9 +141,6 @@ export default function (p) {
     p.keyPressed = function () {
         let p1 = players[0];
         let p2 = players[1];
-        if (p.key === 'R') {
-            p.reset();
-        }
 
         //p1
         if (p.key === 'a') {

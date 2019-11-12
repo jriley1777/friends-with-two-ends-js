@@ -187,7 +187,7 @@ const PlayerSelect = props => {
                             </StyledInput>
                         </div>
                     </RowWrapper>
-                    <SelectButton to={ROUTES.PLAY}>Start</SelectButton>
+                    <SelectButton to={ROUTES.INTRODUCTION}>Start</SelectButton>
                 </ColumnWrapper>
             </>
         )
