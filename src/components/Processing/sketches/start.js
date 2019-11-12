@@ -40,7 +40,7 @@ export default function(p) {
         physics.addBehavior(new behaviors.GravityBehavior(new geom.Vec2D(0, 0)));
         physics.setDrag(0.15);
         p.createPlayers();
-        // pMusic = p.loadSound(musicFile, p.playMusic);
+        pMusic = p.loadSound(musicFile, p.playMusic);
         filmGrain = new Effect(p);
         talkInterface = new TalkInterface(p);
         talkInterface.setVocabulary(VOCABULARY_TYPES.GENERAL);
