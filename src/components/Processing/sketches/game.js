@@ -24,8 +24,8 @@ export default function(p) {
     let resetButton;
     let filmGrain;
 
-    p.playMusic = function () {
-        pMusic.play();
+    p.preload = function() {
+        pMusic = p.loadSound(musicFile);
     }
 
     p.setup = function() {
@@ -50,12 +50,8 @@ export default function(p) {
 
         ball = new Ball(w/2, h/2, physics, p)
         p.createPlayers();
-        if (!pMusic) {
-            pMusic = p.loadSound(musicFile, p.playMusic)
-        } else {
-            pMusic.play();
-        }
         filmGrain = new Effect(p);
+        pMusic.play();
     };
 
     p.draw = function() {
