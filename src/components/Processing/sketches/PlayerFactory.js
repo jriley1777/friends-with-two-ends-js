@@ -98,8 +98,8 @@ const PlayerFactory = (name, attr=defaultAtributes, physics, p) => {
     player.sz = 40;
     player.moveToggle = true;
     player.toggleTime = 0;
-    player.dance = function () {
-        if (p.millis() - 500 > player.toggleTime) {
+    player.dance = function (toggle=500) {
+        if (p.millis() - toggle > player.toggleTime) {
             player.moveToggle = !player.moveToggle;
             player.toggleTime = p.millis();
         }

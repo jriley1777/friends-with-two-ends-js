@@ -11,6 +11,7 @@ export const ROUTES = {
     CONFIG: '/welcome',
     INTRODUCTION: '/introduction',
     INDEX: '/',
+    DANCE_ZONE: '/dance_zone'
 }
 
 export const SKETCHES = {

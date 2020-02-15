@@ -8,11 +8,10 @@ import { withRouter } from 'react-router-dom';
 import * as AppActions from '../actions/application';
 import Title from '../components/Title/Title';
 import Processing from '../components/Processing/Processing';
-import start from '../components/Processing/sketches/start';
+import danceZone from '../components/Processing/sketches/dance-zone';
 import Context from '../context';
 import { ROUTES } from '../constants';
 import StartButtonLink from '../components/StartButtonLink/StartButtonLink';
-import { FaMusic } from 'react-icons/fa';
 
 const RowWrapper = styled.div`
     display: flex;
@@ -82,27 +81,6 @@ const TitleCard = styled.div`
     justify-content: center;
 `;
 
-const Button = styled.button`
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 50%;
-  position: absolute;
-  top: 3%;
-  right: 3%;
-  width: 4rem;
-  height: 4rem;
-  box-shadow: 1px 1px 5px black;
-  z-index: 2000;
-
-  &:hover {
-    background: lightgreen;
-    cursor: pointer;
-  }
-
-  > span {
-    font-size: 3rem;
-  }
-`;
-
 const StartPage = props => {
     const { state, dispatch } = useContext(Context);
     const loginWithGoogle = (e) => {
@@ -129,35 +107,31 @@ const StartPage = props => {
         return state.auth.isLoggedIn ? (
             <StartButtonLink to={ROUTES.CONFIG}>Play</StartButtonLink>
         ) : (
-            <>
-                <StartButtonLink to = {ROUTES.CONFIG} onClick = { loginWithGoogle } > Login with Google</StartButtonLink >
-                <StartButtonLink to={ROUTES.CONFIG}>Play as guest</StartButtonLink>
-            </>
-        )
+                <>
+                    <StartButtonLink to={ROUTES.CONFIG} onClick={loginWithGoogle} > Login with Google</StartButtonLink >
+                    <StartButtonLink to={ROUTES.CONFIG}>Play as guest</StartButtonLink>
+                </>
+            )
     }
     return (
-      <>
-        <Processing
-          sketch={start}
-          p5Props={{
-            sketchName: "start",
-            fetchMusic: state.app.fetchMusic
-          }}
-        />
-        <StyledPage>
-          <TitleCard>
-            <Title />
-            <StyledSubtitle>
-              A competitive possession game amongst friends.
-            </StyledSubtitle>
-          </TitleCard>
-          <RowWrapper>{renderButtons()}</RowWrapper>
-        </StyledPage>
-        <Button onClick={() => props.history.push(ROUTES.DANCE_ZONE)}>
-          <span alt="dancer">💃</span>
-        </Button>
-      </>
-    );
+        <>
+            <Processing
+                sketch={danceZone}
+                p5Props={{
+                    sketchName: 'danceZone',
+                    fetchMusic: state.app.fetchMusic
+                }} />
+            <StyledPage>
+                <TitleCard>
+                    <Title />
+                    <StyledSubtitle>The Dance Zone.</StyledSubtitle>
+                </TitleCard>
+                <RowWrapper>
+                    {renderButtons()}
+                </RowWrapper>
+            </StyledPage>
+        </>
+    )
 };
 
 const mapDispatchToProps = (dispatch) => {

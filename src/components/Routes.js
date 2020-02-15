@@ -6,6 +6,7 @@ import Start from '../pages/Start';
 import Game from '../pages/Game';
 import Config from '../pages/Config';
 import Introduction from '../pages/Introduction';
+import DanceZone from '../pages/DanceZone';
 
 import { ROUTES } from '../constants/index';
 import { CSSTransition } from 'react-transition-group';
@@ -62,6 +63,7 @@ const Routes = () => {
         { path: ROUTES.CONFIG, name: 'config', Component: Config, exact: true },
         { path: ROUTES.PLAY, name: 'play', Component: Game, exact: true },
         { path: ROUTES.INTRODUCTION, name: 'introduction', Component: Introduction, exact: true },
+        { path: ROUTES.DANCE_ZONE, name: 'danceZone', Component: DanceZone, exact: true }
     ];
     return routes.map(({ path, Component }) => {
         return (

@@ -1,35 +1,86 @@
-import React, {useContext, useReducer} from 'react';
+import React, {useContext, useReducer, useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
+import styled from 'styled-components';
 import './index.css';
 import Routes from './components/Routes';
-import { BrowserRouter as Router} from 'react-router-dom';
+import { ROUTES } from './constants/index';
+import { BrowserRouter as Router, withRouter } from "react-router-dom";
 import * as serviceWorker from './serviceWorker';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from './reducers/index';
 import Context from './context';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from './utils/firebase';
+import * as AppActions from './actions/application';
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 
 // Your web app's Firebase configuration
-var firebaseConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-    authDomain: "friends-with-two-ends.firebaseapp.com",
-    databaseURL: "https://friends-with-two-ends.firebaseio.com",
-    projectId: "friends-with-two-ends",
-    storageBucket: "",
-    messagingSenderId: "918334714285",
-    appId: "1:918334714285:web:2c64f2d896748cac1af124"
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
 const store = createStore(rootReducer);
 
-const Root = () => {
+const StyledLoadingText = styled.h1`
+  font-size: 5rem;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: 0.15em;
+
+  animation: 3.5s shrink 0s linear;
+  @keyframes shrink {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+`;
+
+const StyledLoading = styled.div`
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  font-family: Caveat Brush;
+`;
+
+const Root = props => {
+    const { history } = props;
+    const { dispatch } = useContext(Context);
+    const [isFetching, setIsFetching] = useState(true);
+
+    useEffect(() => {
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          dispatch(AppActions.login({
+              user,
+              token: user.refreshToken,
+              username: user.displayName
+          }));
+        }
+        setTimeout(() => setIsFetching(false), 2000);
+      });
+    }, []);
+
+    return !isFetching ? (
+      <>
+        <Header />
+        <Routes />
+        <Footer />
+      </>
+    ) : (
+      <StyledLoading>
+        <StyledLoadingText>loading...</StyledLoadingText>
+      </StyledLoading>
+    );
+}
+
+const RootWithAuth = withRouter(Root);
+
+const RootWrapper = () => {
     const initialState = useContext(Context);
     const [state, dispatch] = useReducer(rootReducer, initialState);
 
@@ -37,17 +88,16 @@ const Root = () => {
         <Context.Provider value={{ state, dispatch }}>
             <Provider store={store}>
                 <Router>
-                    <Header />
-                    <Routes />
-                    <Footer />
+                    <RootWithAuth />
                 </Router>
             </Provider>
         </Context.Provider>
     )
+
 }
 
 ReactDOM.render(
-    <Root />,
+    <RootWrapper />,
     document.getElementById('root')
 );
 
