@@ -15,6 +15,7 @@ import * as AppActions from './actions/application';
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import Title from './components/Title/Title';
 
 // Your web app's Firebase configuration
 const store = createStore(rootReducer);
@@ -24,6 +25,7 @@ const StyledLoadingText = styled.h1`
   overflow: hidden;
   white-space: nowrap;
   margin: 0 auto;
+  margin-top: 10rem;
   letter-spacing: 0.15em;
 
   animation: 3.5s shrink 0s linear;
@@ -39,6 +41,7 @@ const StyledLoadingText = styled.h1`
 
 const StyledLoading = styled.div`
   display: flex;
+  flex-direction: column;
   height: 100vh;
   width: 100%;
   color: white;
@@ -51,6 +54,7 @@ const Root = props => {
     const { history } = props;
     const { dispatch } = useContext(Context);
     const [isFetching, setIsFetching] = useState(true);
+    const isDev = process.env.NODE_ENV === 'development';
 
     useEffect(() => {
       firebase.auth().onAuthStateChanged(user => {
@@ -65,7 +69,7 @@ const Root = props => {
       });
     }, []);
 
-    return !isFetching ? (
+    return !isFetching || isDev ? (
       <>
         <Header />
         <Routes />
@@ -73,6 +77,7 @@ const Root = props => {
       </>
     ) : (
       <StyledLoading>
+        <Title />
         <StyledLoadingText>loading...</StyledLoadingText>
       </StyledLoading>
     );

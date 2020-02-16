@@ -154,7 +154,7 @@ const StartPage = props => {
           <RowWrapper>{renderButtons()}</RowWrapper>
         </StyledPage>
         <Button onClick={() => props.history.push(ROUTES.DANCE_ZONE)}>
-          <span alt="dancer">💃</span>
+          <span alt="dancer" role="img">💃</span>
         </Button>
       </>
     );
