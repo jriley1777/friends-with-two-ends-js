@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,6 +12,8 @@ import danceZone from '../components/Processing/sketches/dance-zone';
 import Context from '../context';
 import { ROUTES } from '../constants';
 import StartButtonLink from '../components/StartButtonLink/StartButtonLink';
+import { FaCamera } from 'react-icons/fa';
+import CaptureModal from '../components/CaptureModal/CaptureModal';
 
 const RowWrapper = styled.div`
     display: flex;
@@ -43,6 +45,10 @@ const StyledPage = styled.div`
 
     > * {
         z-index: 3;
+    }
+
+    > canvas > * {
+        border-radius: 50%;
     }
 
     &::before {
@@ -81,8 +87,31 @@ const TitleCard = styled.div`
     justify-content: center;
 `;
 
-const StartPage = props => {
+const Button = styled.button`
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  position: absolute;
+  top: 3%;
+  right: 3%;
+  width: 4rem;
+  height: 4rem;
+  box-shadow: 1px 1px 5px black;
+  z-index: 2000;
+
+  &:hover {
+    background: lightgreen;
+    cursor: pointer;
+  }
+
+  > svg {
+    width: 2rem;
+    height: auto;
+  }
+`;
+
+const DanceZone = props => {
     const { state, dispatch } = useContext(Context);
+    const [showCapture, setShowCapture] = useState(false);
     const loginWithGoogle = (e) => {
         e.preventDefault();
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -113,25 +142,32 @@ const StartPage = props => {
                 </>
             )
     }
+    const handleModalToggle = () => {
+        return setShowCapture(!showCapture);
+    }
     return (
-        <>
-            <Processing
-                sketch={danceZone}
-                p5Props={{
-                    sketchName: 'danceZone',
-                    fetchMusic: state.app.fetchMusic
-                }} />
-            <StyledPage>
-                <TitleCard>
-                    <Title />
-                    <StyledSubtitle>The Dance Zone.</StyledSubtitle>
-                </TitleCard>
-                <RowWrapper>
-                    {renderButtons()}
-                </RowWrapper>
-            </StyledPage>
-        </>
-    )
+      <>
+        <Processing
+          sketch={danceZone}
+          p5Props={{
+            sketchName: "danceZone",
+            fetchMusic: state.app.fetchMusic,
+            userImage: state.app.userImage
+          }}
+        />
+        <StyledPage>
+          <TitleCard>
+            <Title />
+            <StyledSubtitle>The Dance Zone.</StyledSubtitle>
+          </TitleCard>
+          <RowWrapper>{renderButtons()}</RowWrapper>
+          <Button onClick={() => setShowCapture(true)}>
+            <FaCamera />
+          </Button>
+          <CaptureModal showModal={showCapture} handleModalToggle={handleModalToggle} />
+        </StyledPage>
+      </>
+    );
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -140,4 +176,4 @@ const mapDispatchToProps = (dispatch) => {
     }, dispatch)
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(StartPage));
+export default connect(null, mapDispatchToProps)(withRouter(DanceZone));

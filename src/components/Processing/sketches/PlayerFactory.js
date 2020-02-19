@@ -2,6 +2,7 @@ import VerletParticle2D from 'toxiclibsjs/physics2d/VerletParticle2D';
 import AttractionBehavior2D from 'toxiclibsjs/physics2d/behaviors/AttractionBehavior';
 import VerletSpring2D from 'toxiclibsjs/physics2d/VerletSpring2D';
 import * as geom from 'toxiclibsjs/geom';
+import firebase from '../../../utils/firebase';
 
 const defaultAtributes = {
     numParticles: 60,
@@ -134,7 +135,39 @@ const PlayerFactory = (name, attr=defaultAtributes, physics, p) => {
         })
         p.endShape();
         p.strokeWeight(50);
-
+    }
+    player.img = null;
+    player.img2 = null;
+    player.drawFaceCapture = (img) => {
+        if(!player.img && img) {
+           
+            player.img = styleDiv(p.createDiv());
+            // player.img2 = styleDiv(p.createDiv());
+            // player.img.parent(x);
+            function styleDiv(x) {
+               x.style("height", `${player.strokeWeight}px`);
+               x.style("width", `${player.strokeWeight*0.6875}px`);
+               x.style("border-radius", "50%");
+               x.style("position", "absolute");
+               x.style(
+                 "background",
+                 `url(${img}) no-repeat 47% 33%`
+               );
+               x.style("background-size", `${player.strokeWeight*3.8}px ${player.strokeWeight*1.96}px`); 
+               return x;
+            }
+        } else {
+            player.img.position(
+              player.particles[0].x - (player.strokeWeight * 0.6875)/2,
+              player.particles[0].y - player.strokeWeight / 2
+            );
+            // player.img2.position(
+            //   player.particles[player.particles.length - 1].x -
+            //     (player.strokeWeight * 0.6875)/2,
+            //   player.particles[player.particles.length - 1].y -
+            //     player.strokeWeight / 2
+            // );
+        }
     }
     player.shouldDrawTrail = false;
     player.drawTrail = function() {
@@ -206,8 +239,7 @@ const PlayerFactory = (name, attr=defaultAtributes, physics, p) => {
             tail.y = tail.y + player.moveSpeed;
         }
     };
-
-    player.display = function () {
+    player.display = (userImage=null) => {
         if (player.hasCreated) {
             player.head = player.particles[0];
             player.tail = player.particles[player.numParticles - 1];
@@ -226,8 +258,12 @@ const PlayerFactory = (name, attr=defaultAtributes, physics, p) => {
                 player.drawTrail();
             }
             player.drawBody();
-            player.drawEyes(player.head, player.tail);
-            player.drawMouth(player.head, player.tail);
+            if (userImage) {
+              player.drawFaceCapture(userImage);
+            } else {
+              player.drawEyes(player.head, player.tail);
+              player.drawMouth(player.head, player.tail);
+            }
             player.drawHUD(player.head);
             player.move();
         }

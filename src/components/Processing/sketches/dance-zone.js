@@ -1,5 +1,4 @@
 import VerletPhysics2D from "toxiclibsjs/physics2d/VerletPhysics2D";
-import VerletParticle2D from "toxiclibsjs/physics2d/VerletParticle2D";
 import * as behaviors from "toxiclibsjs/physics2d/behaviors";
 import * as geom from "toxiclibsjs/geom";
 import PlayerFactory from "./PlayerFactory";
@@ -11,22 +10,13 @@ export default function(p) {
   let w, h, margin;
   let physics = new VerletPhysics2D();
   let players = [];
-  let ball, ballResetTime;
-  let mouse, mouseBehavior;
-  let didMouseStop;
-  let mouseStopLength = 1000;
-  let lastMouseMove = 0;
-  let sketchStart;
   let pMusic;
   let musicFile = music.danceZone;
-  let showPlayersTime;
   let filmGrain;
   let talkInterface;
 
   p.setup = function() {
     p.clear();
-    sketchStart = p.millis();
-    ballResetTime = p.millis();
     w = window.innerWidth;
     h = (window.innerHeight / 100) * 94;
     margin = 40;
@@ -46,7 +36,6 @@ export default function(p) {
     talkInterface = new TalkInterface(p);
     talkInterface.setVocabulary(VOCABULARY_TYPES.GENERAL);
     talkInterface.setGroupSize(players.length);
-    showPlayersTime = 2000;
   };
 
   p.playMusic = function() {
@@ -54,18 +43,14 @@ export default function(p) {
   };
 
   p.draw = function() {
-      if (p.millis() % 1 === 0) {
-        p.background(p.random(255), p.random(255), p.random(255))
-      }
-      p.background(p.random(255), p.random(255), p.random(255))
-    // p.background("#dcd");
-
-    // p.background(255);
+    p.background(p.random(255), p.random(255), p.random(255))
     p.textFont("Caveat Brush");
-    players.map(friend => friend.display());
+    if(p.props){
+      players.map(friend => friend.display(p.props.userImage));
+    }
 
     for (let i = 0; i < players.length; i++) {
-      players[i].dance(p.random(400, 500));
+      players[i].dance(p.random(200, 800));
     }
     physics.update();
     if (Math.floor(p.millis()) % 3 === 0) {
@@ -73,16 +58,11 @@ export default function(p) {
     }
   };
 
-  p.resetBall = function() {
-    ballResetTime = p.millis();
-    ball.changeLocation(p.random(w), p.random(h));
-  };
-
   p.createPlayers = function() {
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 20; i++) {
       let attr = {
-        strokeWeight: p.random(50, 125),
-        numParticles: Math.floor(p.random(20, 30))
+        strokeWeight: Math.floor(p.random(50, 160)),
+        numParticles: Math.floor(p.random(20, 40))
       };
       players.push(
         PlayerFactory("", attr, physics, p).create(
@@ -92,14 +72,6 @@ export default function(p) {
         )
       );
     }
-  };
+  };  
 
-  p.mouseMoved = function() {
-    talkInterface.showMouseText = true;
-    players.map((friend, i) => {
-        talkInterface.talk(friend, i);
-    })
-  };
-
-  
 }

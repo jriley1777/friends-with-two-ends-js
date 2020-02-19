@@ -6,19 +6,17 @@ import 'p5/lib/addons/p5.dom';
 import styled from 'styled-components';
 
 const Overlay = styled.div`
-    width: 100vw;
-    height: auto;
-    overflow: hidden;
-    position: relative;
-    height: 94vh;
-`
+  width: ${props => props.width ? props.width : "100vw"};
+  overflow: hidden;
+  position: relative;
+  height: ${props => props.height ? props.height : "94vh"};
+`;
 
 const Container = styled.div`
-    z-index: -10000;
-    background-attachment: fixed !important;
-    overflow: hidden;
-    width: 100%;
-    height: 94vh;
+  background-attachment: fixed !important;
+  overflow: hidden;
+  width: 100%;
+  height: ${props => props.height ? props.height : "94vh"};
 `;
 
 class Processing extends React.Component {
@@ -39,8 +37,14 @@ class Processing extends React.Component {
 
     render(){
         return (
-            <Overlay id={`${this.props.p5Props.sketchName}-p5_overlay`}>
-                <Container id={`${this.props.p5Props.sketchName}-p5_container`} />
+            <Overlay 
+                id={`${this.props.p5Props.sketchName}-p5_overlay`}
+                height={this.props.height}
+                width={this.props.width}
+                >
+                <Container 
+                    height={this.props.height}
+                    id={`${this.props.p5Props.sketchName}-p5_container`} />
             </Overlay>
         )
     }

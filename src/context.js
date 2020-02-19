@@ -26,7 +26,8 @@ const Context = React.createContext({
                     tall: 60
                 }
             }
-        ]
+        ],
+        userImage: null
     }
 });
 

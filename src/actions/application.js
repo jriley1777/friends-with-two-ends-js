@@ -38,3 +38,11 @@ export const changePlayerAttribute = ({playerId, attr}) => {
         }
     }
 }
+export const setUserImage = imageURL => {
+         return {
+           type: PLAYER_SETUP.SET_USER_IMAGE,
+           payload: {
+             imageURL
+           }
+         };
+       };

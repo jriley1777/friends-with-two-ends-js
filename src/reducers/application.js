@@ -40,8 +40,18 @@ const players = (state=[], action) => {
     }
 }
 
+const userImage = (state=null, action) => {
+    switch(action.type){
+        case Actions.PLAYER_SETUP.SET_USER_IMAGE:
+            return action.payload.imageURL
+        default: 
+            return state;
+    }
+}
+
 export default combineReducers({
     currentPage,
     numPlayers,
-    players
+    players,
+    userImage
 })
