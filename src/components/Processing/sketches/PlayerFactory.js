@@ -151,9 +151,9 @@ const PlayerFactory = (name, attr=defaultAtributes, physics, p) => {
                x.style("position", "absolute");
                x.style(
                  "background",
-                 `url(${img}) no-repeat 47% 33%`
+                 `url(${img}) no-repeat 50% 50%`
                );
-               x.style("background-size", `${player.strokeWeight*3.8}px ${player.strokeWeight*1.96}px`); 
+               x.style("background-size", `${player.strokeWeight*2.5}px ${player.strokeWeight*1.5}px`); 
                return x;
             }
         } else {
