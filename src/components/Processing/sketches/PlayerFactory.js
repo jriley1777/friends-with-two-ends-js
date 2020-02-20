@@ -138,6 +138,16 @@ const PlayerFactory = (name, attr=defaultAtributes, physics, p) => {
     }
     player.img = null;
     player.drawFaceCapture = (img) => {
+        if(!img) {
+            return null;
+        }
+        if(player.img && (player.img !== img)){
+           player.img.style("background", `url(${img}) no-repeat 50% 50%`); 
+           player.img.style(
+             "background-size",
+             `${player.strokeWeight * 2.5}px ${player.strokeWeight * 1.5}px`
+           );
+        }
         if(!player.img && img) {
             player.img = styleDiv(p.createDiv());
             function styleDiv(x) {

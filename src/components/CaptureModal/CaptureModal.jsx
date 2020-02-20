@@ -52,8 +52,7 @@ const Row = styled.div`
 `;
 
 const CaptureModal = props => {
-    const { showModal, handleModalToggle, uploadImage } = props;
-    const { state, dispatch } = useContext(Context);
+    const { showModal, handleModalToggle, uploadImage, isUploading } = props;
     const [ shouldCapture, setShouldCapture ] = useState(false);
 
     const handleCapture = () => {
@@ -61,6 +60,11 @@ const CaptureModal = props => {
     }
     const handleImageUpload = data => {
       uploadImage(data)
+    }
+    const renderLoading = () => {
+      return isUploading ? (
+        <div>Uploading....</div>
+      ) : null;
     }
 
     return showModal ? (
@@ -77,13 +81,13 @@ const CaptureModal = props => {
             sketch={snapCapture}
             p5Props={{
               sketchName: "snapCapture",
-              closeModal: handleModalToggle,
               createObjectURL: window.URL.createObjectURL,
               handleImageUpload,
               shouldCapture,
               setShouldCapture
             }}
           />
+          {renderLoading()}
           <Row>
             <button onClick={handleCapture}>
               <MdFiberManualRecord
