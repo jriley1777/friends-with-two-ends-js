@@ -49,9 +49,17 @@ const userImage = (state=null, action) => {
     }
 }
 
+const sessionId = (state=null, action) => {
+    switch(action.type){
+        default:
+            return state
+    }
+}
+
 export default combineReducers({
     currentPage,
     numPlayers,
     players,
-    userImage
+    userImage,
+    sessionId
 })

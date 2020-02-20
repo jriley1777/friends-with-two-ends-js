@@ -32,10 +32,11 @@ export default function(p) {
     }
   }
 
-  p.saveFace = function() {
+  p.saveFace = async function() {
       p.props.setShouldCapture(false);
-      let snap = canvas.canvas.toDataURL("image/png");
-      p.props.setUserImage(snap);
+      canvas.canvas.toBlob(blob => {
+        p.props.handleImageUpload(blob);
+      })
       p.props.closeModal();
   }
 }
