@@ -137,13 +137,9 @@ const PlayerFactory = (name, attr=defaultAtributes, physics, p) => {
         p.strokeWeight(50);
     }
     player.img = null;
-    player.img2 = null;
     player.drawFaceCapture = (img) => {
         if(!player.img && img) {
-           
             player.img = styleDiv(p.createDiv());
-            // player.img2 = styleDiv(p.createDiv());
-            // player.img.parent(x);
             function styleDiv(x) {
                x.style("height", `${player.strokeWeight}px`);
                x.style("width", `${player.strokeWeight*0.6875}px`);
@@ -161,12 +157,6 @@ const PlayerFactory = (name, attr=defaultAtributes, physics, p) => {
               player.particles[0].x - (player.strokeWeight * 0.6875)/2,
               player.particles[0].y - player.strokeWeight / 2
             );
-            // player.img2.position(
-            //   player.particles[player.particles.length - 1].x -
-            //     (player.strokeWeight * 0.6875)/2,
-            //   player.particles[player.particles.length - 1].y -
-            //     player.strokeWeight / 2
-            // );
         }
     }
     player.shouldDrawTrail = false;
@@ -195,8 +185,6 @@ const PlayerFactory = (name, attr=defaultAtributes, physics, p) => {
         p.ellipse(head.x - player.eyeSize, head.y, player.sz, player.sz);
         p.ellipse(tail.x + player.eyeSize, tail.y, player.sz, player.sz);
         p.ellipse(tail.x - player.eyeSize, tail.y, player.sz, player.sz);
-        // p.line(head.x - 35, head.y, head.x + 35, head.y);
-        // p.arc(tail.x, tail.y, player.sz, player.sz, 0, player.endMouth);
 
         //pupils
         p.strokeWeight(1);
