@@ -112,16 +112,26 @@ const Button = styled.button`
 const DanceZone = props => {
     const { state, dispatch } = useContext(Context);
     const [showCapture, setShowCapture] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
     const storageRef = firebase.storage().ref();
 
     const uploadImage = (data) => {
+      setIsUploading(true);
       let pathToUpload = `/danceZone/${state.app.sessionId}.png`;
       let ref = storageRef.child(pathToUpload);
       ref.put(data, { contentType: "image/png" }).then(snapshot => {
-        snapshot.ref.getDownloadURL().then(url => {
-          console.log(url);
-          dispatch(AppActions.setUserImage(url));
-        });
+        snapshot.ref
+          .getDownloadURL()
+          .then(url => {
+            console.log(url);
+            dispatch(AppActions.setUserImage(url));
+            setShowCapture(false);
+            setIsUploading(false);
+          })
+          .catch(err => {
+            console.error(err);
+            setIsUploading(false);
+          });
       });
     }
 
@@ -177,7 +187,7 @@ const DanceZone = props => {
           <Button onClick={() => setShowCapture(true)}>
             <FaCamera />
           </Button>
-          <CaptureModal uploadImage={uploadImage} showModal={showCapture} handleModalToggle={handleModalToggle} />
+          <CaptureModal isUploading={isUploading} uploadImage={uploadImage} showModal={showCapture} handleModalToggle={handleModalToggle} />
         </StyledPage>
       </>
     );

@@ -32,11 +32,11 @@ export default function(p) {
     }
   }
 
-  p.saveFace = async function() {
+  p.saveFace = function() {
       p.props.setShouldCapture(false);
       canvas.canvas.toBlob(blob => {
         p.props.handleImageUpload(blob);
       })
-      p.props.closeModal();
+      p.noLoop();
   }
 }
