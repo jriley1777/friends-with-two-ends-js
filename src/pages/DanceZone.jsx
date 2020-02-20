@@ -112,6 +112,19 @@ const Button = styled.button`
 const DanceZone = props => {
     const { state, dispatch } = useContext(Context);
     const [showCapture, setShowCapture] = useState(false);
+    const storageRef = firebase.storage().ref();
+
+    const uploadImage = (data) => {
+      let pathToUpload = `/danceZone/${state.app.sessionId}.png`;
+      let ref = storageRef.child(pathToUpload);
+      ref.put(data, { contentType: "image/png" }).then(snapshot => {
+        snapshot.ref.getDownloadURL().then(url => {
+          console.log(url);
+          dispatch(AppActions.setUserImage(url));
+        });
+      });
+    }
+
     const loginWithGoogle = (e) => {
         e.preventDefault();
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -164,7 +177,7 @@ const DanceZone = props => {
           <Button onClick={() => setShowCapture(true)}>
             <FaCamera />
           </Button>
-          <CaptureModal showModal={showCapture} handleModalToggle={handleModalToggle} />
+          <CaptureModal uploadImage={uploadImage} showModal={showCapture} handleModalToggle={handleModalToggle} />
         </StyledPage>
       </>
     );
