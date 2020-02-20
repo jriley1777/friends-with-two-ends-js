@@ -1,5 +1,4 @@
 
 
-export const getCurrentPage = (state) => {
-    return state.application.currentPage
-}
+export const getCurrentPage = (state) => state.app.currentPage;
+export const getSessionId = state => state.app.sessionId;

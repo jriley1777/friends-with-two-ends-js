@@ -52,12 +52,15 @@ const Row = styled.div`
 `;
 
 const CaptureModal = props => {
-    const { showModal, handleModalToggle } = props;
+    const { showModal, handleModalToggle, uploadImage } = props;
     const { state, dispatch } = useContext(Context);
     const [ shouldCapture, setShouldCapture ] = useState(false);
 
     const handleCapture = () => {
         setShouldCapture(true);
+    }
+    const handleImageUpload = data => {
+      uploadImage(data)
     }
 
     return showModal ? (
@@ -76,7 +79,7 @@ const CaptureModal = props => {
               sketchName: "snapCapture",
               closeModal: handleModalToggle,
               createObjectURL: window.URL.createObjectURL,
-              setUserImage: url => dispatch(AppActions.setUserImage(url)),
+              handleImageUpload,
               shouldCapture,
               setShouldCapture
             }}
