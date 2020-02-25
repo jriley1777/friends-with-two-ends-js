@@ -65,7 +65,7 @@ const Routes = () => {
         { path: ROUTES.INTRODUCTION, name: 'introduction', Component: Introduction, exact: true },
         { path: ROUTES.DANCE_ZONE, name: 'danceZone', Component: DanceZone, exact: true }
     ];
-    return routes.map(({ path, Component }) => {
+    const renderRoutes = () => routes.map(({ path, Component }) => {
         return (
             <Route key={path} path={path} exact>
                 {({ match }) => (
@@ -85,6 +85,11 @@ const Routes = () => {
             </Route>
         )
     })
+    return (
+        <>
+        { renderRoutes() }
+        </>
+    )
 };
 
 export default Routes;

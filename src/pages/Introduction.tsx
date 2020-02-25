@@ -1,11 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import Context from '../context';
 import Processing from '../components/Processing/Processing';
 import introduction from '../components/Processing/sketches/introduction';
 import { ROUTES } from '../constants/index';
+import * as Selectors from '../selectors/index';
 
 const StyledPage = styled.div`
     position: absolute;
@@ -24,12 +25,11 @@ const StyledPage = styled.div`
     }
 `
 
-const Game = props => {
-    const { state } = useContext(Context);
-    const { players } = state.app;
+const Game = (props: any) => {
+    const { history, players } = props;
 
     const handleRouteChange = () => {
-        props.history.push(ROUTES.PLAY)
+        history.push(ROUTES.PLAY)
     }
     return (
         <>
@@ -46,4 +46,8 @@ const Game = props => {
     )
 };
 
-export default withRouter(Game);
+const mapStateToProps = (state: any) => ({
+    players: Selectors.getPlayers(state)
+})
+
+export default connect(mapStateToProps, null)(withRouter(Game));

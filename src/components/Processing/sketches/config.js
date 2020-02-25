@@ -78,6 +78,7 @@ export default function (p) {
         players.map(x => {
             x.moveSpeed = 30;
             x.shouldDrawTTrail = true;
+            return x;
         })
     }
 

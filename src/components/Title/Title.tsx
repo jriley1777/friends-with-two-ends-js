@@ -28,7 +28,7 @@ const StyledTitleReflection = styled.div`
     transform: rotateX(180deg);
 `;
 
-const Title = props => {
+const Title = () => {
     return (
         <StyledTitleWrapper>
             <StyledTitle>Friends

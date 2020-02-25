@@ -14,7 +14,7 @@ const TitleCard = styled.p`
     border-radius: 10px;
 `;
 
-const Instructions = props => {
+const Instructions = () => {
     return (
         <ContentWrapper>
             <h2>Instructions</h2>
