@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from "react";
 import p5 from 'p5';
 import 'p5/lib/addons/p5.sound';
 import 'p5/lib/addons/p5.dom';
@@ -46,30 +46,24 @@ interface Props {
     p5Props: P5Props,
 }
 
-
 const Processing: React.FC<Props> = props => {
-    const { p5Props, height, width, sketch } = props;
-    const [canvas, setCanvas] = useState({});
-    useEffect(() => {
-        let c: any = new p5(
-            sketch,
-            document.getElementById(`${p5Props.sketchName}-p5_container`) ||
-            undefined
-        );
-        c.props = p5Props;
-        setCanvas(c);
-        return () => {
-            setCanvas({});
-            c && c.remove();
-        }
-    }, []);
+    const {sketch, p5Props, height, width} = props;
+    const canvasRef: any = useRef(null);
 
     useEffect(() => {
-      if (canvas) {
-        let updatedCanvas: any = canvas;
-        updatedCanvas.props = p5Props;
-      }
-    }, [p5Props, canvas]);
+        canvasRef.current = new p5(
+            sketch,
+            document.getElementById(
+            `${p5Props.sketchName}-p5_container`
+            ) || undefined
+        );
+        canvasRef.current.props = p5Props;
+        return () => canvasRef && canvasRef.current.remove();
+    }, [])
+
+    useEffect(() => {
+        canvasRef.current.props = p5Props;
+    })
 
     return (
         <Overlay

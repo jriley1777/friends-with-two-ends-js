@@ -27,17 +27,15 @@ export default function(p) {
     p.strokeWeight(2);
     p.noFill();
     p.ellipse(320, 240, 240, 320);
-    if(p.props.shouldCapture){
-      console.log('now')
+    if(!!p.props.shouldCapture){
         p.saveFace();
     }
   }
 
   p.saveFace = function() {
-      p.props.setShouldCapture(false);
+      p.noLoop();
       canvas.canvas.toBlob(blob => {
         p.props.handleImageUpload(blob);
       })
-      p.noLoop();
   }
 }

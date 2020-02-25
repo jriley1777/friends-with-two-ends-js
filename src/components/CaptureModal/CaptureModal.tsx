@@ -61,11 +61,11 @@ const CaptureModal: React.FC<CaptureProps> = props => {
   const [shouldCapture, setShouldCapture] = useState(false);
 
   const handleCapture = () => {
-    console.log('click');
     setShouldCapture(true);
   };
-  const handleImageUpload = (data: any) => {
-    uploadImage(data);
+  const handleImageUpload = async (data: any) => {
+    await uploadImage(data);
+    setShouldCapture(false);
   };
   const renderLoading = () => {
     return isUploading ? <div>Uploading....</div> : null;
@@ -92,9 +92,9 @@ const CaptureModal: React.FC<CaptureProps> = props => {
         />
         {renderLoading()}
         <Row>
-          <button onClick={handleCapture}>
+          <button onClick={handleCapture} disabled={shouldCapture}>
             <MdFiberManualRecord
-              style={{ color: "red", width: "2rem", height: "2rem" }}
+              style={{ color: shouldCapture ? "grey" : "red", width: "2rem", height: "2rem" }}
             />
           </button>
         </Row>

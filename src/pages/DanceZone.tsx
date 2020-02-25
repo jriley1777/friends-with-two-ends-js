@@ -115,15 +115,14 @@ const DanceZone = (props: any) => {
     const [isUploading, setIsUploading] = useState(false);
     const storageRef = firebase.storage().ref();
 
-    const uploadImage = (data: any) => {
+    const uploadImage = async (data: any) => {
       setIsUploading(true);
       let pathToUpload = `/danceZone/${sessionId}.png`;
       let ref = storageRef.child(pathToUpload);
-      ref.put(data, { contentType: "image/png" }).then(snapshot => {
+      await ref.put(data, { contentType: "image/png" }).then(snapshot => {
         snapshot.ref
           .getDownloadURL()
           .then(url => {
-            console.log(url);
             setUserImage(url);
             setShowCapture(false);
             setIsUploading(false);
