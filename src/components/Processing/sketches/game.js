@@ -1,5 +1,4 @@
 import VerletPhysics2D from 'toxiclibsjs/physics2d/VerletPhysics2D';
-import VerletParticle2D from 'toxiclibsjs/physics2d/VerletParticle2D';
 import * as behaviors from 'toxiclibsjs/physics2d/behaviors';
 import * as geom from 'toxiclibsjs/geom';
 import PlayerFactory from './PlayerFactory';
@@ -12,7 +11,6 @@ export default function(p) {
     p.props = {};
     let w, h, margin;
     let ball;
-    let canvas;
     let physics;
     let teamLeft, teamRight;
     let p1, p2;
@@ -21,7 +19,6 @@ export default function(p) {
     let pMusic;
     let musicFile = music.game;
     let sketchStart;
-    let resetButton;
     let filmGrain;
 
     p.playMusic = function () {
@@ -40,7 +37,7 @@ export default function(p) {
         scoreLeft = 0;
         scoreRight = 0;
 
-        canvas = p.createCanvas(w, h);
+        p.createCanvas(w, h);
         p.frameRate(60);
 
         physics = new VerletPhysics2D();
@@ -125,7 +122,7 @@ export default function(p) {
     };
 
     p.handleGameReset = function() {
-        if(p.props.shouldReset = true) {
+        if(!!p.props.shouldReset) {
             p.removeElements();
             p.reset();
         }

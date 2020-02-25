@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -6,14 +6,13 @@ import firebase from 'firebase/app';
 import { withRouter } from 'react-router-dom';
 
 import * as AppActions from '../actions/application';
+import * as Selectors from '../selectors/index';
 import Title from '../components/Title/Title';
 import Processing from '../components/Processing/Processing';
-import danceZone from '../components/Processing/sketches/dance-zone';
-import Context from '../context';
+import start from '../components/Processing/sketches/start';
 import { ROUTES } from '../constants';
 import StartButtonLink from '../components/StartButtonLink/StartButtonLink';
-import { FaCamera } from 'react-icons/fa';
-import CaptureModal from '../components/CaptureModal/CaptureModal';
+
 
 const RowWrapper = styled.div`
     display: flex;
@@ -45,10 +44,6 @@ const StyledPage = styled.div`
 
     > * {
         z-index: 3;
-    }
-
-    > canvas > * {
-        border-radius: 50%;
     }
 
     &::before {
@@ -103,100 +98,78 @@ const Button = styled.button`
     cursor: pointer;
   }
 
-  > svg {
-    width: 2rem;
-    height: auto;
+  > span {
+    font-size: 3rem;
   }
 `;
 
-const DanceZone = props => {
-    const { state, dispatch } = useContext(Context);
-    const [showCapture, setShowCapture] = useState(false);
-    const [isUploading, setIsUploading] = useState(false);
-    const storageRef = firebase.storage().ref();
-
-    const uploadImage = (data) => {
-      setIsUploading(true);
-      let pathToUpload = `/danceZone/${state.app.sessionId}.png`;
-      let ref = storageRef.child(pathToUpload);
-      ref.put(data, { contentType: "image/png" }).then(snapshot => {
-        snapshot.ref
-          .getDownloadURL()
-          .then(url => {
-            console.log(url);
-            dispatch(AppActions.setUserImage(url));
-            setShowCapture(false);
-            setIsUploading(false);
-          })
-          .catch(err => {
-            console.error(err);
-            setIsUploading(false);
-          });
-      });
-    }
-
-    const loginWithGoogle = (e) => {
+const StartPage = (props: any) => {
+  const { isLoggedIn, login, history } = props;
+    const loginWithGoogle = (e: any) => {
         e.preventDefault();
         const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider).then(function (result) {
+        firebase.auth().signInWithPopup(provider).then(function (result: any) {
             // This gives you a Google Access Token. You can use it to access the Google API.
             var token = result.credential.accessToken;
             // The signed-in user info.
             var user = result.user;
             // ...
-            dispatch(AppActions.login({
+            login({
                 token,
                 user,
                 username: user.displayName
-            }))
-            props.history.push(ROUTES.CONFIG)
+            })
+            history.push(ROUTES.CONFIG)
         }).catch(function (error) {
             console.error(error)
 
         });
     }
     const renderButtons = () => {
-        return state.auth.isLoggedIn ? (
+        return isLoggedIn ? (
             <StartButtonLink to={ROUTES.CONFIG}>Play</StartButtonLink>
         ) : (
-                <>
-                    <StartButtonLink to={ROUTES.CONFIG} onClick={loginWithGoogle} > Login with Google</StartButtonLink >
-                    <StartButtonLink to={ROUTES.CONFIG}>Play as guest</StartButtonLink>
-                </>
-            )
-    }
-    const handleModalToggle = () => {
-        return setShowCapture(!showCapture);
+            <>
+                <StartButtonLink to={ROUTES.CONFIG} onClick={ loginWithGoogle } > Login with Google</StartButtonLink >
+                <StartButtonLink to={ROUTES.CONFIG}>Play as guest</StartButtonLink>
+            </>
+        )
     }
     return (
       <>
         <Processing
-          sketch={danceZone}
+          sketch={start}
           p5Props={{
-            sketchName: "danceZone",
-            fetchMusic: state.app.fetchMusic,
-            userImage: state.app.userImage
+            sketchName: "start",
           }}
         />
         <StyledPage>
           <TitleCard>
             <Title />
-            <StyledSubtitle>The Dance Zone.</StyledSubtitle>
+            <StyledSubtitle>
+              A competitive possession game amongst friends.
+            </StyledSubtitle>
           </TitleCard>
           <RowWrapper>{renderButtons()}</RowWrapper>
-          <Button onClick={() => setShowCapture(true)}>
-            <FaCamera />
-          </Button>
-          <CaptureModal isUploading={isUploading} uploadImage={uploadImage} showModal={showCapture} handleModalToggle={handleModalToggle} />
         </StyledPage>
+        <Button onClick={() => props.history.push(ROUTES.DANCE_ZONE)}>
+          <span aria-label="dancer" role="img">💃</span>
+        </Button>
       </>
     );
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state: any) => ({
+  isLoggedIn: Selectors.getIsLoggedIn(state)
+});
+
+const mapDispatchToProps = (dispatch: any) => {
     return bindActionCreators({
-        changeCurrentPage: AppActions.changeCurrentPage
+      login: AppActions.login
     }, dispatch)
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(DanceZone));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(StartPage));

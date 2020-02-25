@@ -30,7 +30,7 @@ const HomeLink = styled(Link)`
     color: inherit;
 `;
 
-const Header = props => {
+const Header = () => {
     return (
         <HeaderWrapper>
             <HeaderContainer>

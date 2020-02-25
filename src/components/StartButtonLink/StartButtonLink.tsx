@@ -23,7 +23,13 @@ const StartButton = styled(Link)`
     }
 `;
 
-const StartButtonLink = ({ to, children, ...rest }) => {
+type StartButtonTypes = {
+    to: string,
+    children: any,
+    onClick?: any
+}
+
+const StartButtonLink = ({ to, children, ...rest }: StartButtonTypes) => {
     return (
         <StartButton to={to} {...rest}>{ children }</StartButton>
     )

@@ -28,6 +28,7 @@ export default function(p) {
     p.noFill();
     p.ellipse(320, 240, 240, 320);
     if(p.props.shouldCapture){
+      console.log('now')
         p.saveFace();
     }
   }

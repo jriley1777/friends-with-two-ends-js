@@ -19,7 +19,7 @@ const SyledHeart = styled.span`
     font-style: bold;
 `;
 
-const Footer = props => {
+const Footer = () => {
     return (
         <FooterWrapper>
             <p>made with <SyledHeart>{`<3`}</SyledHeart> by Joe Riley.</p>
