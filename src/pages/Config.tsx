@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import Processing from '../components/Processing/Processing';
 import config from '../components/Processing/sketches/config';
 import PlayerSelect from '../components/PlayerSelect/PlayerSelect';
 import Instructions from '../components/Instructions/Instructions';
-
-import Context from '../context';
+import * as Selectors from '../selectors/index';
 
 const StyledPage = styled.div`
     display: flex;
@@ -35,9 +35,8 @@ const StyledPage = styled.div`
     }
 `;
 
-const Config = () => {
-    const { state } = useContext(Context);
-    const { players } = state.app; 
+const Config = (props: any) => {
+    const { players } = props; 
     return (
         <>
             <Processing 
@@ -45,7 +44,6 @@ const Config = () => {
                 p5Props={{
                     players,
                     sketchName: 'config',
-                    // fetchMusic: state.app.fetchMusic
                 }}
                 />
             <StyledPage>
@@ -56,4 +54,8 @@ const Config = () => {
     )
 }
 
-export default Config;
+const mapStateToProps = (state: any) => ({
+    players: Selectors.getPlayers(state)
+})
+
+export default connect(mapStateToProps, null)(Config);

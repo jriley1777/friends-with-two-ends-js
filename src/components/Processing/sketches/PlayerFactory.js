@@ -2,7 +2,6 @@ import VerletParticle2D from 'toxiclibsjs/physics2d/VerletParticle2D';
 import AttractionBehavior2D from 'toxiclibsjs/physics2d/behaviors/AttractionBehavior';
 import VerletSpring2D from 'toxiclibsjs/physics2d/VerletSpring2D';
 import * as geom from 'toxiclibsjs/geom';
-import firebase from '../../../utils/firebase';
 
 const defaultAtributes = {
     numParticles: 60,
@@ -182,7 +181,7 @@ const PlayerFactory = (name, attr=defaultAtributes, physics, p) => {
                 return null;
             })
             p.endShape();
-            // p.strokeWeight(50);
+            return x;
         })
     }
     player.eyeSize = 15;

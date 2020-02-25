@@ -1,24 +1,22 @@
-import React, {useContext, useReducer, useState, useEffect} from 'react';
+import React, {
+  useState,
+  useEffect
+} from "react";
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import './index.css';
 import Routes from './components/Routes';
-import { ROUTES } from './constants/index';
 import { BrowserRouter as Router, withRouter } from "react-router-dom";
 import * as serviceWorker from './serviceWorker';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
+import { createStore, bindActionCreators } from 'redux';
+import { Provider, connect } from 'react-redux';
 import rootReducer from './reducers/index';
-import Context from './context';
 import firebase from './utils/firebase';
 import * as AppActions from './actions/application';
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Title from './components/Title/Title';
-
-// Your web app's Firebase configuration
-const store = createStore(rootReducer);
 
 const StyledLoadingText = styled.h1`
   font-size: 5rem;
@@ -50,24 +48,23 @@ const StyledLoading = styled.div`
   font-family: Caveat Brush;
 `;
 
-const Root = props => {
-    const { history } = props;
-    const { dispatch } = useContext(Context);
+const Root = (props: any) => {
     const [isFetching, setIsFetching] = useState(true);
     const isDev = process.env.NODE_ENV === 'development';
+    const { login } = props;
 
     useEffect(() => {
       firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          dispatch(AppActions.login({
+        if (user && user.displayName) {
+          login({
               user,
               token: user.refreshToken,
               username: user.displayName
-          }));
+          });
         }
         setTimeout(() => setIsFetching(false), 2000);
       });
-    }, []);
+    }, [login]);
 
     return !isFetching || isDev ? (
       <>
@@ -83,20 +80,20 @@ const Root = props => {
     );
 }
 
-const RootWithAuth = withRouter(Root);
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({
+    login: AppActions.login
+}, dispatch);
+
+const RootWithAuth = connect(null, mapDispatchToProps)(withRouter(Root));
 
 const RootWrapper = () => {
-    const initialState = useContext(Context);
-    const [state, dispatch] = useReducer(rootReducer, initialState);
-
+    const store = createStore(rootReducer);
     return (
-        <Context.Provider value={{ state, dispatch }}>
-            <Provider store={store}>
-                <Router>
-                    <RootWithAuth />
-                </Router>
-            </Provider>
-        </Context.Provider>
+      <Provider store={ store }>
+        <Router>
+            <RootWithAuth />
+        </Router>
+      </Provider>
     )
 
 }

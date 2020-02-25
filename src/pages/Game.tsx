@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import Context from '../context';
+import { connect } from 'react-redux';
 
 import Processing from '../components/Processing/Processing';
 import game from '../components/Processing/sketches/game';
+import * as Selectors from '../selectors/index';
 
 const StyledPage = styled.div`
     position: absolute;
@@ -22,9 +23,8 @@ const StyledPage = styled.div`
     }
 `
 
-const Game = props => {
-    const { state } = useContext(Context);
-    const { players } = state.app;
+const Game = (props: any) => {
+    const { players } = props;
     return (
         <>
             <Processing
@@ -33,8 +33,7 @@ const Game = props => {
                     players,
                     sketchName: 'game',
                     gameOver: false,
-                    shouldReset: false,
-                    fetchMusic: state.app.fetchMusic
+                    shouldReset: false
                 }}
                 />
             <StyledPage />    
@@ -42,4 +41,8 @@ const Game = props => {
     )
 };
 
-export default Game;
+const mapStateToProps = (state: any) => ({
+    players: Selectors.getPlayers(state)
+})
+
+export default connect(mapStateToProps, null)(Game);
