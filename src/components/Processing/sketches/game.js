@@ -2,7 +2,7 @@ import VerletPhysics2D from 'toxiclibsjs/physics2d/VerletPhysics2D';
 import * as behaviors from 'toxiclibsjs/physics2d/behaviors';
 import * as geom from 'toxiclibsjs/geom';
 import PlayerFactory from './PlayerFactory';
-import { music } from '../../../utils/music';
+import { music } from "../../../constants/index";
 import Effect from './Effect';
 import Ball from './Ball';
 
@@ -47,12 +47,12 @@ export default function(p) {
 
         ball = new Ball(w/2, h/2, physics, p)
         p.createPlayers();
-        if (!pMusic) {
-            pMusic = p.loadSound(musicFile, p.playMusic)
-        } else {
-            pMusic.play();
-        }
+        pMusic = p.loadSound(musicFile, p.playMusic);
         filmGrain = new Effect(p);
+    };
+
+    p.playMusic = function() {
+      pMusic.play();
     };
 
     p.draw = function() {

@@ -18,6 +18,7 @@ const ModalWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    font-family: Caveat Brush;
 `;
 const ModalContent = styled.div`
     background: white;
