@@ -36,7 +36,9 @@ interface P5Props {
     players?: [],
     changeRoute?: any,
     gameOver?: boolean,
-    shouldReset?: boolean
+    setGameOver?: any,
+    shouldReset?: boolean,
+    setShouldReset?: any,
 }
 
 interface Props {

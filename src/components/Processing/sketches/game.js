@@ -21,10 +21,6 @@ export default function(p) {
     let sketchStart;
     let filmGrain;
 
-    p.playMusic = function () {
-        pMusic.play();
-    }
-
     p.setup = function() {
         sketchStart = p.millis();
         w = window.innerWidth;
@@ -47,15 +43,18 @@ export default function(p) {
 
         ball = new Ball(w/2, h/2, physics, p)
         p.createPlayers();
-        pMusic = p.loadSound(musicFile, p.playMusic);
+        if(!pMusic){
+            pMusic = p.loadSound(musicFile, p.playMusic);
+        }
         filmGrain = new Effect(p);
     };
 
     p.playMusic = function() {
-      pMusic.play();
+        pMusic.play();
     };
 
     p.draw = function() {
+        p.handleGameReset();
         p.background(255);
         p.textFont('Caveat Brush');
         p.drawCourt();
@@ -99,6 +98,9 @@ export default function(p) {
     };
 
     p.gameOver = function() {
+        if(!p.props.gameOver){
+            p.props.setGameOver(true);
+        }
         p.textSize(60);
         p.stroke(255);
         p.strokeWeight(2);
@@ -116,13 +118,12 @@ export default function(p) {
         }
         p1.dance();
         p2.dance();
-        if(!p.props.gameOver) {
-            p.props.gameOver = true;
-        }
     };
 
     p.handleGameReset = function() {
         if(!!p.props.shouldReset) {
+            p.props.setShouldReset(false);
+            p.props.setGameOver(false);
             p.removeElements();
             p.reset();
         }
@@ -162,8 +163,6 @@ export default function(p) {
 
     p.reset = function() {
         p.setup();
-        p.props.shouldReset = false;
-        p.props.gameOver = false;
     }
 
     p.drawScoreBoard = function(){
