@@ -1,34 +1,22 @@
 import React from 'react';
-import styled from 'styled-components';
 
 import ContentWrapper from "../components/ContentWrapper/ContentWrapper";
 import TitleCard from '../components/TitleCard/TitleCard';
 import Title from '../components/Title/Title';
 import Subtitle from '../components/Subtitle/Subtitle';
-
-const StyledWrapper = styled(ContentWrapper)`
-  width: 100vw;
-  background: #ddd;
-  color: black;
-  display: block;
-`
-const StyledTitle = styled(TitleCard)`
-  background: #ddd !important;
-  color: black;
-  width: 100vw;
-  display: block;
-  z-index: 1000;
-  cursor: pointer;
-`;
+import StartButtonLink from '../components/StartButtonLink/StartButtonLink';
+import { ROUTES } from '../constants/index';
 
 const MissingPage = (props: any) => {
     return (
-      <StyledWrapper>
-        <StyledTitle>
+      <ContentWrapper style={{backgroundColor: '#ddd'}}>
+        <TitleCard>
           <Title />
-          <Subtitle>Whoops. Looks like you fell down the wormhole.</Subtitle>
-        </StyledTitle>
-      </StyledWrapper>
+          <Subtitle>A missing page.</Subtitle>
+          <Subtitle>Looks like you fell down the wormhole.</Subtitle>
+        </TitleCard>
+        <StartButtonLink to={ROUTES.INDEX}>Come on back home.</StartButtonLink>
+      </ContentWrapper>
     );
 };
 
