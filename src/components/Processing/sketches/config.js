@@ -2,7 +2,7 @@ import VerletPhysics2D from 'toxiclibsjs/physics2d/VerletPhysics2D';
 import * as behaviors from 'toxiclibsjs/physics2d/behaviors';
 import * as geom from 'toxiclibsjs/geom';
 import PlayerFactory from './PlayerFactory';
-import { music } from '../../../utils/music';
+import { music } from "../../../constants/index";
 import Ball from './Ball';
 import Effect from './Effect';
 import TalkInterface, { VOCABULARY_TYPES } from './TalkInterface';
@@ -51,7 +51,7 @@ export default function (p) {
     };
 
     p.draw = function () {
-        if (p.props && p.props.fetchMusic && !pMusic) {
+        if (p.props && !pMusic) {
             pMusic = p.loadSound(musicFile, p.playMusic)
         }
         p.background(255);
