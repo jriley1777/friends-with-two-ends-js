@@ -220,8 +220,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators(
-    {
+  bindActionCreators({
       changePlayerAttribute: AppActions.changePlayerAttribute
     },
     dispatch

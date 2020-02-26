@@ -7,7 +7,7 @@ const ContentWrapper = styled.div`
     align-items: center;
 `;
 
-const TitleCard = styled.p`
+const Card = styled.p`
     padding: 10px 30px;
     background: rgba(255,255,255,0.5);
     border: 1px solid black;
@@ -18,12 +18,12 @@ const Instructions = () => {
     return (
         <ContentWrapper>
             <h2>Instructions</h2>
-            <TitleCard>
+            <Card>
                 It's wrestling meets capture the flag.<br />
                 One keyboard - Two players<br/>
                 Simply keep the ball on your side of the court to win.  <br/>
                 There are no rules!  But play nicely...
-            </TitleCard>
+            </Card>
         </ContentWrapper>
     )
 }

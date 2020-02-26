@@ -5,6 +5,7 @@ export const ROUTES = {
     CONFIG: '/welcome',
     INTRODUCTION: '/introduction',
     INDEX: '/',
+    MISSING_PAGE: '/',
     DANCE_ZONE: '/dance_zone'
 }
 
