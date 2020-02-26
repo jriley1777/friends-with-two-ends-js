@@ -48,12 +48,15 @@ export default function (p) {
         talkInterface = new TalkInterface(p);
         talkInterface.setGroupSize(players.length);
         talkInterface.setVocabulary(VOCABULARY_TYPES.CONFIG);
+        pMusic = p.loadSound(musicFile, p.playMusic);
     };
 
+
+    p.playMusic = function() {
+        pMusic.play();
+    }
+
     p.draw = function () {
-        if (p.props && !pMusic) {
-            pMusic = p.loadSound(musicFile, p.playMusic)
-        }
         p.background(255);
         p.textFont('Caveat Brush');
         p.drawCourt();

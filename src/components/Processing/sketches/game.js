@@ -47,12 +47,12 @@ export default function(p) {
 
         ball = new Ball(w/2, h/2, physics, p)
         p.createPlayers();
-        if (!pMusic) {
-            pMusic = p.loadSound(musicFile, p.playMusic)
-        } else {
-            pMusic.play();
-        }
+        pMusic = p.loadSound(musicFile, p.playMusic);
         filmGrain = new Effect(p);
+    };
+
+    p.playMusic = function() {
+      pMusic.play();
     };
 
     p.draw = function() {
