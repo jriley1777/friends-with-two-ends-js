@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from "react-router-dom";
+import { Route, matchPath } from "react-router-dom";
 import styled from 'styled-components';
 
 import Start from '../pages/Start';
@@ -79,39 +79,62 @@ const Routes = () => {
         name: "danceZone",
         Component: DanceZone,
         exact: true
-      },
-      {
-        path: ROUTES.MISSING_PAGE,
-        name: "missingPage",
-        Component: MissingPage,
-        exact: false
       }
     ];
+
+    const filterRoutes = (location: any) => {
+      return routes.filter(({ path, exact }) => {
+        return !!matchPath(location.pathname, {
+          path,
+          exact
+        });
+      });
+    };
+
+    const render404 = () => {
+      return (
+        <Route key={'missingPage'} path={ROUTES.MISSING_PAGE} exact={false}>
+          {({ location }) => {
+            if (!filterRoutes(location).length) {
+              return (
+                <PageWrapper>
+                  <MissingPage />
+                </PageWrapper>
+              );
+            }
+        }}
+        </Route>
+      )
+    }
+
     const renderRoutes = () => routes.map(({ path, name, exact, Component }) => {
         return (
             <Route key={name} path={path} exact={exact}>
-                {({ match }) => (
+                {({ match }) => {
+                  return (
                     <PageWrapper>
-                        <CSSTransition
-                        in={match != null}
-                        timeout={1000}
-                        classNames='page'
-                        unmountOnExit
-                        >
-                            <AnimationWrapper>
-                                <Component />
-                            </AnimationWrapper>
-                        </CSSTransition>
+                      <CSSTransition
+                      in={match != null}
+                      timeout={1000}
+                      classNames='page'
+                      unmountOnExit
+                      >
+                          <AnimationWrapper>
+                              <Component />
+                          </AnimationWrapper>
+                      </CSSTransition>
                     </PageWrapper>
-                )}
+                  )
+              }}
             </Route>
         )
     })
     return (
-        <>
-        { renderRoutes() }
-        </>
-    )
+      <>
+        {render404()}
+        {renderRoutes()}
+      </>
+    );
 };
 
 export default Routes;
