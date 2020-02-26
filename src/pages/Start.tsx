@@ -2,11 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import firebase from 'firebase/app';
 import { withRouter } from 'react-router-dom';
 
+import firebase from "../utils/firebase";
 import * as AppActions from '../actions/application';
 import * as Selectors from '../selectors/index';
+
+import ContentWrapper from "../components/ContentWrapper/ContentWrapper";
+import TitleCard from '../components/TitleCard/TitleCard';
+import Subtitle from '../components/Subtitle/Subtitle';
 import Title from '../components/Title/Title';
 import Processing from '../components/Processing/Processing';
 import start from '../components/Processing/sketches/start';
@@ -27,59 +31,6 @@ const RowWrapper = styled.div`
         max-width: 30vw;
         margin: auto 10px;
     }
-`;
-
-const StyledPage = styled.div`
-    display: flex;
-    position: absolute;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    font-size: 6rem;
-    font-family: Caveat Brush;
-    overflow: hidden;
-
-    > * {
-        z-index: 3;
-    }
-
-    &::before {
-        content:"";
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 94vh;
-        background: rgba(255,255,255,0.25);
-    }
-`;
-
-const StyledSubtitle = styled.div`
-    display: flex;
-    height: 2rem;
-    font-size: 2rem;
-    width: 100%;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    color: black;
-    margin-top: 5vh;
-`;
-
-const TitleCard = styled.div`
-    padding: 30px;
-    background: rgba(255,255,255,0.85);
-    border: 1px solid black;
-    border-radius: 10px;
-    margin-bottom: 15vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 `;
 
 const Button = styled.button`
@@ -143,15 +94,13 @@ const StartPage = (props: any) => {
             sketchName: "start",
           }}
         />
-        <StyledPage>
+        <ContentWrapper>
           <TitleCard>
             <Title />
-            <StyledSubtitle>
-              A competitive possession game amongst friends.
-            </StyledSubtitle>
+            <Subtitle>A competitive possession game amongst friends.</Subtitle>
           </TitleCard>
           <RowWrapper>{renderButtons()}</RowWrapper>
-        </StyledPage>
+        </ContentWrapper>
         <Button onClick={() => props.history.push(ROUTES.DANCE_ZONE)}>
           <span aria-label="dancer" role="img">💃</span>
         </Button>
