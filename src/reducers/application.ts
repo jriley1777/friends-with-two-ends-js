@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import * as Actions from '../actions/index';
+import uuidv4 from 'uuid/v4';
 
 type NumPlayers = number;
 type Player = {
@@ -78,7 +79,7 @@ const userImage = (state: UserImage='', action: ActionType): UserImage => {
   }
 };
 
-const sessionId = (state: SessionId='', action: ActionType): SessionId => {
+const sessionId = (state: SessionId = uuidv4(), action: ActionType): SessionId => {
   switch (action.type) {
     default:
       return state;
