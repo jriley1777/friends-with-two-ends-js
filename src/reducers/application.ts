@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux';
+import uuidv4 from 'uuid/v4';
+
 import * as Actions from '../actions/index';
 import * as Types from '../types/index';
 
@@ -67,7 +69,7 @@ const userImage = (state: Types.UserImage='', action: Types.Action): Types.UserI
   }
 };
 
-const sessionId = (state: Types.SessionId='', action: Types.Action): Types.SessionId => {
+const sessionId = (state: Types.SessionId = uuidv4(), action: Types.Action): Types.SessionId => {
   switch (action.type) {
     default:
       return state;
