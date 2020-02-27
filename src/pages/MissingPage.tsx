@@ -7,9 +7,9 @@ import Subtitle from '../components/Subtitle/Subtitle';
 import StartButtonLink from '../components/StartButtonLink/StartButtonLink';
 import { ROUTES } from '../constants/index';
 
-const MissingPage = (props: any) => {
+const MissingPage = () => {
     return (
-      <ContentWrapper style={{backgroundColor: '#ddd'}}>
+      <ContentWrapper>
         <TitleCard>
           <Title />
           <Subtitle>A missing page.</Subtitle>
