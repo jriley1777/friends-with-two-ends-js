@@ -41,44 +41,39 @@ interface P5Props {
     setShouldReset?: any,
 }
 
-interface Props {
+interface ProcessingProps {
     sketch: any,
     height?: string,
     width?: string,
     p5Props: P5Props,
 }
 
-const Processing: React.FC<Props> = props => {
-    const {sketch, p5Props, height, width} = props;
-    const canvasRef: any = useRef(null);
+const Processing: React.FC<ProcessingProps> = props => {
+  const { sketch, p5Props, height, width } = props;
+  const canvasRef: any = useRef(null);
 
-    useEffect(() => {
-        canvasRef.current = new p5(
-            sketch,
-            document.getElementById(
-            `${p5Props.sketchName}-p5_container`
-            ) || undefined
-        );
-        canvasRef.current.props = p5Props;
-        return () => canvasRef && canvasRef.current.remove();
-    }, [])
-
-    useEffect(() => {
-        canvasRef.current.props = p5Props;
-    })
-
-    return (
-        <Overlay
-        id={`${p5Props.sketchName}-p5_overlay`}
-        height={height}
-        width={width}
-        >
-        <Container
-            height={height}
-            id={`${p5Props.sketchName}-p5_container`}
-        />
-        </Overlay>
+  useEffect(() => {
+    canvasRef.current = new p5(
+      sketch,
+      document.getElementById(`${p5Props.sketchName}-p5_container`) || undefined
     );
-}
+    canvasRef.current.props = p5Props;
+    return () => canvasRef && canvasRef.current.remove();
+  }, []);
+
+  useEffect(() => {
+    canvasRef.current.props = p5Props;
+  });
+
+  return (
+    <Overlay
+      id={`${p5Props.sketchName}-p5_overlay`}
+      height={height}
+      width={width}
+    >
+      <Container height={height} id={`${p5Props.sketchName}-p5_container`} />
+    </Overlay>
+  );
+};
 
 export default Processing;

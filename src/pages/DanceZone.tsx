@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import firebase from 'firebase/app';
+import firebase from '../utils/firebase';
 import { withRouter } from 'react-router-dom';
 
 import * as AppActions from '../actions/application';
