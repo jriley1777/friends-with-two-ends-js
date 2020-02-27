@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import * as AppActions from '../../actions/application';
 import * as Selectors from '../../selectors/index';
+import * as Types from '../../types/index';
 
 import { ROUTES } from '../../constants/index';
 
@@ -78,7 +79,7 @@ const StyledInput = styled.div`
 `;
 
 const PlayerSelect = (props: any) => {
-    const { username, changePlayerAttribute, players } = props;
+    const { username, changePlayerAttribute, getPlayerAttributes } = props;
     const filters = {
         big: {
             min: 20,
@@ -108,9 +109,9 @@ const PlayerSelect = (props: any) => {
             })
         }
     }, [username, changePlayerAttribute])
-    const renderSelectControls = (players: any) => {
-        let playerOne = players.find((x: any) => x.playerId === 1);
-        let playerTwo = players.find((x: any) => x.playerId === 2);
+    const renderSelectControls = () => {
+        let playerOne = getPlayerAttributes(1);
+        let playerTwo = getPlayerAttributes(2);
         if (!playerOne || !playerTwo) {
             return null;
         }
@@ -123,7 +124,7 @@ const PlayerSelect = (props: any) => {
                     background: "rgba(255, 255,255, 0.5)"
                   }}
                 >
-                  <h4>{playerOne.attr.name}</h4>
+                  <h4>{playerOne.name}</h4>
                   <StyledInput>
                     Name:&nbsp;&nbsp;
                     <input
@@ -131,7 +132,7 @@ const PlayerSelect = (props: any) => {
                       name="name"
                       type="text"
                       data-player={1}
-                      value={playerOne.attr.name}
+                      value={playerOne.name}
                     />
                   </StyledInput>
                   <StyledInput>
@@ -143,7 +144,7 @@ const PlayerSelect = (props: any) => {
                       min={filters.big.min}
                       max={filters.big.max}
                       data-player={1}
-                      value={playerOne.attr.big}
+                      value={playerOne.big}
                     />
                   </StyledInput>
                   <StyledInput>
@@ -155,7 +156,7 @@ const PlayerSelect = (props: any) => {
                       min={filters.tall.min}
                       max={filters.tall.max}
                       data-player={1}
-                      value={playerOne.attr.tall}
+                      value={playerOne.tall}
                     />
                   </StyledInput>
                 </div>
@@ -164,7 +165,7 @@ const PlayerSelect = (props: any) => {
                     background: "rgba(0,0,0, 0.5)"
                   }}
                 >
-                  <h4>{playerTwo.attr.name}</h4>
+                  <h4>{playerTwo.name}</h4>
                   <StyledInput>
                     Name:&nbsp;&nbsp;
                     <input
@@ -172,7 +173,7 @@ const PlayerSelect = (props: any) => {
                       name="name"
                       type="text"
                       data-player={2}
-                      value={playerTwo.attr.name}
+                      value={playerTwo.name}
                     />
                   </StyledInput>
                   <StyledInput>
@@ -184,7 +185,7 @@ const PlayerSelect = (props: any) => {
                       min={filters.big.min}
                       max={filters.big.max}
                       data-player={2}
-                      value={playerTwo.attr.big}
+                      value={playerTwo.big}
                     />
                   </StyledInput>
                   <StyledInput>
@@ -196,7 +197,7 @@ const PlayerSelect = (props: any) => {
                       min={filters.tall.min}
                       max={filters.tall.max}
                       data-player={2}
-                      value={playerTwo.attr.tall}
+                      value={playerTwo.tall}
                     />
                   </StyledInput>
                 </div>
@@ -209,14 +210,14 @@ const PlayerSelect = (props: any) => {
     return (
         <ContentWrapper>
             <h2>Player Config</h2>
-            { renderSelectControls(players) }
+            { renderSelectControls() }
         </ContentWrapper>
     )
 };
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: Types.AppState) => ({
   username: Selectors.getUsername(state),
-  players: Selectors.getPlayers(state)
+  getPlayerAttributes: Selectors.getPlayerAttributes(state)
 });
 
 const mapDispatchToProps = (dispatch: any) =>
