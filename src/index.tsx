@@ -8,11 +8,12 @@ import './index.css';
 import Routes from './components/Routes';
 import { BrowserRouter as Router, withRouter } from "react-router-dom";
 import * as serviceWorker from './serviceWorker';
-import { createStore, bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 import { Provider, connect } from 'react-redux';
-import rootReducer from './reducers/index';
-import firebase from './utils/firebase';
+
 import * as AppActions from './actions/application';
+import firebase from "./utils/firebase";
+import configureStore from './utils/redux';
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -87,7 +88,7 @@ const mapDispatchToProps = (dispatch: any) => bindActionCreators({
 const RootWithAuth = connect(null, mapDispatchToProps)(withRouter(Root));
 
 const RootWrapper = () => {
-    const store = createStore(rootReducer);
+    const store = configureStore();
     return (
       <Provider store={ store }>
         <Router>
