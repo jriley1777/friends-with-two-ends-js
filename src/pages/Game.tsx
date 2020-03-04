@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 
 import ContentWrapper from '../components/ContentWrapper/ContentWrapper';
@@ -9,6 +10,9 @@ import game from '../components/Processing/sketches/game';
 
 import { ROUTES } from '../constants/index';
 import * as Selectors from '../selectors/index';
+import * as AppActions from '../actions/application';
+import * as Constants from '../constants/index';
+import * as Types from '../types/index';
 
 const RowWrapper = styled.div`
   display: flex;
@@ -26,7 +30,10 @@ const RowWrapper = styled.div`
 `;
 
 const Game = (props: any) => {
-    const { players } = props;
+    const { players, changeCurrentAudioSrc } = props;
+    useEffect(() => {
+      changeCurrentAudioSrc(Constants.music.game);
+    }, [changeCurrentAudioSrc]);
     const [gameOver, setGameOver] = useState(false);
     const [shouldReset, setShouldReset] = useState(false);
     const requestReset = (e: any) => {
@@ -65,8 +72,14 @@ const Game = (props: any) => {
     );
 };
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: Types.AppState) => ({
     players: Selectors.getPlayers(state)
 })
 
-export default connect(mapStateToProps, null)(Game);
+const mapDispatchToProps = (dispatch: any) => {
+  return bindActionCreators({
+    changeCurrentAudioSrc: AppActions.changeCurrentAudioSrc
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

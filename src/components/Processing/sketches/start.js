@@ -2,11 +2,10 @@ import VerletPhysics2D from 'toxiclibsjs/physics2d/VerletPhysics2D';
 import VerletParticle2D from 'toxiclibsjs/physics2d/VerletParticle2D';
 import * as behaviors from 'toxiclibsjs/physics2d/behaviors';
 import * as geom from 'toxiclibsjs/geom';
-import PlayerFactory from './PlayerFactory';
-import { music } from "../../../constants/index";
-import Ball from './Ball';
-import Effect from './Effect';
-import TalkInterface, { VOCABULARY_TYPES } from './TalkInterface';
+import PlayerFactory from '../classes/PlayerFactory';
+import Ball from '../classes/Ball';
+import Effect from '../classes/Effect';
+import TalkInterface, { VOCABULARY_TYPES } from '../classes/TalkInterface';
 
 export default function(p) {
     let w, h, margin;
@@ -18,8 +17,6 @@ export default function(p) {
     let mouseStopLength = 1000;
     let lastMouseMove = 0;
     let sketchStart;
-    let pMusic;
-    let musicFile = music.start;
     let showPlayersTime;
     let filmGrain;
     let talkInterface;
@@ -40,17 +37,12 @@ export default function(p) {
         physics.addBehavior(new behaviors.GravityBehavior(new geom.Vec2D(0, 0)));
         physics.setDrag(0.15);
         p.createPlayers();
-        pMusic = p.loadSound(musicFile, p.playMusic);
         filmGrain = new Effect(p);
         talkInterface = new TalkInterface(p);
         talkInterface.setVocabulary(VOCABULARY_TYPES.GENERAL);
         talkInterface.setGroupSize(players.length);
         showPlayersTime = 2000;
     };
-
-    p.playMusic = function() {
-        pMusic.play();
-    }
 
     p.draw = function() {
         p.background('#dcd');

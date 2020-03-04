@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import firebase from "../utils/firebase";
 import * as AppActions from '../actions/application';
 import * as Selectors from '../selectors/index';
+import * as Constants from '../constants/index';
 
 import ContentWrapper from "../components/ContentWrapper/ContentWrapper";
 import TitleCard from '../components/TitleCard/TitleCard';
@@ -55,7 +56,10 @@ const Button = styled.button`
 `;
 
 const StartPage = (props: any) => {
-  const { isLoggedIn, login, history } = props;
+  const { isLoggedIn, login, history, changeCurrentAudioSrc } = props;
+  useEffect(() => {
+    changeCurrentAudioSrc(Constants.music.start);
+  }, [changeCurrentAudioSrc]);
     const loginWithGoogle = (e: any) => {
         e.preventDefault();
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -113,9 +117,13 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => {
-    return bindActionCreators({
-      login: AppActions.login
-    }, dispatch)
+    return bindActionCreators(
+      {
+        login: AppActions.login,
+        changeCurrentAudioSrc: AppActions.changeCurrentAudioSrc
+      },
+      dispatch
+    );
 }
 
 export default connect(

@@ -101,6 +101,8 @@ const Routes = () => {
                   <MissingPage />
                 </PageWrapper>
               );
+            } else {
+              return null;
             }
         }}
         </Route>

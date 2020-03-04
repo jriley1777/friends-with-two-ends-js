@@ -1,11 +1,10 @@
 import VerletPhysics2D from 'toxiclibsjs/physics2d/VerletPhysics2D';
 import * as behaviors from 'toxiclibsjs/physics2d/behaviors';
 import * as geom from 'toxiclibsjs/geom';
-import PlayerFactory from './PlayerFactory';
-import { music } from "../../../constants/index";
-import Ball from './Ball';
-import Effect from './Effect';
-import TalkInterface, { VOCABULARY_TYPES } from './TalkInterface';
+import PlayerFactory from '../classes/PlayerFactory';
+import Ball from '../classes/Ball';
+import Effect from '../classes/Effect';
+import TalkInterface, { VOCABULARY_TYPES } from '../classes/TalkInterface';
 
 export default function (p) {
     let w, h, margin;
@@ -15,14 +14,8 @@ export default function (p) {
     let scoreLeft, scoreRight;
     let ball;
     let sketchStart;
-    let pMusic;
-    let musicFile = music.config;
     let filmGrain;
     let talkInterface;
-
-    p.playMusic = function() {
-        pMusic.play();
-    }
 
     p.setup = function () {
         sketchStart = p.millis();
@@ -48,13 +41,7 @@ export default function (p) {
         talkInterface = new TalkInterface(p);
         talkInterface.setGroupSize(players.length);
         talkInterface.setVocabulary(VOCABULARY_TYPES.CONFIG);
-        pMusic = p.loadSound(musicFile, p.playMusic);
     };
-
-
-    p.playMusic = function() {
-        pMusic.play();
-    }
 
     p.draw = function () {
         p.background(255);

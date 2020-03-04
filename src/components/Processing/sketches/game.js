@@ -1,10 +1,9 @@
 import VerletPhysics2D from 'toxiclibsjs/physics2d/VerletPhysics2D';
 import * as behaviors from 'toxiclibsjs/physics2d/behaviors';
 import * as geom from 'toxiclibsjs/geom';
-import PlayerFactory from './PlayerFactory';
-import { music } from "../../../constants/index";
-import Effect from './Effect';
-import Ball from './Ball';
+import PlayerFactory from '../classes/PlayerFactory';
+import Effect from '../classes/Effect';
+import Ball from '../classes/Ball';
 
 
 export default function(p) {
@@ -16,8 +15,6 @@ export default function(p) {
     let p1, p2;
     let p1AddParticles, p1RemoveParticles, p2AddParticles, p2RemoveParticles;
     let scoreToggle, scoreLeft, scoreRight;
-    let pMusic;
-    let musicFile = music.game;
     let sketchStart;
     let filmGrain;
 
@@ -43,14 +40,7 @@ export default function(p) {
 
         ball = new Ball(w/2, h/2, physics, p)
         p.createPlayers();
-        if(!pMusic){
-            pMusic = p.loadSound(musicFile, p.playMusic);
-        }
         filmGrain = new Effect(p);
-    };
-
-    p.playMusic = function() {
-        pMusic.play();
     };
 
     p.draw = function() {
