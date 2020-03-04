@@ -1,9 +1,9 @@
 import VerletPhysics2D from 'toxiclibsjs/physics2d/VerletPhysics2D';
 import * as behaviors from 'toxiclibsjs/physics2d/behaviors';
 import * as geom from 'toxiclibsjs/geom';
-import PlayerFactory from './PlayerFactory';
-import Effect from './Effect';
-import TalkInterface, { VOCABULARY_TYPES } from './TalkInterface';
+import PlayerFactory from '../classes/PlayerFactory';
+import Effect from '../classes/Effect';
+import TalkInterface, { VOCABULARY_TYPES } from '../classes/TalkInterface';
 
 export default function (p) {
     let w, h, margin;

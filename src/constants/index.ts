@@ -2,7 +2,7 @@ export const ROUTES = {
     LOGIN: '/login',
     LOGOUT: '/logout',
     PLAY: '/play',
-    CONFIG: '/welcome',
+    CONFIG: '/config',
     INTRODUCTION: '/introduction',
     INDEX: '/',
     MISSING_PAGE: '/',

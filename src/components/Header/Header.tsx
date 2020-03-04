@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import User from '../User/User';
+import AudioPlayer from '../AudioPlayer/AudioPlayer';
 import { ROUTES } from '../../constants/index';
 
 const HeaderWrapper = styled.div`
@@ -35,6 +36,7 @@ const Header = () => {
         <HeaderWrapper>
             <HeaderContainer>
                 <HomeLink to={ ROUTES.INDEX }>Friends.</HomeLink>
+                <AudioPlayer />
                 <User />
             </HeaderContainer>
         </HeaderWrapper>
