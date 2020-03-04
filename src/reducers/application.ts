@@ -76,9 +76,19 @@ const sessionId = (state: Types.SessionId = uuidv4(), action: Types.Action): Typ
   }
 };
 
+const currentAudioSrc = (state: any = '', action: Types.Action): any => {
+  switch(action.type) {
+    case Actions.PAGE_ACTIONS.CHANGE_AUDIO_SRC:
+      return action.payload.currentAudioSrc;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
-    numPlayers,
-    players,
-    userImage,
-    sessionId
+  numPlayers,
+  players,
+  userImage,
+  sessionId,
+  currentAudioSrc
 });

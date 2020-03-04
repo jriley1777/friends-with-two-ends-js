@@ -10,3 +10,4 @@ export const getPlayerAttributes = (state: Types.AppState) => (playerId: number)
     let player = state.app.players.find(x => x.playerId === playerId);
     return player ? player.attr : null;
 };
+export const getCurrentAudioSrc = (state: Types.AppState) => state.app.currentAudioSrc;

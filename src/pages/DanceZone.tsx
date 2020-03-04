@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 
 import * as AppActions from '../actions/application';
 import * as Selectors from '../selectors/index';
+import * as Constants from '../constants/index';
 
 import ContentWrapper from "../components/ContentWrapper/ContentWrapper";
 import TitleCard from '../components/TitleCard/TitleCard';
@@ -65,10 +66,21 @@ interface DZProps {
 }
 
 const DanceZone = (props: any) => {
-    const { login, isLoggedIn, userImage, sessionId, setUserImage } = props;
+    const {
+      login,
+      isLoggedIn,
+      userImage,
+      sessionId,
+      setUserImage,
+      changeCurrentAudioSrc
+    } = props;
     const [showCapture, setShowCapture] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     const storageRef = firebase.storage().ref();
+
+    useEffect(() => {
+      changeCurrentAudioSrc(Constants.music.danceZone);
+    }, [changeCurrentAudioSrc]);
 
     const uploadImage = async (data: any) => {
       setIsUploading(true);
@@ -161,7 +173,8 @@ const mapDispatchToProps = (dispatch: any) => {
     return bindActionCreators(
       {
         login: AppActions.login,
-        setUserImage: AppActions.setUserImage
+        setUserImage: AppActions.setUserImage,
+        changeCurrentAudioSrc: AppActions.changeCurrentAudioSrc
       },
       dispatch
     );

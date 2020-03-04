@@ -32,4 +32,5 @@ export interface Application {
   sessionId: SessionId,
   players: Player[],
   userImage: UserImage
+  currentAudioSrc: any
 }

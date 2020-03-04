@@ -56,3 +56,12 @@ export const setUserImage = (imageURL: string) => {
         }
     };
 };
+
+export const changeCurrentAudioSrc = (currentAudioSrc: any) => {
+    return {
+        type: PAGE_ACTIONS.CHANGE_AUDIO_SRC,
+        payload: {
+            currentAudioSrc
+        }
+    }
+}
