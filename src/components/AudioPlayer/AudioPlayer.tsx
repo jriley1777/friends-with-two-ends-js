@@ -54,11 +54,13 @@ const AudioPlayer = (props: AudioProps ) => {
 
     useEffect(() => {
         if(audio){
-            audio.autoplay = autoPlay;
             audio.loop = loop;
             setIsPlaying(true);
             audio.onloadedmetadata = () => {
                 setDuration(audio.duration);
+                if(autoPlay){
+                    playAudio();
+                }
             }
             audio.onplay = () => {
                 setTimeInterval(setInterval(() => {
