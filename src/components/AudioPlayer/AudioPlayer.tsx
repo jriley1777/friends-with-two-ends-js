@@ -56,7 +56,6 @@ const AudioPlayer = (props: AudioProps ) => {
     useEffect(() => {
         if(audio){
             audio.loop = loop;
-            setIsPlaying(true);
             audio.onloadedmetadata = () => {
                 setDuration(audio.duration);
                 if(autoPlay){
@@ -64,6 +63,7 @@ const AudioPlayer = (props: AudioProps ) => {
                 }
             }
             audio.onplay = () => {
+                setIsPlaying(true);
                 setTimeInterval(setInterval(() => {
                     setCurrentTime(audio.currentTime);
                 }, 500))
@@ -85,7 +85,6 @@ const AudioPlayer = (props: AudioProps ) => {
        clearInterval(timeInterval);
     }
     const playAudio = () => {
-        setIsPlaying(true);
         audio.play();
     }
     const toggleMute = () => {
