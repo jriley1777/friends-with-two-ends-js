@@ -31,9 +31,9 @@ const RowWrapper = styled.div`
 
 const Game = (props: any) => {
     const { players, changeCurrentAudioSrc } = props;
-    useEffect(() => {
-      changeCurrentAudioSrc(Constants.music.game);
-    }, [changeCurrentAudioSrc]);
+    // useEffect(() => {
+    //   changeCurrentAudioSrc(Constants.music.game);
+    // }, [changeCurrentAudioSrc]);
     const [gameOver, setGameOver] = useState(false);
     const [shouldReset, setShouldReset] = useState(false);
     const requestReset = (e: any) => {
