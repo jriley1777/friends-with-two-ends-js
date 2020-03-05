@@ -13,8 +13,7 @@ const StyledAudioPlayer = styled.div.attrs({
     display: flex;
     justify-content: center;
     position: absolute;
-    left: 44.5vw;
-    margin-left: 40px;
+    left: 47vw;
     padding: 2px;
 
     > * {
