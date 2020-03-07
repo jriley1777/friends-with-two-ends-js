@@ -57,11 +57,20 @@ export const setUserImage = (imageURL: string) => {
     };
 };
 
-export const changeCurrentAudioSrc = (currentAudioSrc: any) => {
+export const changeCurrentAudioSrc = (currentAudioSrc: string) => {
     return {
         type: PAGE_ACTIONS.CHANGE_AUDIO_SRC,
         payload: {
             currentAudioSrc
+        }
+    }
+}
+
+export const setIsAudioPlaying = (isAudioPlaying: boolean) => {
+    return {
+        type: PAGE_ACTIONS.SET_IS_AUDIO_PLAYING,
+        payload: {
+            isAudioPlaying
         }
     }
 }

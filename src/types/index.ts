@@ -27,10 +27,13 @@ export interface Player {
 }
 export type UserImage = string;
 export type SessionId = string;
+export type CurrentAudioSrc = string;
+export type IsAudioPlaying = boolean;
 
 export interface Application {
   sessionId: SessionId,
   players: Player[],
   userImage: UserImage
-  currentAudioSrc: any
+  currentAudioSrc: CurrentAudioSrc,
+  isAudioPlaying: IsAudioPlaying
 }

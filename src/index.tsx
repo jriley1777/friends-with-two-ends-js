@@ -1,18 +1,12 @@
-import React, {
-  useState,
-  useEffect
-} from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import './index.css';
 import Routes from './components/Routes';
 import { BrowserRouter as Router, withRouter } from "react-router-dom";
 import * as serviceWorker from './serviceWorker';
-import { bindActionCreators } from 'redux';
-import { Provider, connect } from 'react-redux';
+import { Provider } from 'react-redux';
 
-import * as AppActions from './actions/application';
-import firebase from "./utils/firebase";
 import configureStore from './utils/redux';
 
 import Header from './components/Header/Header';
@@ -49,23 +43,17 @@ const StyledLoading = styled.div`
   font-family: Caveat Brush;
 `;
 
-const Root = (props: any) => {
+const Root: React.SFC = () => {
     const [isFetching, setIsFetching] = useState(true);
     const isDev = process.env.NODE_ENV === 'development';
-    const { login } = props;
 
     useEffect(() => {
-      firebase.auth().onAuthStateChanged(user => {
-        if (user && user.displayName) {
-          login({
-              user,
-              token: user.refreshToken,
-              username: user.displayName
-          });
-        }
-        setTimeout(() => setIsFetching(false), 2000);
-      });
-    }, [login]);
+      setIsFetching(true);
+      let timeout = setTimeout(() => {
+        setIsFetching(false);
+      }, 300);
+      return clearTimeout(timeout);
+    }, [])
 
     return !isFetching || isDev ? (
       <>
@@ -81,18 +69,14 @@ const Root = (props: any) => {
     );
 }
 
-const mapDispatchToProps = (dispatch: any) => bindActionCreators({
-    login: AppActions.login
-}, dispatch);
+const RootWithRouter = withRouter(Root);
 
-const RootWithAuth = connect(null, mapDispatchToProps)(withRouter(Root));
-
-const RootWrapper = () => {
+const RootWrapper: React.SFC = () => {
     const store = configureStore();
     return (
       <Provider store={ store }>
         <Router>
-            <RootWithAuth />
+          <RootWithRouter />
         </Router>
       </Provider>
     )
@@ -101,7 +85,7 @@ const RootWrapper = () => {
 
 ReactDOM.render(
     <RootWrapper />,
-    document.getElementById('root')
+    document.getElementById('root') as HTMLElement
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -76,10 +76,18 @@ const sessionId = (state: Types.SessionId = uuidv4(), action: Types.Action): Typ
   }
 };
 
-const currentAudioSrc = (state: any = '', action: Types.Action): any => {
+const currentAudioSrc = (state: Types.CurrentAudioSrc = '', action: Types.Action): any => {
   switch(action.type) {
     case Actions.PAGE_ACTIONS.CHANGE_AUDIO_SRC:
       return action.payload.currentAudioSrc;
+    default:
+      return state;
+  }
+}
+const isAudioPlaying = (state: Types.IsAudioPlaying = false, action: Types.Action): any => {
+  switch(action.type) {
+    case Actions.PAGE_ACTIONS.SET_IS_AUDIO_PLAYING:
+      return action.payload.isAudioPlaying;
     default:
       return state;
   }
@@ -90,5 +98,6 @@ export default combineReducers({
   players,
   userImage,
   sessionId,
-  currentAudioSrc
+  currentAudioSrc,
+  isAudioPlaying
 });

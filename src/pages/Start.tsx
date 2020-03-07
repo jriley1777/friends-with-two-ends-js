@@ -2,12 +2,11 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
 
-import firebase from "../utils/firebase";
 import * as AppActions from '../actions/application';
-import * as Selectors from '../selectors/index';
 import * as Constants from '../constants/index';
+import * as Types from '../types/index';
+import * as Selectors from '../selectors/index';
 
 import ContentWrapper from "../components/ContentWrapper/ContentWrapper";
 import TitleCard from '../components/TitleCard/TitleCard';
@@ -34,99 +33,47 @@ const RowWrapper = styled.div`
     }
 `;
 
-const Button = styled.button`
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 50%;
-  position: absolute;
-  top: 3%;
-  right: 3%;
-  width: 4rem;
-  height: 4rem;
-  box-shadow: 1px 1px 5px black;
-  z-index: 2000;
-
-  &:hover {
-    background: lightgreen;
-    cursor: pointer;
-  }
-
-  > span {
-    font-size: 3rem;
-  }
-`;
-
 const StartPage = (props: any) => {
-  const { isLoggedIn, login, history, changeCurrentAudioSrc } = props;
+  const { changeCurrentAudioSrc, isAudioPlaying } = props;
   useEffect(() => {
     changeCurrentAudioSrc(Constants.music.start);
   }, [changeCurrentAudioSrc]);
-    const loginWithGoogle = (e: any) => {
-        e.preventDefault();
-        const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider).then(function (result: any) {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            var token = result.credential.accessToken;
-            // The signed-in user info.
-            var user = result.user;
-            // ...
-            login({
-                token,
-                user,
-                username: user.displayName
-            })
-            history.push(ROUTES.CONFIG)
-        }).catch(function (error) {
-            console.error(error)
-
-        });
-    }
-    const renderButtons = () => {
-        return isLoggedIn ? (
-            <StartButtonLink to={ROUTES.CONFIG}>Play</StartButtonLink>
-        ) : (
-            <>
-                <StartButtonLink to={ROUTES.CONFIG} onClick={ loginWithGoogle } > Login with Google</StartButtonLink >
-                <StartButtonLink to={ROUTES.CONFIG}>Play as guest</StartButtonLink>
-            </>
-        )
-    }
-    return (
-      <>
-        <Processing
-          sketch={start}
-          p5Props={{
-            sketchName: "start",
-          }}
-        />
-        <ContentWrapper>
-          <TitleCard>
-            <Title />
-            <Subtitle>A competitive possession game amongst friends.</Subtitle>
-          </TitleCard>
-          <RowWrapper>{renderButtons()}</RowWrapper>
-        </ContentWrapper>
-        <Button onClick={() => props.history.push(ROUTES.DANCE_ZONE)}>
-          <span aria-label="dancer" role="img">💃</span>
-        </Button>
-      </>
-    );
+  return (
+    <>
+      <Processing
+        sketch={start}
+        p5Props={{
+          sketchName: "start",
+          isAudioPlaying
+        }}
+      />
+      <ContentWrapper>
+        <TitleCard>
+          <Title />
+          <Subtitle>A competitive possession game amongst friends.</Subtitle>
+        </TitleCard>
+        <RowWrapper>
+          <StartButtonLink to={ROUTES.CONFIG}>Play</StartButtonLink>
+        </RowWrapper>
+      </ContentWrapper>
+    </>
+  );
 };
 
-const mapStateToProps = (state: any) => ({
-  isLoggedIn: Selectors.getIsLoggedIn(state)
+const mapStateToProps = (state: Types.AppState) => ({
+  isAudioPlaying: Selectors.getIsAudioPlaying(state)
 });
 
 const mapDispatchToProps = (dispatch: any) => {
     return bindActionCreators(
       {
-        login: AppActions.login,
         changeCurrentAudioSrc: AppActions.changeCurrentAudioSrc
       },
       dispatch
     );
-}
+};
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(StartPage));
+)(StartPage);
