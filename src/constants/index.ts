@@ -19,3 +19,6 @@ export const music = {
   intro: `${base_storage}upbeat-party-44.mp3?alt=media&token=45c98d2d-b36c-440e-a0b7-d64e63982d6b`
 };
 
+export const images = {
+  curtain: `${base_storage}images%2Ftheater_curtain_2160.jpg?alt=media&token=aa413946-90d0-4cc9-97ef-65d1d9b1089a`
+};

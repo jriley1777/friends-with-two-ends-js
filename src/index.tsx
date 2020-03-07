@@ -11,18 +11,50 @@ import configureStore from './utils/redux';
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import TitleCard from './components/TitleCard/TitleCard';
 import Title from './components/Title/Title';
+import Subtitle from './components/Subtitle/Subtitle';
+
+import * as Constants from './constants/index';
+
+const StyledImg = styled.img`
+  position: absolute;
+  top: -10vh;
+  left: 0;
+  height: 110vh;
+  width: 100vw;
+  z-index: -1;
+  // animation: slideOut 0.5s ease-out 0s 1;
+  // @keyframes slideOut {
+  //   from {
+  //     height: 100vh;
+  //   }
+  //   to {
+  //     transform: translateY(-100%);
+  //   }
+  // }
+`;
+const StyledTitleCard = styled(TitleCard)`
+  position: absolute !important;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+`;
 
 const StyledLoadingText = styled.h1`
-  font-size: 5rem;
+  font-size: 2.5rem;
   overflow: hidden;
   white-space: nowrap;
   margin: 0 auto;
-  margin-top: 10rem;
   letter-spacing: 0.15em;
+  position: absolute;
+  color: white !important;
+  left: 12%;
+  top: 90%;
+  transform: translate(-50%, -50%);
 
-  animation: 3.5s shrink 0s linear;
-  @keyframes shrink {
+  animation: 0.5s fade 0s alternate infinite;
+  @keyframes fade {
     from {
       opacity: 0;
     }
@@ -35,38 +67,50 @@ const StyledLoadingText = styled.h1`
 const StyledLoading = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
   height: 100vh;
   width: 100%;
-  color: white;
+  overflow: hidden;
   align-items: center;
   justify-content: center;
   font-family: Caveat Brush;
 `;
 
 const Root: React.SFC = () => {
-    const [isFetching, setIsFetching] = useState(true);
-    const isDev = process.env.NODE_ENV === 'development';
+  const [isFetching, setIsFetching] = useState(true);
+  const showLoading = () => {
+    const envLoading = process.env.REACT_APP_SHOW_LOADING === 'true' ? true : false;
+    const envProd = process.env.NODE_ENV === 'production'; 
+    return envLoading || envProd;
+  }
 
-    useEffect(() => {
-      setIsFetching(true);
-      let timeout = setTimeout(() => {
-        setIsFetching(false);
-      }, 300);
-      return clearTimeout(timeout);
-    }, [])
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      setIsFetching(false);
+    }, 5000);
+    return () => clearTimeout(timeout);
+  }, []);
 
-    return !isFetching || isDev ? (
-      <>
-        <Header />
-        <Routes />
-        <Footer />
-      </>
-    ) : (
+  const displayLoadingMessage = () => {
+    return showLoading && isFetching ? (
       <StyledLoading>
-        <Title />
+        <StyledImg src={Constants.images.curtain} />
+        <StyledTitleCard>
+          <Title />
+          <Subtitle>A competitive possession game amongst friends.</Subtitle>
+        </StyledTitleCard>
         <StyledLoadingText>loading...</StyledLoadingText>
       </StyledLoading>
-    );
+    ) : <Routes /> ;
+  };
+
+  return (
+    <>
+      <Header />
+      { displayLoadingMessage() }
+      <Footer />
+    </>
+  );
 }
 
 const RootWithRouter = withRouter(Root);
