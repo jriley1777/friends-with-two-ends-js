@@ -73,7 +73,8 @@ const Game = (props: any) => {
 };
 
 const mapStateToProps = (state: Types.AppState) => ({
-    players: Selectors.getPlayers(state)
+    players: Selectors.getPlayers(state),
+    isAudioPlaying: Selectors.getIsAudioPlaying(state),
 })
 
 const mapDispatchToProps = (dispatch: any) => {

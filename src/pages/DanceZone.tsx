@@ -58,8 +58,6 @@ const Button = styled.button`
 `;
 
 interface DZProps {
-  login: any,
-  isLoggedIn: boolean,
   userImage: string,
   sessionId: string,
   setUserImage: any,
@@ -67,8 +65,6 @@ interface DZProps {
 
 const DanceZone = (props: any) => {
     const {
-      login,
-      isLoggedIn,
       userImage,
       sessionId,
       setUserImage,
@@ -100,37 +96,6 @@ const DanceZone = (props: any) => {
           });
       });
     }
-
-    const loginWithGoogle = (e: any) => {
-        e.preventDefault();
-        const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider).then(function (result: any) {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            var token = result.credential.accessToken;
-            // The signed-in user info.
-            var user = result.user;
-            // ...
-            login({
-                token,
-                user,
-                username: user.displayName
-            })
-            props.history.push(ROUTES.CONFIG)
-        }).catch(function (error: any) {
-            console.error(error)
-
-        });
-    }
-    const renderButtons = () => {
-        return isLoggedIn ? (
-            <StartButtonLink to={ROUTES.CONFIG}>Play</StartButtonLink>
-        ) : (
-                <>
-                    <StartButtonLink to={ROUTES.CONFIG} onClick={loginWithGoogle} > Login with Google</StartButtonLink >
-                    <StartButtonLink to={ROUTES.CONFIG}>Play as guest</StartButtonLink>
-                </>
-            )
-    }
     const handleModalToggle = () => {
         return setShowCapture(!showCapture);
     }
@@ -148,7 +113,9 @@ const DanceZone = (props: any) => {
             <Title />
             <Subtitle>The Dance Zone.</Subtitle>
           </TitleCard>
-          <RowWrapper>{renderButtons()}</RowWrapper>
+          <RowWrapper>
+            <StartButtonLink to={ROUTES.CONFIG}>Play</StartButtonLink>
+          </RowWrapper>
           <Button onClick={() => setShowCapture(true)}>
             <FaCamera />
           </Button>
@@ -165,14 +132,12 @@ const DanceZone = (props: any) => {
 
 const mapStateToProps = (state: any) => ({
   userImage: Selectors.getUserImage(state),
-  isLoggedIn: Selectors.getIsLoggedIn(state),
   sessionId: Selectors.getSessionId(state),
 })
 
 const mapDispatchToProps = (dispatch: any) => {
     return bindActionCreators(
       {
-        login: AppActions.login,
         setUserImage: AppActions.setUserImage,
         changeCurrentAudioSrc: AppActions.changeCurrentAudioSrc
       },

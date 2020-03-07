@@ -1,6 +1,5 @@
 import * as Types from '../types/index';
 
-export const getIsLoggedIn = (state: Types.AppState) => state.auth.isLoggedIn;
 export const getUsername = (state: Types.AppState) => state.auth.username;
 
 export const getSessionId = (state: Types.AppState) => state.app.sessionId;
@@ -11,3 +10,4 @@ export const getPlayerAttributes = (state: Types.AppState) => (playerId: number)
     return player ? player.attr : null;
 };
 export const getCurrentAudioSrc = (state: Types.AppState) => state.app.currentAudioSrc;
+export const getIsAudioPlaying = (state: Types.AppState) => state.app.isAudioPlaying;
