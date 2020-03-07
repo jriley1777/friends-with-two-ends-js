@@ -28,17 +28,18 @@ const Container = styled.div<ContainerProps>`
 `;
 
 interface P5Props {
-    sketchName: string,
-    handleImageUpload?: any,
-    shouldCapture?: boolean,
-    setShouldCapture?: any,
-    userImage?: string,
-    players?: [],
-    changeRoute?: any,
-    gameOver?: boolean,
-    setGameOver?: any,
-    shouldReset?: boolean,
-    setShouldReset?: any,
+  sketchName: string,
+  handleImageUpload?: any,
+  shouldCapture?: boolean,
+  setShouldCapture?: any,
+  userImage?: string,
+  players?: [],
+  changeRoute?: any,
+  gameOver?: boolean,
+  setGameOver?: any,
+  shouldReset?: boolean,
+  setShouldReset?: any,
+  isAudioPlaying?: boolean
 }
 
 interface ProcessingProps {

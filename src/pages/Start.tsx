@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 
 import * as AppActions from '../actions/application';
 import * as Constants from '../constants/index';
+import * as Types from '../types/index';
+import * as Selectors from '../selectors/index';
 
 import ContentWrapper from "../components/ContentWrapper/ContentWrapper";
 import TitleCard from '../components/TitleCard/TitleCard';
@@ -32,7 +34,7 @@ const RowWrapper = styled.div`
 `;
 
 const StartPage = (props: any) => {
-  const { changeCurrentAudioSrc } = props;
+  const { changeCurrentAudioSrc, isAudioPlaying } = props;
   useEffect(() => {
     changeCurrentAudioSrc(Constants.music.start);
   }, [changeCurrentAudioSrc]);
@@ -42,6 +44,7 @@ const StartPage = (props: any) => {
         sketch={start}
         p5Props={{
           sketchName: "start",
+          isAudioPlaying
         }}
       />
       <ContentWrapper>
@@ -56,6 +59,11 @@ const StartPage = (props: any) => {
     </>
   );
 };
+
+const mapStateToProps = (state: Types.AppState) => ({
+  isAudioPlaying: Selectors.getIsAudioPlaying(state)
+});
+
 const mapDispatchToProps = (dispatch: any) => {
     return bindActionCreators(
       {
@@ -63,9 +71,9 @@ const mapDispatchToProps = (dispatch: any) => {
       },
       dispatch
     );
-}
+};
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(StartPage);

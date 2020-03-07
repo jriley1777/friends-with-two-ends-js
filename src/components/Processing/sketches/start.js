@@ -8,6 +8,7 @@ import Effect from '../classes/Effect';
 import TalkInterface, { VOCABULARY_TYPES } from '../classes/TalkInterface';
 
 export default function(p) {
+    p.props = {};
     let w, h, margin;
     let physics = new VerletPhysics2D();
     let players = [];
@@ -17,9 +18,9 @@ export default function(p) {
     let mouseStopLength = 1000;
     let lastMouseMove = 0;
     let sketchStart;
-    let showPlayersTime;
     let filmGrain;
     let talkInterface;
+    let hasAudioInitialized = false;
 
     p.setup = function() {
         p.clear();
@@ -41,37 +42,33 @@ export default function(p) {
         talkInterface = new TalkInterface(p);
         talkInterface.setVocabulary(VOCABULARY_TYPES.GENERAL);
         talkInterface.setGroupSize(players.length);
-        showPlayersTime = 2000;
     };
 
     p.draw = function() {
         p.background('#dcd');
-        
-        // p.background(255);
         p.textFont('Caveat Brush');
-        if (p.millis() - sketchStart > showPlayersTime) {
-            p.drawPlayers();
-            p.drawMouse();
-            didMouseStop = p.millis() - mouseStopLength > lastMouseMove;
-            if (didMouseStop) {
-                mouse = null;
-            }
-            if (p.millis() - sketchStart < 10000) {
-                for (let i = 0; i < players.length; i++) {
-                    players[i].dance();
-                }
-            } else {
-                if (ball) {
-                    if (p.millis() - ballResetTime > 10000) {
-                        p.resetBall();
-                    }
-                    ball.display();
-                } else {
-                    ball = new Ball(w / 2, (h - h / 10), physics, p);
-                }
-            }
-            physics.update();
+        didMouseStop = p.millis() - mouseStopLength > lastMouseMove;
+        if (didMouseStop) {
+            mouse = null;
         }
+        if (p.millis() - sketchStart < 3000) {
+            for (let i = 0; i < players.length; i++) {
+                players[i].dance();
+            }
+        } else {
+            if (ball) {
+                if (p.millis() - ballResetTime > 4000) {
+                    p.resetBall();
+                }
+                ball.display();
+            } else {
+                ball = new Ball(w / 2, (h - h / 10), physics, p);
+            }
+        }
+        p.drawPlayers();
+        p.drawMouse();
+        physics.update();
+
         if (Math.floor(p.millis()) % 3 === 0) {
             filmGrain.displayFilmGrain();
         }
@@ -116,13 +113,13 @@ export default function(p) {
             p.stroke(Color);
             p.noFill();
             p.strokeWeight(0.25);
-            p.ellipse(mouse.x, mouse.y, 100, 100);
+            p.ellipse(p.mouseX, p.mouseY, 100, 100);
             p.strokeWeight(0.5);
-            p.ellipse(mouse.x, mouse.y, 75, 75);
+            p.ellipse(p.mouseX, p.mouseY, 75, 75);
             p.strokeWeight(0.75);
-            p.ellipse(mouse.x, mouse.y, 50, 50);
+            p.ellipse(p.mouseX, p.mouseY, 50, 50);
             p.strokeWeight(1);
-            p.ellipse(mouse.x, mouse.y, 25, 25);
+            p.ellipse(p.mouseX, p.mouseY, 25, 25);
         }
     }
 
