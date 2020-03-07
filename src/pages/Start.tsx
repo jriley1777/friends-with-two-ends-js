@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 
-import firebase from "../utils/firebase";
 import * as AppActions from '../actions/application';
-import * as Selectors from '../selectors/index';
 import * as Constants from '../constants/index';
 
 import ContentWrapper from "../components/ContentWrapper/ContentWrapper";
@@ -56,70 +54,36 @@ const Button = styled.button`
 `;
 
 const StartPage = (props: any) => {
-  const { isLoggedIn, login, history, changeCurrentAudioSrc } = props;
+  const { changeCurrentAudioSrc, history } = props;
   useEffect(() => {
     changeCurrentAudioSrc(Constants.music.start);
   }, [changeCurrentAudioSrc]);
-    const loginWithGoogle = (e: any) => {
-        e.preventDefault();
-        const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider).then(function (result: any) {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            var token = result.credential.accessToken;
-            // The signed-in user info.
-            var user = result.user;
-            // ...
-            login({
-                token,
-                user,
-                username: user.displayName
-            })
-            history.push(ROUTES.CONFIG)
-        }).catch(function (error) {
-            console.error(error)
-
-        });
-    }
-    const renderButtons = () => {
-        return isLoggedIn ? (
-            <StartButtonLink to={ROUTES.CONFIG}>Play</StartButtonLink>
-        ) : (
-            <>
-                <StartButtonLink to={ROUTES.CONFIG} onClick={ loginWithGoogle } > Login with Google</StartButtonLink >
-                <StartButtonLink to={ROUTES.CONFIG}>Play as guest</StartButtonLink>
-            </>
-        )
-    }
-    return (
-      <>
-        <Processing
-          sketch={start}
-          p5Props={{
-            sketchName: "start",
-          }}
-        />
-        <ContentWrapper>
-          <TitleCard>
-            <Title />
-            <Subtitle>A competitive possession game amongst friends.</Subtitle>
-          </TitleCard>
-          <RowWrapper>{renderButtons()}</RowWrapper>
-        </ContentWrapper>
-        <Button onClick={() => props.history.push(ROUTES.DANCE_ZONE)}>
-          <span aria-label="dancer" role="img">💃</span>
-        </Button>
-      </>
-    );
+  return (
+    <>
+      <Processing
+        sketch={start}
+        p5Props={{
+          sketchName: "start",
+        }}
+      />
+      <ContentWrapper>
+        <TitleCard>
+          <Title />
+          <Subtitle>A competitive possession game amongst friends.</Subtitle>
+        </TitleCard>
+        <RowWrapper>
+          <StartButtonLink to={ROUTES.CONFIG}>Play</StartButtonLink>
+        </RowWrapper>
+      </ContentWrapper>
+      <Button onClick={() => history.push(ROUTES.DANCE_ZONE)}>
+        <span aria-label="dancer" role="img">💃</span>
+      </Button>
+    </>
+  );
 };
-
-const mapStateToProps = (state: any) => ({
-  isLoggedIn: Selectors.getIsLoggedIn(state)
-});
-
 const mapDispatchToProps = (dispatch: any) => {
     return bindActionCreators(
       {
-        login: AppActions.login,
         changeCurrentAudioSrc: AppActions.changeCurrentAudioSrc
       },
       dispatch
@@ -127,6 +91,6 @@ const mapDispatchToProps = (dispatch: any) => {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(withRouter(StartPage));

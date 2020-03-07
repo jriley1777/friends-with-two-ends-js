@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import User from '../User/User';
 import AudioPlayer from '../AudioPlayer/AudioPlayer';
 import { ROUTES } from '../../constants/index';
 
@@ -37,7 +36,7 @@ const Header = () => {
             <HeaderContainer>
                 <HomeLink to={ ROUTES.INDEX }>Friends.</HomeLink>
                 <AudioPlayer />
-                <User />
+                <div>ends.</div>
             </HeaderContainer>
         </HeaderWrapper>
     )
