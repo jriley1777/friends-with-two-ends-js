@@ -47,6 +47,8 @@ export default function(p) {
     p.draw = function() {
         p.background('#dcd');
         p.textFont('Caveat Brush');
+        p.drawPlayers();
+        p.drawMouse();
         didMouseStop = p.millis() - mouseStopLength > lastMouseMove;
         if (didMouseStop) {
             mouse = null;
@@ -65,8 +67,6 @@ export default function(p) {
                 ball = new Ball(w / 2, (h - h / 10), physics, p);
             }
         }
-        p.drawPlayers();
-        p.drawMouse();
         physics.update();
 
         if (Math.floor(p.millis()) % 3 === 0) {
