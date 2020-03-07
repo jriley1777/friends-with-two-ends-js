@@ -36,7 +36,7 @@ const Header = () => {
             <HeaderContainer>
                 <HomeLink to={ ROUTES.INDEX }>Friends.</HomeLink>
                 <AudioPlayer />
-                <div>ends.</div>
+                <HomeLink to={ ROUTES.DANCE_ZONE }>ends.</HomeLink>
             </HeaderContainer>
         </HeaderWrapper>
     )

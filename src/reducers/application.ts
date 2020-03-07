@@ -84,11 +84,20 @@ const currentAudioSrc = (state: any = '', action: Types.Action): any => {
       return state;
   }
 }
+const isAudioPlaying = (state: boolean=false, action: Types.Action): any => {
+  switch(action.type) {
+    case Actions.PAGE_ACTIONS.SET_IS_AUDIO_PLAYING:
+      return action.payload.isAudioPlaying;
+    default:
+      return state;
+  }
+}
 
 export default combineReducers({
   numPlayers,
   players,
   userImage,
   sessionId,
-  currentAudioSrc
+  currentAudioSrc,
+  isAudioPlaying
 });

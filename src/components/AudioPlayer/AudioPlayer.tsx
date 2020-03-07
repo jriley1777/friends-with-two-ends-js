@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { MdPlayArrow, MdPause, MdStop, MdVolumeOff, MdVolumeUp } from 'react-icons/md';
 
 import * as Selectors from '../../selectors/index';
+import * as AppActions from '../../actions/application';
 import * as Types from '../../types/index';
 
 const StyledAudioPlayer = styled.div.attrs({
@@ -32,16 +34,17 @@ type AudioProps = {
     currentAudioSrc: string,
     autoPlay: boolean,
     loop: boolean,
+    setIsAudioPlaying: any
 }
 
 const defaultProps = {
     currentAudioSrc: '',
     autoPlay: true,
-    loop: true,
+    loop: true
 }
 
 const AudioPlayer = (props: AudioProps ) => {
-    const {currentAudioSrc, autoPlay, loop} = props;
+    const { currentAudioSrc, autoPlay, loop, setIsAudioPlaying} = props;
     const [audio, setAudio]: any = useState(null);
     const [duration, setDuration]: any = useState(0);
     const [currentTime, setCurrentTime]: any = useState(0);
@@ -74,6 +77,7 @@ const AudioPlayer = (props: AudioProps ) => {
     const stopAudio = () => {
         if(audio){
             setIsPlaying(false);
+            setIsAudioPlaying(false);
             audio.pause();
             adjustTime(0);
             clearInterval(timeInterval)
@@ -81,10 +85,12 @@ const AudioPlayer = (props: AudioProps ) => {
     }
     const pauseAudio = () => {
        setIsPlaying(false);
+       setIsAudioPlaying(false);
        audio.pause(); 
        clearInterval(timeInterval);
     }
     const playAudio = () => {
+        setIsAudioPlaying(true);
         audio.play();
     }
     const toggleMute = () => {
@@ -133,4 +139,8 @@ const mapStateToProps = (state: Types.AppState) => ({
     currentAudioSrc: Selectors.getCurrentAudioSrc(state)
 });
 
-export default connect(mapStateToProps, null)(AudioPlayer);
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({
+    setIsAudioPlaying: AppActions.setIsAudioPlaying
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(AudioPlayer);

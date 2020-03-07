@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
 
 import * as AppActions from '../actions/application';
 import * as Constants from '../constants/index';
@@ -32,29 +31,8 @@ const RowWrapper = styled.div`
     }
 `;
 
-const Button = styled.button`
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 50%;
-  position: absolute;
-  top: 3%;
-  right: 3%;
-  width: 4rem;
-  height: 4rem;
-  box-shadow: 1px 1px 5px black;
-  z-index: 2000;
-
-  &:hover {
-    background: lightgreen;
-    cursor: pointer;
-  }
-
-  > span {
-    font-size: 3rem;
-  }
-`;
-
 const StartPage = (props: any) => {
-  const { changeCurrentAudioSrc, history } = props;
+  const { changeCurrentAudioSrc } = props;
   useEffect(() => {
     changeCurrentAudioSrc(Constants.music.start);
   }, [changeCurrentAudioSrc]);
@@ -75,9 +53,6 @@ const StartPage = (props: any) => {
           <StartButtonLink to={ROUTES.CONFIG}>Play</StartButtonLink>
         </RowWrapper>
       </ContentWrapper>
-      <Button onClick={() => history.push(ROUTES.DANCE_ZONE)}>
-        <span aria-label="dancer" role="img">💃</span>
-      </Button>
     </>
   );
 };
@@ -93,4 +68,4 @@ const mapDispatchToProps = (dispatch: any) => {
 export default connect(
   null,
   mapDispatchToProps
-)(withRouter(StartPage));
+)(StartPage);
