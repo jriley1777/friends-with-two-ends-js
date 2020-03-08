@@ -42,16 +42,18 @@ const StyledTitleCard = styled(TitleCard)`
 `;
 
 const StyledLoadingText = styled.h1`
-  font-size: 2.5rem;
-  overflow: hidden;
-  white-space: nowrap;
+  font-size: 1.5rem;
   margin: 0 auto;
-  letter-spacing: 0.15em;
   position: absolute;
   color: white !important;
-  left: 12%;
+  left: 5rem;
   top: 90%;
   transform: translate(-50%, -50%);
+
+  @media only screen and (min-width: 768px) {
+    font-size: 2.5rem;
+    left: 8rem;
+  }
 
   animation: 0.5s fade 0s alternate infinite;
   @keyframes fade {

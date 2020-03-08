@@ -20,5 +20,5 @@ export const music = {
 };
 
 export const images = {
-  curtain: `${base_storage}images%2Ftheater_curtain_2160.jpg?alt=media&token=aa413946-90d0-4cc9-97ef-65d1d9b1089a`
+  curtain: `${base_storage}images%2Ftheater_curtain_1980.jpg?alt=media&token=c34a0ab1-f008-4b8e-8744-44ce1de8b893`
 };
