@@ -20,7 +20,6 @@ export default function(p) {
     let sketchStart;
     let filmGrain;
     let talkInterface;
-    let hasAudioInitialized = false;
 
     p.setup = function() {
         p.clear();
