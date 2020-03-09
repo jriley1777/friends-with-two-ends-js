@@ -1,7 +1,7 @@
 ## [Friends with Two Ends](https://friendswithtwoends.com)
 This is a single screen multiplayer game where a user controls a two ended soft body to maintain possession of a ball on their side of the screen for a certain period of time.  
 
-Inspiration from indie game `Push Me Pull You`.  
+Inspiration from indie game [Push Me Pull You](http://pmpygame.com/).  
 Game built using p5js and toxiclibsjs.  
 App built with React, Hooks, Redux, Typescript.
 
