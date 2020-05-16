@@ -111,7 +111,7 @@ const DanceZone = (props: any) => {
         <ContentWrapper>
           <TitleCard>
             <Title />
-            <Subtitle>The Dance Zone.</Subtitle>
+            <Subtitle>Created by Joe Riley.</Subtitle>
           </TitleCard>
           <RowWrapper>
             <StartButtonLink to={ROUTES.CONFIG}>Play</StartButtonLink>
