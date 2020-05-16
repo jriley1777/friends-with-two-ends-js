@@ -35,7 +35,7 @@ export default function(p) {
   };
 
   p.draw = function() {
-    p.background(p.random(255), p.random(255), p.random(255))
+    p.background(245)
     p.textFont("Caveat Brush");
     if(p.props){
       players.map(friend => friend.display(p.props.userImage));
